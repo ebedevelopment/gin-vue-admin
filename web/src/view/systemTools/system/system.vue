@@ -333,15 +333,6 @@
             </div>
           </template>
         </el-collapse-item>
-        
-        <el-collapse-item title="国际化" name="14">
-          <el-form-item label="语言文件地址">
-            <el-input v-model="config.language.dir" />
-          </el-form-item>
-          <el-form-item label="语言">
-            <el-input v-model="config.language.language" />
-          </el-form-item>
-        </el-collapse-item>
       </el-collapse>
     </el-form>
     <div class="gva-btn-list">
@@ -388,8 +379,7 @@ const config = ref({
   email: {},
   timer: {
     detail: {}
-  },
-  language: {}
+  }
 })
 
 const initForm = async() => {

@@ -7,12 +7,12 @@
             <el-select v-model="searchInfo.{{.FieldJson}}" clearable :placeholder="t('general.pleaseSelect')">
                 <el-option
                     key="true"
-                    :label="t('general.yes')"
+                    label="t('general.yes')"
                     value="true">
                 </el-option>
                 <el-option
                     key="false"
-                    :label="t('general.no')"
+                    label="t('general.no')"
                     value="false">
                 </el-option>
             </el-select>
@@ -22,14 +22,14 @@
           <el-input v-model="searchInfo.{{.FieldJson}}" :placeholder="t('general.searchCriteria')" />
         </el-form-item>{{ end }}{{ end }}{{ end }}
         <el-form-item>
-          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ "{{ t('general.search') }}" }}</el-button>
-          <el-button size="small" icon="refresh" @click="onReset">{{ "{{ t('general.reset') }}" }}</el-button>
+          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ "{{ t('search') }}" }}</el-button>
+          <el-button size="small" icon="refresh" @click="onReset">{{ "{{ t('reset') }}" }}</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="gva-table-box">
         <div class="gva-btn-list">
-            <el-button size="small" type="primary" icon="plus" @click="openDialog">{{ "{{ t('general.add') }}" }}}</el-button>
+            <el-button size="small" type="primary" icon="plus" @click="openDialog">{{ "{{ t('general.add') }}" }}</el-button>
             <el-popover v-model:visible="deleteVisible" placement="top" width="160">
             <p>{{" {{ t('general.deleteConfirm') }}" }}</p>
             <div style="text-align: right; margin-top: 8px;">
@@ -67,9 +67,9 @@
         <el-table-column align="left" label="{{.FieldDesc}}" prop="{{.FieldJson}}" width="120" />
         {{- end }}
         {{- end }}
-        <el-table-column align="left" :label="t('general.buttonGroups')">
+        <el-table-column align="left" :label="t('')">
             <template #default="scope">
-            <el-button type="text" icon="edit" size="small" class="table-button" @click="update{{.StructName}}Func(scope.row)">{{ "{{ t('general.change') }}" }}</el-button>
+            <el-button type="text" icon="edit" size="small" class="table-button" @click="update{{.StructName}}Func(scope.row)">{{ "{{ t('edit') }}" }}</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">{{ "{{ t('general.delete') }}" }}</el-button>
             </template>
         </el-table-column>
@@ -86,27 +86,27 @@
             />
         </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
-      <el-form :model="formData" label-position="right" label-width="80px">
+    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('Create')">
+      <el-form :model="formData" label-position="right" label-width="20%">
     {{- range .Fields}}
         <el-form-item label="{{.FieldDesc}}:">
       {{- if eq .FieldType "bool" }}
-          <el-switch v-model="formData.{{.FieldJson}}" active-color="#13ce66" inactive-color="#ff4949" :active-text="t('general.yes')" :inactive-text="t('general.no')" clearable ></el-switch>
+          <el-switch v-model="formData.{{.FieldJson}}" active-color="#13ce66" inactive-color="#ff4949" active-text="Yes" inactive-text="No" clearable ></el-switch>
       {{- end }}
       {{- if eq .FieldType "string" }}
-          <el-input v-model="formData.{{.FieldJson}}" clearable :placeholder="t('general.pleaseEnter')" />
+          <el-input v-model="formData.{{.FieldJson}}" clearable placeholder="please enter" />
       {{- end }}
       {{- if eq .FieldType "int" }}
       {{- if .DictType}}
-          <el-select v-model="formData.{{ .FieldJson }}" :placeholder="t('general.pleaseSelect')" style="width:100%" clearable>
+          <el-select v-model="formData.{{ .FieldJson }}" placeholder="please choose" style="width:100%" clearable>
             <el-option v-for="(item,key) in {{ .DictType }}Options" :key="key" :label="item.label" :value="item.value" />
           </el-select>
       {{- else }}
-          <el-input v-model.number="formData.{{ .FieldJson }}" clearable :placeholder="t('general.pleaseEnter')" />
+          <el-input v-model.number="formData.{{ .FieldJson }}" clearable placeholder="please enter" />
       {{- end }}
       {{- end }}
       {{- if eq .FieldType "time.Time" }}
-          <el-date-picker v-model="formData.{{ .FieldJson }}" type="date" style="width:100%" :placeholder="t('general.selectDate')" clearable />
+          <el-date-picker v-model="formData.{{ .FieldJson }}" type="date" style="width:100%" placeholder="select date" clearable />
       {{- end }}
       {{- if eq .FieldType "float64" }}
           <el-input-number v-model="formData.{{ .FieldJson }}"  style="width:100%" :precision="2" clearable />
@@ -116,8 +116,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">{{ "{{ t('general.close') }}" }}</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">{{ "{{ t('general.confirm') }}" }}</el-button>
+          <el-button size="small" @click="closeDialog">Cancel</el-button>
+          <el-button size="small" type="primary" @click="enterDialog">Save</el-button>
         </div>
       </template>
     </el-dialog>
@@ -140,7 +140,7 @@ import {
   get{{.StructName}}List
 } from '@/api/{{.PackageName}}'
 
-// 全量引入格式化工具 请按需保留
+// Full introduction of formatting tools, please keep as needed
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
@@ -148,7 +148,7 @@ import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multila
 
 const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
-// 自动化生成的字典（可能为空）以及字段
+// Auto-generated dictionaries (may be empty) and fields
     {{- range $index, $element := .DictTypes}}
 const {{ $element }}Options = ref([])
     {{- end }}
@@ -172,19 +172,19 @@ const formData = ref({
         {{- end }}
         })
 
-// =========== 表格控制部分 ===========
+// =========== form control section ===========
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
 const tableData = ref([])
 const searchInfo = ref({})
 
-// 重置
+// reset
 const onReset = () => {
   searchInfo.value = {}
 }
 
-// 搜索
+//search
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
@@ -195,19 +195,19 @@ const onSubmit = () => {
   getTableData()
 }
 
-// 分页
+// pagination
 const handleSizeChange = (val) => {
   pageSize.value = val
   getTableData()
 }
 
-// 修改页面容量
+//Modify page size
 const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
 }
 
-// 查询
+//Inquire
 const getTableData = async() => {
   const table = await get{{.StructName}}List({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
@@ -220,31 +220,31 @@ const getTableData = async() => {
 
 getTableData()
 
-// ============== 表格控制部分结束 ===============
+// ==============end of form control section===============
 
-// 获取需要的字典 可能为空 按需保留
+// Get the required dictionary, may be empty, keep as needed
 const setOptions = async () =>{
 {{- range $index, $element := .DictTypes }}
     {{ $element }}Options.value = await getDictFunc('{{$element}}')
 {{- end }}
 }
 
-// 获取需要的字典 可能为空 按需保留
+// Get the required dictionary, may be empty, keep as needed
 setOptions()
 
 
-// 多选数据
+// Multiple choice data
 const multipleSelection = ref([])
-// 多选
+// Multiple choice
 const handleSelectionChange = (val) => {
     multipleSelection.value = val
 }
 
-// 删除行
+// delete row
 const deleteRow = (row) => {
-    ElMessageBox.confirm(t('general.deleteConfirm'), t('general.hint')), {
-        confirmButtonText: t('general.confirm'),
-        cancelButtonText: t('general.cancel'),
+    ElMessageBox.confirm('You sure you want to delete it?', 'hint', {
+        confirmButtonText: 'Save',
+        cancelButtonText: 'Cancel',
         type: 'warning'
     }).then(() => {
             delete{{.StructName}}Func(row)
@@ -252,16 +252,16 @@ const deleteRow = (row) => {
     }
 
 
-// 批量删除控制标记
+// delete control tags
 const deleteVisible = ref(false)
 
-// 多选删除
+//Multiple selection delete
 const onDelete = async() => {
       const ids = []
       if (multipleSelection.value.length === 0) {
         ElMessage({
           type: 'warning',
-          message: t('general.selectDataToDelete')
+          message: 'Please select the data to delete'
         })
         return
       }
@@ -273,7 +273,7 @@ const onDelete = async() => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: t('general.deleteSuccess')
+          message: 'successfully deleted'
         })
         if (tableData.value.length === ids.length && page.value > 1) {
           page.value--
@@ -283,10 +283,10 @@ const onDelete = async() => {
       }
     }
 
-// 行为控制标记（弹窗内部需要增还是改）
+// Behavior control mark (need to be added or changed inside the pop-up window)
 const type = ref('')
 
-// 更新行
+// update row
 const update{{.StructName}}Func = async(row) => {
     const res = await find{{.StructName}}({ ID: row.ID })
     type.value = 'update'
@@ -297,13 +297,13 @@ const update{{.StructName}}Func = async(row) => {
 }
 
 
-// 删除行
+// delete row
 const delete{{.StructName}}Func = async (row) => {
     const res = await delete{{.StructName}}({ ID: row.ID })
     if (res.code === 0) {
         ElMessage({
                 type: 'success',
-                message: t('general.deleteSuccess')
+                message: 'successfully deleted'
             })
             if (tableData.value.length === 1 && page.value > 1) {
             page.value--
@@ -312,16 +312,16 @@ const delete{{.StructName}}Func = async (row) => {
     }
 }
 
-// 弹窗控制标记
+// popup control marker
 const dialogFormVisible = ref(false)
 
-// 打开弹窗
+//Open popup
 const openDialog = () => {
     type.value = 'create'
     dialogFormVisible.value = true
 }
 
-// 关闭弹窗
+// close popup
 const closeDialog = () => {
     dialogFormVisible.value = false
     formData.value = {
@@ -344,7 +344,7 @@ const closeDialog = () => {
         {{- end }}
         }
 }
-// 弹窗确定
+// Popup OK
 const enterDialog = async () => {
       let res
       switch (type.value) {
@@ -361,7 +361,7 @@ const enterDialog = async () => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: t('general.createUpdateSuccess')
+          message: 'Create/change successful'
         })
         closeDialog()
         getTableData()

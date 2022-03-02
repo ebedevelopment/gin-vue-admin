@@ -5,22 +5,22 @@
       {{- range .Fields}}
         <el-form-item label="{{.FieldDesc}}:">
       {{- if eq .FieldType "bool" }}
-          <el-switch v-model="formData.{{.FieldJson}}" active-color="#13ce66" inactive-color="#ff4949" :active-text="t('general.yes')" :inactive-text="t('general.no')" clearable ></el-switch>
+          <el-switch v-model="formData.{{.FieldJson}}" active-color="#13ce66" inactive-color="#ff4949" active-text="Yes" inactive-text="No" clearable ></el-switch>
       {{- end }}
       {{- if eq .FieldType "string" }}
-          <el-input v-model="formData.{{.FieldJson}}" clearable :placeholder="t('general.pleaseEnter')" />
+          <el-input v-model="formData.{{.FieldJson}}" clearable placeholder="please enter" />
       {{- end }}
       {{- if eq .FieldType "int" }}
       {{- if .DictType }}
-          <el-select v-model="formData.{{ .FieldJson }}" :placeholder="t('general.pleaseSelect')" clearable>
+          <el-select v-model="formData.{{ .FieldJson }}" placeholder="please choose" clearable>
             <el-option v-for="(item,key) in {{ .DictType }}Options" :key="key" :label="item.label" :value="item.value" />
           </el-select>
       {{- else }}
-          <el-input v-model.number="formData.{{ .FieldJson }}" clearable :placeholder="t('general.pleaseEnter')" />
+          <el-input v-model.number="formData.{{ .FieldJson }}" clearable placeholder="please enter" />
       {{- end }}
       {{- end }}
       {{- if eq .FieldType "time.Time" }}
-          <el-date-picker v-model="formData.{{ .FieldJson }}" type="date" :placeholder="t('general.selectDate')" clearable></el-date-picker>
+          <el-date-picker v-model="formData.{{ .FieldJson }}" type="date" placeholder="select date" clearable></el-date-picker>
       {{- end }}
       {{- if eq .FieldType "float64" }}
           <el-input-number v-model="formData.{{ .FieldJson }}" :precision="2" clearable></el-input-number>
@@ -28,8 +28,8 @@
         </el-form-item>
       {{- end }}
         <el-form-item>
-          <el-button size="mini" type="primary" @click="save">{{ "{{ t('general.save') }}"</el-button>
-          <el-button size="mini" type="primary" @click="back">{{ "{{ t('general.back') }}"</el-button>
+          <el-button size="mini" type="primary" @click="save">Save</el-button>
+          <el-button size="mini" type="primary" @click="back">Cancel</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -49,7 +49,7 @@ import {
   find{{.StructName}}
 } from '@/api/{{.PackageName}}'
 
-// 自动获取字典
+//get dictionary automatically
 import { getDictFunc } from '@/utils/format'
 import { useRoute, useRouter } from "vue-router"
 import { ElMessage } from 'element-plus'
@@ -84,9 +84,9 @@ const formData = ref({
         {{- end }}
         })
 
-// 初始化方法
+//initialization method
 const init = async () => {
- // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
+ // It is recommended to pass the url parameter to obtain the target data ID and call the find method to query the data operation to determine whether the page is create or update The following is an example of id as the url parameter
     if (route.query.id) {
       const res = await find{{.StructName}}({ ID: route.query.id })
       if (res.code === 0) {
@@ -102,7 +102,7 @@ const init = async () => {
 }
 
 init()
-// 保存按钮
+//save button
 const save = async() => {
       let res
       switch (type.value) {
@@ -119,12 +119,12 @@ const save = async() => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: t('general.createUpdateSuccess')
+          message: 'Create/Update successful'
         })
       }
 }
 
-// 返回按钮
+// Back Button
 const back = () => {
     router.go(-1)
 }
