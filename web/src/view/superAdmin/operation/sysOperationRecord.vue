@@ -12,8 +12,8 @@
           <el-input v-model="searchInfo.status" placeholder="搜索条件" />
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
-          <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
+          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ t('general.search') }}</el-button>
+          <el-button size="small" icon="refresh" @click="onReset">{{ t('general.reset') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -128,6 +128,9 @@ import {
 import { formatDate } from '@/utils/format'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+
+const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 const page = ref(1)
 const total = ref(0)

@@ -1,9 +1,14 @@
 package global
 
 import (
+	"bytes"
+	"crypto/tls"
+	"io/ioutil"
+	"net/http"
 	"sync"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/timer"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/translate"
 	"github.com/songzhibin97/gkit/cache/local_cache"
 
 	"golang.org/x/sync/singleflight"
@@ -30,6 +35,8 @@ var (
 
 	BlackCache local_cache.Cache
 	lock       sync.RWMutex
+
+	GVA_TRANSLATOR translate.Translator // added by mohamed hassan to support multilanguage
 )
 
 // GetGlobalDBByDBName 通过名称获取db list中的db
@@ -48,4 +55,37 @@ func MustGetGlobalDBByDBName(dbname string) *gorm.DB {
 		panic("db no init")
 	}
 	return db
+}
+
+// added by mohamed hassan to support multilanguage
+func Translate(msg string) string {
+	if GVA_TRANSLATOR.IsInit {
+		message := GVA_TRANSLATOR.TranslateMessage(msg)
+		return message
+	}
+
+	return msg
+}
+
+func SendPostReq(Bytereq []byte, url string) []byte {
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(Bytereq))
+	req.Header.Set("X-Custom-Header", "myvalue")
+	req.Header.Set("Content-Type", "application/json")
+	tr := &tls.Config{InsecureSkipVerify: true}
+	client := &http.Client{
+		Transport: &http.Transport{TLSClientConfig: tr},
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// fmt.Println("response Status:", resp.Status)
+
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	return body
+
+
 }

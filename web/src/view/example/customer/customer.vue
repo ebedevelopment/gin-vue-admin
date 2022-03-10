@@ -1,6 +1,8 @@
 <template>
   <div>
-    <warning-bar title="在资源权限中将此角色的资源权限清空 或者不包含创建者的角色 即可屏蔽此客户资源的显示" />
+    <warning-bar
+      title="在资源权限中将此角色的资源权限清空 或者不包含创建者的角色 即可屏蔽此客户资源的显示"
+    />
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="openDialog">新增</el-button>
@@ -18,9 +20,24 @@
             <span>{{ formatDate(scope.row.CreatedAt) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="left" label="姓名" prop="customerName" width="120" />
-        <el-table-column align="left" label="电话" prop="customerPhoneData" width="120" />
-        <el-table-column align="left" label="接入人ID" prop="sysUserId" width="120" />
+        <el-table-column
+          align="left"
+          label="姓名"
+          prop="customerName"
+          width="120"
+        />
+        <el-table-column
+          align="left"
+          label="电话"
+          prop="customerPhoneData"
+          width="120"
+        />
+        <el-table-column
+          align="left"
+          label="接入人ID"
+          prop="sysUserId"
+          width="120"
+        />
         <el-table-column align="left" label="按钮组" min-width="160">
           <template #default="scope">
             <el-button size="small" type="text" icon="edit" @click="updateCustomer(scope.row)">变更</el-button>
@@ -49,8 +66,12 @@
         />
       </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="客户">
-      <el-form :inline="true" :model="form" label-width="80px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :before-close="closeDialog"
+      title="客户"
+    >
+      <el-form :inline="true" :model="form" label-width="20%">
         <el-form-item label="客户名">
           <el-input v-model="form.customerName" autocomplete="off" />
         </el-form-item>
@@ -60,8 +81,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
+          <el-button size="small" @click="closeDialog">{{ t('general.close') }}</el-button>
+          <el-button size="small" type="primary" @click="enterDialog">{{ t('general.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -80,6 +101,9 @@ import warningBar from '@/components/warningBar/warningBar.vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { formatDate } from '@/utils/format'
+import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+
+const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 const form = ref({
   customerName: '',

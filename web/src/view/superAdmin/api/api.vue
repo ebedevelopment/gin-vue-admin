@@ -22,8 +22,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
-          <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
+          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ t('general.search') }}</el-button>
+          <el-button size="small" icon="refresh" @click="onReset">{{ t('general.reset') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -114,8 +114,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
+          <el-button size="small" @click="closeDialog">{{ t('general.close') }}</el-button>
+          <el-button size="small" type="primary" @click="enterDialog">{{ t('general.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -141,6 +141,9 @@ import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+
+const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]

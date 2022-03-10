@@ -333,6 +333,15 @@
             </div>
           </template>
         </el-collapse-item>
+        
+        <el-collapse-item title="国际化" name="14">
+          <el-form-item label="语言文件地址">
+            <el-input v-model="config.language.dir" />
+          </el-form-item>
+          <el-form-item label="语言">
+            <el-input v-model="config.language.language" />
+          </el-form-item>
+        </el-collapse-item>
       </el-collapse>
     </el-form>
     <div class="gva-btn-list">
@@ -352,6 +361,9 @@ import { getSystemConfig, setSystemConfig } from '@/api/system'
 import { emailTest } from '@/api/email'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+
+const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 const activeNames = reactive([])
 const config = ref({
@@ -376,7 +388,8 @@ const config = ref({
   email: {},
   timer: {
     detail: {}
-  }
+  },
+  language: {}
 })
 
 const initForm = async() => {

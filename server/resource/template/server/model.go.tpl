@@ -1,12 +1,12 @@
-// 自动生成模板{{.StructName}}
+// Automatically generate templates{{.StructName}}
 package autocode
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 )
 
-// {{.StructName}} 结构体
-// 如果含有time.Time 请自行import time包
+// {{.StructName}} structure
+//If it contains time.Time, please import the time package by yourself
 type {{.StructName}} struct {
       global.GVA_MODEL {{- range .Fields}}
             {{- if ne .FieldType "string" }}
@@ -17,7 +17,7 @@ type {{.StructName}} struct {
 }
 
 {{ if .TableName }}
-// TableName {{.StructName}} 表名
+// TableName {{.StructName}} Table Name
 func ({{.StructName}}) TableName() string {
   return "{{.TableName}}"
 }

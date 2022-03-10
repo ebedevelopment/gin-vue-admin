@@ -4,6 +4,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/core"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/initialize"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/translate"
 	"go.uber.org/zap"
 )
 
@@ -26,6 +27,10 @@ func main() {
 	global.GVA_DB = initialize.Gorm() // gorm连接数据库
 	initialize.Timer()
 	initialize.DBList()
+	// added by mohamed hassan to support multilanguage
+	global.GVA_TRANSLATOR = translate.Translator{} // create translator inestance  here
+	global.GVA_TRANSLATOR.InitTranslator(global.GVA_CONFIG.Language.Language, global.GVA_CONFIG.Language.Dir)
+	// end of adding
 	if global.GVA_DB != nil {
 		initialize.RegisterTables(global.GVA_DB) // 初始化表
 		// 程序结束前关闭数据库链接

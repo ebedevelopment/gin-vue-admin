@@ -10,50 +10,50 @@ import (
 type {{.StructName}}Service struct {
 }
 
-// Create{{.StructName}} 创建{{.StructName}}记录
+// Create{{.StructName}} create{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service) Create{{.StructName}}({{.Abbreviation}} autocode.{{.StructName}}) (err error) {
 	err = global.GVA_DB.Create(&{{.Abbreviation}}).Error
 	return err
 }
 
-// Delete{{.StructName}} 删除{{.StructName}}记录
+// Delete{{.StructName}} Delete{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Delete{{.StructName}}({{.Abbreviation}} autocode.{{.StructName}}) (err error) {
 	err = global.GVA_DB.Delete(&{{.Abbreviation}}).Error
 	return err
 }
 
-// Delete{{.StructName}}ByIds 批量删除{{.StructName}}记录
+// Delete{{.StructName}}ByIds batch deletion{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Delete{{.StructName}}ByIds(ids request.IdsReq) (err error) {
 	err = global.GVA_DB.Delete(&[]autocode.{{.StructName}}{},"id in ?",ids.Ids).Error
 	return err
 }
 
-// Update{{.StructName}} 更新{{.StructName}}记录
+// Update{{.StructName}} update{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Update{{.StructName}}({{.Abbreviation}} autocode.{{.StructName}}) (err error) {
 	err = global.GVA_DB.Save(&{{.Abbreviation}}).Error
 	return err
 }
 
-// Get{{.StructName}} 根据id获取{{.StructName}}记录
+// Get{{.StructName}} Get by id{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}(id uint) (err error, {{.Abbreviation}} autocode.{{.StructName}}) {
 	err = global.GVA_DB.Where("id = ?", id).First(&{{.Abbreviation}}).Error
 	return
 }
 
-// Get{{.StructName}}InfoList 分页获取{{.StructName}}记录
+// Get{{.StructName}}InfoList Paging acquisition{{.StructName}}Record
 // Author [piexlmax](https://github.com/piexlmax)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoList(info autoCodeReq.{{.StructName}}Search) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // 创建db
+    // create db
 	db := global.GVA_DB.Model(&autocode.{{.StructName}}{})
     var {{.Abbreviation}}s []autocode.{{.StructName}}
-    // 如果有条件搜索 下方会自动创建搜索语句
+    // If there is a conditional search, the search statement will be automatically created below
         {{- range .Fields}}
             {{- if .FieldSearchType}}
                 {{- if eq .FieldType "string" }}
