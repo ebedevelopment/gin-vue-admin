@@ -1,6 +1,8 @@
 package autocode
 
 import (
+	"fmt"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
 	autoCodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
@@ -20,7 +22,9 @@ func (servicesService *ServicesService) CreateServices(services autocode.Service
 // DeleteServices DeleteServicesRecord
 // Author [piexlmax](https://github.com/piexlmax)
 func (servicesService *ServicesService) DeleteServices(services autocode.Services) (err error) {
+
 	err = global.GVA_DB.Delete(&services).Error
+	fmt.Println("Err: ", err)
 	return err
 }
 

@@ -72,9 +72,8 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	}
 	url := "https://127.0.0.1:8087/api/v1/service/add"
 
-	body := global.SendPostReq(byteValueReq, url)
+	body := global.SendPostReq("POST", byteValueReq, url)
 	fmt.Println(string(body))
-
 
 }
 
@@ -130,12 +129,33 @@ func (servicesApi *ServicesApi) DeleteServicesByIds(c *gin.Context) {
 func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	var services autocode.Services
 	_ = c.ShouldBindJSON(&services)
+	fmt.Println("services :   ", services)
 	if err := servicesService.UpdateServices(services); err != nil {
 		global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.updateFailErr"), c)
 	} else {
 		response.OkWithMessage(global.Translate("general.updateSuccess"), c)
 	}
+
+	var ServiceRequestobj autocode.ServiceRequest
+	ServiceRequestobj.ServiceId = services.ID
+	jsonFile, err := os.Open(services.FileUrl)
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	
+	err = json.Unmarshal(byteValue, &ServiceRequestobj)
+	if err != nil {
+		fmt.Println("error in marchal", err)
+	}
+	byteValueReq, err := json.Marshal(ServiceRequestobj)
+
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	url := "https://127.0.0.1:8087/api/v1/service/update"
+
+	global.SendPostReq("PUT", byteValueReq, url)
+	
+
 }
 
 // FindServices query by idServices

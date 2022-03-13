@@ -663,6 +663,8 @@ const enterDialog = async () => {
       res = await createServices(formData.value);
       break;
     case "update":
+     formData.value.fileUrl=filePath
+      console.log("updateformdataurlllll:",  formData.value.fileUrl)
       res = await updateServices(formData.value);
       break;
     default:

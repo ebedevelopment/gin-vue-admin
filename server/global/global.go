@@ -67,8 +67,8 @@ func Translate(msg string) string {
 	return msg
 }
 
-func SendPostReq(Bytereq []byte, url string) []byte {
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(Bytereq))
+func SendPostReq( Method string  ,Bytereq []byte, url string) []byte {
+	req, err := http.NewRequest(Method, url, bytes.NewBuffer(Bytereq))
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
 	tr := &tls.Config{InsecureSkipVerify: true}
