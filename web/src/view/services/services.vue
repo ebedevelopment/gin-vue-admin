@@ -407,7 +407,7 @@ const uploadSuccess = (res) => {
 
      
       filePath=res.data.file.url
-  console.log("res.code :   ---------------------------------" ,filePath)
+
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -657,20 +657,15 @@ const enterDialog = async () => {
   let res;
   switch (type.value) {
     case "create":
-      console.log("formdatavalue:",formData.value)
       formData.value.fileUrl=filePath
-      console.log("formdataurlllll:",  formData.value.fileUrl)
       res = await createServices(formData.value);
       break;
     case "update":
      formData.value.fileUrl=filePath
-      console.log("updateformdataurlllll:",  formData.value.fileUrl)
       res = await updateServices(formData.value);
       break;
     default:
-      console.log("formdatavalue:",formData.value)
       formData.value.fileUrl=filePath
-      console.log("formdataurlllll:",  formData.value.fileUrl)
       res = await createServices(formData.value);
       break;
   }

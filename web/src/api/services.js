@@ -9,7 +9,7 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /services/createServices [post]
 export const createServices = (data) => {
-    console.log("Dataaaaaa:   ", data)
+
     return service({
         url: '/services/createServices',
         method: 'post',

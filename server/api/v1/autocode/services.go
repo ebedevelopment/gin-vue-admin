@@ -87,8 +87,22 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
 // @Router /services/deleteServices [delete]
 func (servicesApi *ServicesApi) DeleteServices(c *gin.Context) {
+
 	var services autocode.Services
 	_ = c.ShouldBindJSON(&services)
+	//Delete service from gateways
+	var IDS request.IdsReq
+
+	IDS.Ids = append(IDS.Ids, int(services.ID))
+	byteValueReq, err := json.Marshal(IDS)
+
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	url := "https://127.0.0.1:8087/api/v1/service/delete"
+
+	global.SendPostReq("DELETE", byteValueReq, url)
+
 	if err := servicesService.DeleteServices(services); err != nil {
 		global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.deletFailErr"), c)
@@ -108,7 +122,9 @@ func (servicesApi *ServicesApi) DeleteServices(c *gin.Context) {
 // @Router /services/deleteServicesByIds [delete]
 func (servicesApi *ServicesApi) DeleteServicesByIds(c *gin.Context) {
 	var IDS request.IdsReq
+
 	_ = c.ShouldBindJSON(&IDS)
+
 	if err := servicesService.DeleteServicesByIds(IDS); err != nil {
 		global.GVA_LOG.Error(global.Translate("sys_operation_record.batchDeleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("sys_operation_record.batchDeleteFailErr"), c)
@@ -129,7 +145,6 @@ func (servicesApi *ServicesApi) DeleteServicesByIds(c *gin.Context) {
 func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	var services autocode.Services
 	_ = c.ShouldBindJSON(&services)
-	fmt.Println("services :   ", services)
 	if err := servicesService.UpdateServices(services); err != nil {
 		global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.updateFailErr"), c)
@@ -141,7 +156,7 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	ServiceRequestobj.ServiceId = services.ID
 	jsonFile, err := os.Open(services.FileUrl)
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	
+
 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
 	if err != nil {
 		fmt.Println("error in marchal", err)
@@ -154,7 +169,6 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	url := "https://127.0.0.1:8087/api/v1/service/update"
 
 	global.SendPostReq("PUT", byteValueReq, url)
-	
 
 }
 
