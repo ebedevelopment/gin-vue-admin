@@ -1,6 +1,10 @@
 package global
 
 import (
+	"bytes"
+	"crypto/tls"
+	"io/ioutil"
+	"net/http"
 	"sync"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/timer"
@@ -61,4 +65,22 @@ func Translate(msg string) string {
 	}
 
 	return msg
+}
+func SendPostReq(Method string, Bytereq []byte, url string) []byte {
+	req, err := http.NewRequest(Method, url, bytes.NewBuffer(Bytereq))
+	req.Header.Set("X-Custom-Header", "myvalue")
+	req.Header.Set("Content-Type", "application/json")
+	tr := &tls.Config{InsecureSkipVerify: true}
+	client := &http.Client{
+		Transport: &http.Transport{TLSClientConfig: tr},
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+    body, _ := ioutil.ReadAll(resp.Body)
+
+	return body
+
 }
