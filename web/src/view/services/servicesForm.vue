@@ -102,6 +102,7 @@ const save = async() => {
           res = await createServices(formData.value)
           break
         case 'update':
+         // console.log("Formdata.value: ",formData.value)
           res = await updateServices(formData.value)
           break
         default:

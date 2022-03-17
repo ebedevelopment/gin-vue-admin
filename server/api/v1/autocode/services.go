@@ -34,7 +34,7 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	var services autocode.Services
 	var ServiceRequestobj autocode.ServiceRequest
 	_ = c.ShouldBindJSON(&services)
-
+	fmt.Println("sevice Api: ", services.CatId)
 	for _, id := range services.GatewayValues {
 		_, regateways := gatewaysService.GetGateways(uint(id))
 		services.Gateways = append(services.Gateways, regateways)
@@ -153,21 +153,24 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	}
 	var ServiceRequestobj autocode.ServiceRequest
 	ServiceRequestobj.ServiceId = services.ID
-	jsonFile, err := os.Open(services.FileUrl)
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	if services.FileUrl != "" {
 
-	err = json.Unmarshal(byteValue, &ServiceRequestobj)
-	if err != nil {
-		fmt.Println("error in marchal", err)
+		jsonFile, err := os.Open(services.FileUrl)
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+
+		err = json.Unmarshal(byteValue, &ServiceRequestobj)
+		if err != nil {
+			fmt.Println("error in marchal", err)
+		}
+		byteValueReq, err := json.Marshal(ServiceRequestobj)
+
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		url := "https://127.0.0.1:8087/api/v1/service/update"
+
+		global.SendPostReq("PUT", byteValueReq, url)
 	}
-	byteValueReq, err := json.Marshal(ServiceRequestobj)
-
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	url := "https://127.0.0.1:8087/api/v1/service/update"
-
-	global.SendPostReq("PUT", byteValueReq, url)
 }
 
 // FindServices 用id查询Services
@@ -206,6 +209,37 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 		global.GVA_LOG.Error(global.Translate("general.getDataFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.getDataFailErr"), c)
 	} else {
+
+		var service autocode.ServiceList
+		var services []autocode.ServiceList
+		servicelist, ok := list.([]autocode.Services)
+		for _, s := range servicelist {
+
+			_, category := categoriesService.GetCategories(uint(*s.CatId))
+			_, gateway := gatewaysService.GetGateways(uint(*s.DefaultGatewayDn))
+			service.CategoryId = category.NameEn
+			service.Count = s.Count
+			service.CreatedAt = s.CreatedAt
+
+			service.DefaultGateway = gateway.DomainNameService
+			service.ID = s.ID
+			service.Inquirable = s.Inq
+
+			service.IsPar = s.IsPar
+			service.IsPrice = s.IsPrice
+			service.NameAr = s.NameAr
+
+			service.NameEn = s.NameEn
+			service.Price = s.Price
+			_, provider := providersService.GetProviders(uint(*s.ProvId))
+			service.ProviderId = provider.NameEn
+
+			//TODO gateways , fields, frontends specifies with service
+
+			services = append(services, service)
+		}
+		fmt.Println("service list ", services, "ok : ", ok)
+
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
 			Total:    total,

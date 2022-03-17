@@ -1,6 +1,8 @@
 package autocode
 
 import (
+	
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
 	autoCodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
@@ -13,6 +15,7 @@ type ServicesService struct {
 // CreateServices 创建Services记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (servicesService *ServicesService) CreateServices(services autocode.Services) (err error) {
+
 	err = global.GVA_DB.Create(&services).Error
 	return err
 }

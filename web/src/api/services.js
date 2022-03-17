@@ -9,11 +9,12 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /services/createServices [post]
 export const createServices = (data) => {
-  return service({
-    url: '/services/createServices',
-    method: 'post',
-    data
-  })
+    console.log("DATAAAAAAAAA:", data);
+    return service({
+        url: '/services/createServices',
+        method: 'post',
+        data
+    })
 }
 
 // @Tags Services
@@ -25,11 +26,11 @@ export const createServices = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /services/deleteServices [delete]
 export const deleteServices = (data) => {
-  return service({
-    url: '/services/deleteServices',
-    method: 'delete',
-    data
-  })
+    return service({
+        url: '/services/deleteServices',
+        method: 'delete',
+        data
+    })
 }
 
 // @Tags Services
@@ -41,11 +42,11 @@ export const deleteServices = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /services/deleteServices [delete]
 export const deleteServicesByIds = (data) => {
-  return service({
-    url: '/services/deleteServicesByIds',
-    method: 'delete',
-    data
-  })
+    return service({
+        url: '/services/deleteServicesByIds',
+        method: 'delete',
+        data
+    })
 }
 
 // @Tags Services
@@ -57,11 +58,11 @@ export const deleteServicesByIds = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /services/updateServices [put]
 export const updateServices = (data) => {
-  return service({
-    url: '/services/updateServices',
-    method: 'put',
-    data
-  })
+    return service({
+        url: '/services/updateServices',
+        method: 'put',
+        data
+    })
 }
 
 // @Tags Services
@@ -73,11 +74,11 @@ export const updateServices = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /services/findServices [get]
 export const findServices = (params) => {
-  return service({
-    url: '/services/findServices',
-    method: 'get',
-    params
-  })
+    return service({
+        url: '/services/findServices',
+        method: 'get',
+        params
+    })
 }
 
 // @Tags Services
@@ -89,9 +90,9 @@ export const findServices = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /services/getServicesList [get]
 export const getServicesList = (params) => {
-  return service({
-    url: '/services/getServicesList',
-    method: 'get',
-    params
-  })
+    return service({
+        url: '/services/getServicesList',
+        method: 'get',
+        params
+    })
 }

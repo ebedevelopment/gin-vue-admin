@@ -18,7 +18,7 @@ type Services struct {
 	Inq              *int       `json:"inq" form:"inq" gorm:"column:inq;comment:;size:10;"`
 	Count            *int       `json:"count" form:"count" gorm:"column:count;comment:;size:19;"`
 	IsPar            *int       `json:"isPar" form:"isPar" gorm:"column:is_par;comment:;size:19;"`
-	DefaultGatewayDn string     `json:"defaultGatewayDn" form:"defaultGatewayDn" gorm:"column:default_gateway_dn;comment:;size:255;"`
+	DefaultGatewayDn *int       `json:"defaultGatewayDn" form:"defaultGatewayDn" gorm:"column:default_gateway_dn;comment:;size:255;"`
 	GatewayValues    []int      `json:"gateways" form:"gateways" gorm:"-"`
 	Gateways         []Gateways `gorm:"many2many:service_gateways;ForeignKey:id;References:id"`
 
@@ -28,6 +28,25 @@ type Services struct {
 	VersionValues []int      `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
 	Versions      []Versions `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
 	FileUrl       string     `json:"fileUrl" gorm:"-"`
+}
+type ServiceList struct {
+	global.GVA_MODEL
+	CategoryId     string   `json:"categoryId" form:"categoryId"`
+	Count          *int     `json:"count" form:"count"`
+	DefaultGateway string   `json:"defaultGatewayDn" form:"defaultGatewayDn"`
+	Inquirable     *int     `json:"inquirable" form:"inquirable"`
+	IsPar          *int     `json:"isPar" form:"isPar"`
+	IsPrice        *int     `json:"isPrice" form:"isPrice"`
+	NameAr         string   `json:"nameAr" form:"nameAr"`
+	NameEn         string   `json:"nameEn" form:"nameEn"`
+	Price          *float64 `json:"price" form:"price"`
+	ProviderId     string   `json:"providerId" form:"providerId"`
+
+	// GatewayValues []string `json:"gateways" form:"gateways"`
+
+	// FieldsValues []string `json:"fields" form:"fields"`
+
+	// FrontendValues []string `json:"frontend" form:"frontend"`
 }
 
 type ServiceRequest struct {

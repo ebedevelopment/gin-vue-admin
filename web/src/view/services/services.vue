@@ -68,7 +68,7 @@
         <el-form-item label="catId field:">
        
            <el-select
-            v-model="formData.categoryId"
+            v-model="formData.catId"
             clearable
             placeholder="please enter"
             style="width: 100%"
@@ -78,13 +78,14 @@
               :key="item.ID"
               :label="`${item.nameEn}`"
               :value="item.ID"
+              
             />
           </el-select>
         </el-form-item>
         <el-form-item label="provId field:">
           
           <el-select
-            v-model="formData.providerId"
+            v-model="formData.provId"
             clearable
             placeholder="please enter"
             style="width: 100%"
@@ -171,7 +172,7 @@
         </el-form-item>
         <el-form-item label="defaultGatewayDn :">
          <el-select
-            v-model="formData.defaultGateway"
+            v-model="formData.defaultGatewayDn"
             clearable
             placeholder="please enter"
             style="width: 100%"
@@ -344,16 +345,16 @@ const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-        catId: 0,
-        provId: 0,
-        nameAr: '',
-        nameEn: '',
+        catId: "",
+        provId: "",
+        nameAr: "",
+        nameEn: "",
         isPrice: 0,
         price: 0,
         inq: 0,
         count: 0,
         isPar: 0,
-        defaultGatewayDn: '',
+        defaultGatewayDn: "",
         })
 
 // =========== 表格控制部分 ===========
@@ -555,16 +556,16 @@ const openDialog = () => {
 const closeDialog = () => {
     dialogFormVisible.value = false
     formData.value = {
-        catId: 0,
-        provId: 0,
-        nameAr: '',
-        nameEn: '',
+        catId: "",
+        provId: "",
+        nameAr: "",
+        nameEn: "",
         isPrice: 0,
         price: 0,
         inq: 0,
         count: 0,
         isPar: 0,
-        defaultGatewayDn: '',
+        defaultGatewayDn: "",
         }
 }
 // 弹窗确定
@@ -573,11 +574,12 @@ const enterDialog = async () => {
       switch (type.value) {
         case 'create':
           formData.value.fileUrl=filePath
-            console.log("FilePath: ",formData.value.fileUrl)
+            console.log("FilePath: ",formData.value.defaultGatewayDn)
           res = await createServices(formData.value)
           break
         case 'update':
           formData.value.fileUrl=filePath
+           console.log("FilePath: ",formData.value)
           res = await updateServices(formData.value)
           break
         default:
