@@ -59,25 +59,26 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 
 		response.OkWithMessage(global.Translate("general.createSuccss"), c)
 	}
+	if services.FileUrl != "" {
 
-	jsonFile, err := os.Open(services.FileUrl)
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+		jsonFile, err := os.Open(services.FileUrl)
+		byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	err = json.Unmarshal(byteValue, &ServiceRequestobj)
-	if err != nil {
-		fmt.Println("error in marchal", err)
+		err = json.Unmarshal(byteValue, &ServiceRequestobj)
+		if err != nil {
+			fmt.Println("error in marchal", err)
+		}
+		byteValueReq, err := json.Marshal(ServiceRequestobj)
+		fmt.Println(ServiceRequestobj)
+
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		url := "https://127.0.0.1:8087/api/v1/service/add"
+
+		body := global.SendPostReq("POST", byteValueReq, url)
+		fmt.Println(string(body))
 	}
-	byteValueReq, err := json.Marshal(ServiceRequestobj)
-	fmt.Println(ServiceRequestobj)
-
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	url := "https://127.0.0.1:8087/api/v1/service/add"
-
-	body := global.SendPostReq("POST", byteValueReq, url)
-	fmt.Println(string(body))
-
 }
 
 // DeleteServices 删除Services

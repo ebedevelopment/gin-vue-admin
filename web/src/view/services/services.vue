@@ -574,12 +574,12 @@ const enterDialog = async () => {
       switch (type.value) {
         case 'create':
           formData.value.fileUrl=filePath
-            console.log("FilePath: ",formData.value.defaultGatewayDn)
+            
           res = await createServices(formData.value)
           break
         case 'update':
           formData.value.fileUrl=filePath
-           console.log("FilePath: ",formData.value)
+        
           res = await updateServices(formData.value)
           break
         default:

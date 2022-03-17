@@ -9,7 +9,7 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /services/createServices [post]
 export const createServices = (data) => {
-    console.log("DATAAAAAAAAA:", data);
+
     return service({
         url: '/services/createServices',
         method: 'post',
