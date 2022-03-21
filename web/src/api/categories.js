@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
 // @Tags Categories
-// @Summary createCategories
+// @Summary 创建Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Categories true "createCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data body model.Categories true "创建Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /categories/createCategories [post]
 export const createCategories = (data) => {
   return service({
@@ -17,12 +17,12 @@ export const createCategories = (data) => {
 }
 
 // @Tags Categories
-// @Summary deleteCategories
+// @Summary 删除Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Categories true "deleteCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body model.Categories true "删除Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /categories/deleteCategories [delete]
 export const deleteCategories = (data) => {
   return service({
@@ -33,12 +33,12 @@ export const deleteCategories = (data) => {
 }
 
 // @Tags Categories
-// @Summary deleteCategories
+// @Summary 删除Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body request.IdsReq true "批量删除Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /categories/deleteCategories [delete]
 export const deleteCategoriesByIds = (data) => {
   return service({
@@ -49,12 +49,12 @@ export const deleteCategoriesByIds = (data) => {
 }
 
 // @Tags Categories
-// @Summary updateCategories
+// @Summary 更新Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Categories true "updateCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body model.Categories true "更新Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /categories/updateCategories [put]
 export const updateCategories = (data) => {
   return service({
@@ -65,12 +65,12 @@ export const updateCategories = (data) => {
 }
 
 // @Tags Categories
-// @Summary query by idCategories
+// @Summary 用id查询Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.Categories true "query by idCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query model.Categories true "用id查询Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /categories/findCategories [get]
 export const findCategories = (params) => {
   return service({
@@ -81,12 +81,12 @@ export const findCategories = (params) => {
 }
 
 // @Tags Categories
-// @Summary Paging acquisitionCategorieslist
+// @Summary 分页获取Categories列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "Paging acquisitionCategorieslist"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data query request.PageInfo true "分页获取Categories列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /categories/getCategoriesList [get]
 export const getCategoriesList = (params) => {
   return service({

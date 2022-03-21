@@ -17,13 +17,13 @@ type GatewaysApi struct {
 var gatewaysService = service.ServiceGroupApp.AutoCodeServiceGroup.GatewaysService
 
 
-// CreateGateways CreateGateways
+// CreateGateways 创建Gateways
 // @Tags Gateways
-// @Summary CreateGateways
+// @Summary 创建Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Gateways true "CreateGateways"
+// @Param data body autocode.Gateways true "创建Gateways"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /gateways/createGateways [post]
 func (gatewaysApi *GatewaysApi) CreateGateways(c *gin.Context) {
@@ -37,14 +37,14 @@ func (gatewaysApi *GatewaysApi) CreateGateways(c *gin.Context) {
 	}
 }
 
-// DeleteGateways DeleteGateways
+// DeleteGateways 删除Gateways
 // @Tags Gateways
-// @Summary DeleteGateways
+// @Summary 删除Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Gateways true "DeleteGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Gateways true "删除Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /gateways/deleteGateways [delete]
 func (gatewaysApi *GatewaysApi) DeleteGateways(c *gin.Context) {
 	var gateways autocode.Gateways
@@ -57,14 +57,14 @@ func (gatewaysApi *GatewaysApi) DeleteGateways(c *gin.Context) {
 	}
 }
 
-// DeleteGatewaysByIds batch deletionGateways
+// DeleteGatewaysByIds 批量删除Gateways
 // @Tags Gateways
-// @Summary batch deletionGateways
+// @Summary 批量删除Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /gateways/deleteGatewaysByIds [delete]
 func (gatewaysApi *GatewaysApi) DeleteGatewaysByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -77,14 +77,14 @@ func (gatewaysApi *GatewaysApi) DeleteGatewaysByIds(c *gin.Context) {
 	}
 }
 
-// UpdateGateways UpdateGateways
+// UpdateGateways 更新Gateways
 // @Tags Gateways
-// @Summary UpdateGateways
+// @Summary 更新Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Gateways true "UpdateGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Gateways true "更新Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /gateways/updateGateways [put]
 func (gatewaysApi *GatewaysApi) UpdateGateways(c *gin.Context) {
 	var gateways autocode.Gateways
@@ -97,14 +97,14 @@ func (gatewaysApi *GatewaysApi) UpdateGateways(c *gin.Context) {
 	}
 }
 
-// FindGateways query by idGateways
+// FindGateways 用id查询Gateways
 // @Tags Gateways
-// @Summary query by idGateways
+// @Summary 用id查询Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Gateways true "query by idGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Gateways true "用id查询Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /gateways/findGateways [get]
 func (gatewaysApi *GatewaysApi) FindGateways(c *gin.Context) {
 	var gateways autocode.Gateways
@@ -117,13 +117,13 @@ func (gatewaysApi *GatewaysApi) FindGateways(c *gin.Context) {
 	}
 }
 
-// GetGatewaysList Paging acquisitionGatewaysList
+// GetGatewaysList 分页获取Gateways列表
 // @Tags Gateways
-// @Summary Paging acquisitionGateways List
+// @Summary 分页获取Gateways列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.GatewaysSearch true "PagingGatewayslist"
+// @Param data query autocodeReq.GatewaysSearch true "分页获取Gateways列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /gateways/getGatewaysList [get]
 func (gatewaysApi *GatewaysApi) GetGatewaysList(c *gin.Context) {

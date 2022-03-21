@@ -1,12 +1,7 @@
 <template>
   <div class="init_page">
     <div class="init_page_panle">
-      <div
-        v-if="hello < 2"
-        id="hello"
-        :class="[hello < 1 ? 'slide-in-fwd-top' : 'slide-out-right']"
-        class="hello"
-      >
+      <div v-if="hello < 2" id="hello" :class="[hello < 1 ? 'slide-in-fwd-top' : 'slide-out-right']" class="hello  ">
         <div>
           <div class="hello_title">{{ $GIN_VUE_ADMIN.appName }}</div>
           <p class="in-two a-fadeinT">{{ t('init.note') }}</p>
@@ -185,19 +180,19 @@ img {
   width: 100%;
   height: 100%;
   position: relative;
-  .init_page_panle {
+  .init_page_panle{
     position: absolute;
     top: 3vh;
     left: 2vw;
     width: 96vw;
     height: 94vh;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255,255,255,.8);
     backdrop-filter: blur(5px);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    .hello {
+    .hello{
       position: absolute;
       z-index: 2;
       text-align: center;
@@ -207,22 +202,22 @@ img {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      .hello_title {
+      .hello_title{
         font-size: 32px;
         line-height: 98px;
       }
-      .in-two {
+      .in-two{
         font-size: 22px;
       }
-      .init_p {
+      .init_p{
         margin-top: 20px;
         color: #777777;
       }
-      .init_btn {
+      .init_btn{
         margin-top: 20px;
       }
     }
-    .form {
+    .form{
       position: absolute;
       z-index: 3;
       margin-top: 60px;
@@ -235,19 +230,16 @@ img {
 }
 
 .slide-in-fwd-top {
-  -webkit-animation: slide-in-fwd-top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-    both;
-  animation: slide-in-fwd-top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation: slide-in-fwd-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-in-fwd-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 .slide-out-right {
-  -webkit-animation: slide-out-right 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
-    both;
-  animation: slide-out-right 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  -webkit-animation: slide-out-right 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: slide-out-right 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 .slide-in-left {
-  -webkit-animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-    both;
-  animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 @-webkit-keyframes slide-in-fwd-top {
   0% {
@@ -322,9 +314,10 @@ img {
   }
 }
 @media (max-width: 750px) {
-  .form {
+  .form{
     width: 94vw !important;
     padding: 0;
   }
 }
+
 </style>

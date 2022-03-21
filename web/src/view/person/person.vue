@@ -21,8 +21,7 @@
                 <el-icon>
                   <edit />
                 </el-icon>
-                重新上传</span
-              >
+                重新上传</span>
             </div>
             <div class="user-personality">
               <p v-if="!editFlag" class="nickName">
@@ -186,7 +185,7 @@
           <el-button
             size="small"
             @click="closeChangePhone"
-          >取消</el-button>
+          >{{ t('general.cancel') }}</el-button>
           <el-button
             type="primary"
             size="small"
@@ -213,7 +212,7 @@
           <el-button
             size="small"
             @click="closeChangeEmail"
-          >取消</el-button>
+          >{{ t('general.cancel') }}</el-button>
           <el-button
             type="primary"
             size="small"

@@ -14,22 +14,22 @@ import (
 type VersionsApi struct {
 }
 
-var versionsService = service.ServiceGroupApp.AutoCodeServiceGroup.VersionsService
+var frontendsService = service.ServiceGroupApp.AutoCodeServiceGroup.VersionsService
 
 
-// CreateVersions CreateVersions
+// CreateVersions 创建Versions
 // @Tags Versions
-// @Summary CreateVersions
+// @Summary 创建Versions
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Versions true "CreateVersions"
+// @Param data body autocode.Versions true "创建Versions"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
-// @Router /versions/createVersions [post]
-func (versionsApi *VersionsApi) CreateVersions(c *gin.Context) {
-	var versions autocode.Versions
-	_ = c.ShouldBindJSON(&versions)
-	if err := versionsService.CreateVersions(versions); err != nil {
+// @Router /frontends/createVersions [post]
+func (frontendsApi *VersionsApi) CreateVersions(c *gin.Context) {
+	var frontends autocode.Versions
+	_ = c.ShouldBindJSON(&frontends)
+	if err := frontendsService.CreateVersions(frontends); err != nil {
         global.GVA_LOG.Error(global.Translate("general.creationFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
@@ -37,19 +37,19 @@ func (versionsApi *VersionsApi) CreateVersions(c *gin.Context) {
 	}
 }
 
-// DeleteVersions DeleteVersions
+// DeleteVersions 删除Versions
 // @Tags Versions
-// @Summary DeleteVersions
+// @Summary 删除Versions
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Versions true "DeleteVersions"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
-// @Router /versions/deleteVersions [delete]
-func (versionsApi *VersionsApi) DeleteVersions(c *gin.Context) {
-	var versions autocode.Versions
-	_ = c.ShouldBindJSON(&versions)
-	if err := versionsService.DeleteVersions(versions); err != nil {
+// @Param data body autocode.Versions true "删除Versions"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
+// @Router /frontends/deleteVersions [delete]
+func (frontendsApi *VersionsApi) DeleteVersions(c *gin.Context) {
+	var frontends autocode.Versions
+	_ = c.ShouldBindJSON(&frontends)
+	if err := frontendsService.DeleteVersions(frontends); err != nil {
         global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.deletFailErr"), c)
 	} else {
@@ -57,19 +57,19 @@ func (versionsApi *VersionsApi) DeleteVersions(c *gin.Context) {
 	}
 }
 
-// DeleteVersionsByIds batch deletionVersions
+// DeleteVersionsByIds 批量删除Versions
 // @Tags Versions
-// @Summary batch deletionVersions
+// @Summary 批量删除Versions
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionVersions"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
-// @Router /versions/deleteVersionsByIds [delete]
-func (versionsApi *VersionsApi) DeleteVersionsByIds(c *gin.Context) {
+// @Param data body request.IdsReq true "批量删除Versions"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
+// @Router /frontends/deleteVersionsByIds [delete]
+func (frontendsApi *VersionsApi) DeleteVersionsByIds(c *gin.Context) {
 	var IDS request.IdsReq
     _ = c.ShouldBindJSON(&IDS)
-	if err := versionsService.DeleteVersionsByIds(IDS); err != nil {
+	if err := frontendsService.DeleteVersionsByIds(IDS); err != nil {
         global.GVA_LOG.Error(global.Translate("sys_operation_record.batchDeleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("sys_operation_record.batchDeleteFailErr"), c)
 	} else {
@@ -77,19 +77,19 @@ func (versionsApi *VersionsApi) DeleteVersionsByIds(c *gin.Context) {
 	}
 }
 
-// UpdateVersions UpdateVersions
+// UpdateVersions 更新Versions
 // @Tags Versions
-// @Summary UpdateVersions
+// @Summary 更新Versions
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Versions true "UpdateVersions"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
-// @Router /versions/updateVersions [put]
-func (versionsApi *VersionsApi) UpdateVersions(c *gin.Context) {
-	var versions autocode.Versions
-	_ = c.ShouldBindJSON(&versions)
-	if err := versionsService.UpdateVersions(versions); err != nil {
+// @Param data body autocode.Versions true "更新Versions"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
+// @Router /frontends/updateVersions [put]
+func (frontendsApi *VersionsApi) UpdateVersions(c *gin.Context) {
+	var frontends autocode.Versions
+	_ = c.ShouldBindJSON(&frontends)
+	if err := frontendsService.UpdateVersions(frontends); err != nil {
         global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.updateFailErr"), c)
 	} else {
@@ -97,39 +97,39 @@ func (versionsApi *VersionsApi) UpdateVersions(c *gin.Context) {
 	}
 }
 
-// FindVersions query by idVersions
+// FindVersions 用id查询Versions
 // @Tags Versions
-// @Summary query by idVersions
+// @Summary 用id查询Versions
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Versions true "query by idVersions"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
-// @Router /versions/findVersions [get]
-func (versionsApi *VersionsApi) FindVersions(c *gin.Context) {
-	var versions autocode.Versions
-	_ = c.ShouldBindQuery(&versions)
-	if err, reversions := versionsService.GetVersions(versions.ID); err != nil {
+// @Param data query autocode.Versions true "用id查询Versions"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
+// @Router /frontends/findVersions [get]
+func (frontendsApi *VersionsApi) FindVersions(c *gin.Context) {
+	var frontends autocode.Versions
+	_ = c.ShouldBindQuery(&frontends)
+	if err, refrontends := frontendsService.GetVersions(frontends.ID); err != nil {
         global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.queryFailErr"), c)
 	} else {
-		response.OkWithData(gin.H{"reversions": reversions}, c)
+		response.OkWithData(gin.H{"refrontends": refrontends}, c)
 	}
 }
 
-// GetVersionsList Paging acquisitionVersionsList
+// GetVersionsList 分页获取Versions列表
 // @Tags Versions
-// @Summary Paging acquisitionVersions List
+// @Summary 分页获取Versions列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.VersionsSearch true "PagingVersionslist"
+// @Param data query autocodeReq.VersionsSearch true "分页获取Versions列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
-// @Router /versions/getVersionsList [get]
-func (versionsApi *VersionsApi) GetVersionsList(c *gin.Context) {
+// @Router /frontends/getVersionsList [get]
+func (frontendsApi *VersionsApi) GetVersionsList(c *gin.Context) {
 	var pageInfo autocodeReq.VersionsSearch
 	_ = c.ShouldBindQuery(&pageInfo)
-	if err, list, total := versionsService.GetVersionsInfoList(pageInfo); err != nil {
+	if err, list, total := frontendsService.GetVersionsInfoList(pageInfo); err != nil {
 	    global.GVA_LOG.Error(global.Translate("general.getDataFail"), zap.Error(err))
         response.FailWithMessage(global.Translate("general.getDataFailErr"), c)
     } else {

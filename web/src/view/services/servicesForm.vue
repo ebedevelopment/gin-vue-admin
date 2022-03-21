@@ -1,83 +1,40 @@
 <template>
   <div>
     <div class="gva-form-box">
-      <el-form :model="formData" label-position="left" label-width="20%">
-        <el-form-item label="category Name:">
-          <el-input
-            v-model.number="formData.categoryId"
-            clearable
-            placeholder="please enter"
-          />
+      <el-form :model="formData" label-position="right" label-width="20%">
+        <el-form-item label="catId field:">
+          <el-input v-model.number="formData.catId" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="count:">
-          <el-input
-            v-model.number="formData.count"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="provId field:">
+          <el-input v-model.number="formData.provId" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="default Gateway:">
-          <el-input
-            v-model="formData.defaultGateway"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="nameAr field:">
+          <el-input v-model="formData.nameAr" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="inquirable:">
-          <el-input
-            v-model.number="formData.inquirable"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="nameEn field:">
+          <el-input v-model="formData.nameEn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="isPar:">
-          <el-input
-            v-model.number="formData.isPar"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="isPrice field:">
+          <el-input v-model.number="formData.isPrice" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="isPrice:">
-          <el-switch
-            v-model="formData.isPrice"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-text="Yes"
-            inactive-text="No"
-            clearable
-          ></el-switch>
+        <el-form-item label="price field:">
+          <el-input-number v-model="formData.price" :precision="2" clearable></el-input-number>
         </el-form-item>
-        <el-form-item label="name Arabic:">
-          <el-input
-            v-model="formData.nameAr"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="inq field:">
+          <el-input v-model.number="formData.inq" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="name English:">
-          <el-input
-            v-model="formData.nameEn"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="count field:">
+          <el-input v-model.number="formData.count" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="price:">
-          <el-input-number
-            v-model="formData.price"
-            :precision="2"
-            clearable
-          ></el-input-number>
+        <el-form-item label="isPar field:">
+          <el-input v-model.number="formData.isPar" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="provider name:">
-          <el-input
-            v-model.number="formData.providerId"
-            clearable
-            placeholder="please enter"
-          />
+        <el-form-item label="defaultGatewayDn field:">
+          <el-input v-model="formData.defaultGatewayDn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" type="primary" @click="save">Save</el-button>
-          <el-button size="mini" type="primary" @click="back">Cancel</el-button>
+          <el-button size="mini" type="primary" @click="save">{{ t('general.save') }}</el-button>
+          <el-button size="mini" type="primary" @click="back">{{ t('general.back') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -86,81 +43,85 @@
 
 <script>
 export default {
-  name: "Services",
-};
+  name: 'Services'
+}
 </script>
 
 <script setup>
-import { createServices, updateServices, findServices } from "@/api/services";
+import {
+  createServices,
+  updateServices,
+  findServices
+} from '@/api/services'
 
-//get dictionary automatically
-import { getDictFunc } from "@/utils/format";
-import { useRoute, useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
+// 自动获取字典
+import { getDictFunc } from '@/utils/format'
+import { useRoute, useRouter } from "vue-router"
+import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
 
-const { t } = useI18n(); // added by mohamed hassan to support multilanguage
+const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
-const route = useRoute();
-const router = useRouter();
-const type = ref("");
+const route = useRoute()
+const router = useRouter()
+const type = ref('')
 const formData = ref({
-  categoryId: 0,
-  count: 0,
-  defaultGateway: "",
-  inquirable: 0,
-  isPar: 0,
-  isPrice: false,
-  nameAr: "",
-  nameEn: "",
-  price: 0,
-  providerId: 0,
-});
+        catId: 0,
+        provId: 0,
+        nameAr: '',
+        nameEn: '',
+        isPrice: 0,
+        price: 0,
+        inq: 0,
+        count: 0,
+        isPar: 0,
+        defaultGatewayDn: '',
+        })
 
-//initialization method
+// 初始化方法
 const init = async () => {
-  // It is recommended to pass the url parameter to obtain the target data ID and call the find method to query the data operation to determine whether the page is create or update The following is an example of id as the url parameter
-  if (route.query.id) {
-    const res = await findServices({ ID: route.query.id });
-    if (res.code === 0) {
-      formData.value = res.data.reservices;
-      type.value = "update";
+ // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
+    if (route.query.id) {
+      const res = await findServices({ ID: route.query.id })
+      if (res.code === 0) {
+        formData.value = res.data.reservices
+        type.value = 'update'
+      }
+    } else {
+      type.value = 'create'
     }
-  } else {
-    type.value = "create";
-  }
-};
+}
 
-init();
-//save button
-const save = async () => {
-  let res;
-  switch (type.value) {
-    case "create":
-      
-      res = await createServices(formData.value);
-      break;
-    case "update":
-      res = await updateServices(formData.value);
-      break;
-    default:
-      console.log("hhh ",formData.value)
-      res = await createServices(formData.value);
-      break;
-  }
-  if (res.code === 0) {
-    ElMessage({
-      type: "success",
-      message: "Create/Update successful",
-    });
-  }
-};
+init()
+// 保存按钮
+const save = async() => {
+      let res
+      switch (type.value) {
+        case 'create':
+          res = await createServices(formData.value)
+          break
+        case 'update':
+         // console.log("Formdata.value: ",formData.value)
+          res = await updateServices(formData.value)
+          break
+        default:
+          res = await createServices(formData.value)
+          break
+      }
+      if (res.code === 0) {
+        ElMessage({
+          type: 'success',
+          message: t('general.createUpdateSuccess')
+        })
+      }
+}
 
-// Back Button
+// 返回按钮
 const back = () => {
-  router.go(-1);
-};
+    router.go(-1)
+}
+
 </script>
 
 <style>

@@ -17,13 +17,13 @@ type PackagesApi struct {
 var packagesService = service.ServiceGroupApp.AutoCodeServiceGroup.PackagesService
 
 
-// CreatePackages CreatePackages
+// CreatePackages 创建Packages
 // @Tags Packages
-// @Summary CreatePackages
+// @Summary 创建Packages
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Packages true "CreatePackages"
+// @Param data body autocode.Packages true "创建Packages"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /packages/createPackages [post]
 func (packagesApi *PackagesApi) CreatePackages(c *gin.Context) {
@@ -37,14 +37,14 @@ func (packagesApi *PackagesApi) CreatePackages(c *gin.Context) {
 	}
 }
 
-// DeletePackages DeletePackages
+// DeletePackages 删除Packages
 // @Tags Packages
-// @Summary DeletePackages
+// @Summary 删除Packages
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Packages true "DeletePackages"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Packages true "删除Packages"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /packages/deletePackages [delete]
 func (packagesApi *PackagesApi) DeletePackages(c *gin.Context) {
 	var packages autocode.Packages
@@ -57,14 +57,14 @@ func (packagesApi *PackagesApi) DeletePackages(c *gin.Context) {
 	}
 }
 
-// DeletePackagesByIds batch deletionPackages
+// DeletePackagesByIds 批量删除Packages
 // @Tags Packages
-// @Summary batch deletionPackages
+// @Summary 批量删除Packages
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionPackages"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Packages"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /packages/deletePackagesByIds [delete]
 func (packagesApi *PackagesApi) DeletePackagesByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -77,14 +77,14 @@ func (packagesApi *PackagesApi) DeletePackagesByIds(c *gin.Context) {
 	}
 }
 
-// UpdatePackages UpdatePackages
+// UpdatePackages 更新Packages
 // @Tags Packages
-// @Summary UpdatePackages
+// @Summary 更新Packages
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Packages true "UpdatePackages"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Packages true "更新Packages"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /packages/updatePackages [put]
 func (packagesApi *PackagesApi) UpdatePackages(c *gin.Context) {
 	var packages autocode.Packages
@@ -97,14 +97,14 @@ func (packagesApi *PackagesApi) UpdatePackages(c *gin.Context) {
 	}
 }
 
-// FindPackages query by idPackages
+// FindPackages 用id查询Packages
 // @Tags Packages
-// @Summary query by idPackages
+// @Summary 用id查询Packages
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Packages true "query by idPackages"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Packages true "用id查询Packages"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /packages/findPackages [get]
 func (packagesApi *PackagesApi) FindPackages(c *gin.Context) {
 	var packages autocode.Packages
@@ -117,13 +117,13 @@ func (packagesApi *PackagesApi) FindPackages(c *gin.Context) {
 	}
 }
 
-// GetPackagesList Paging acquisitionPackagesList
+// GetPackagesList 分页获取Packages列表
 // @Tags Packages
-// @Summary Paging acquisitionPackages List
+// @Summary 分页获取Packages列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.PackagesSearch true "PagingPackageslist"
+// @Param data query autocodeReq.PackagesSearch true "分页获取Packages列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /packages/getPackagesList [get]
 func (packagesApi *PackagesApi) GetPackagesList(c *gin.Context) {

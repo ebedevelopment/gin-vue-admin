@@ -10,54 +10,54 @@ import (
 type VersionsService struct {
 }
 
-// CreateVersions createVersionsRecord
+// CreateVersions 创建Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService) CreateVersions(versions autocode.Versions) (err error) {
-	err = global.GVA_DB.Create(&versions).Error
+func (frontendsService *VersionsService) CreateVersions(frontends autocode.Versions) (err error) {
+	err = global.GVA_DB.Create(&frontends).Error
 	return err
 }
 
-// DeleteVersions DeleteVersionsRecord
+// DeleteVersions 删除Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService)DeleteVersions(versions autocode.Versions) (err error) {
-	err = global.GVA_DB.Delete(&versions).Error
+func (frontendsService *VersionsService)DeleteVersions(frontends autocode.Versions) (err error) {
+	err = global.GVA_DB.Delete(&frontends).Error
 	return err
 }
 
-// DeleteVersionsByIds batch deletionVersionsRecord
+// DeleteVersionsByIds 批量删除Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService)DeleteVersionsByIds(ids request.IdsReq) (err error) {
+func (frontendsService *VersionsService)DeleteVersionsByIds(ids request.IdsReq) (err error) {
 	err = global.GVA_DB.Delete(&[]autocode.Versions{},"id in ?",ids.Ids).Error
 	return err
 }
 
-// UpdateVersions updateVersionsRecord
+// UpdateVersions 更新Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService)UpdateVersions(versions autocode.Versions) (err error) {
-	err = global.GVA_DB.Save(&versions).Error
+func (frontendsService *VersionsService)UpdateVersions(frontends autocode.Versions) (err error) {
+	err = global.GVA_DB.Save(&frontends).Error
 	return err
 }
 
-// GetVersions Get by idVersionsRecord
+// GetVersions 根据id获取Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService)GetVersions(id uint) (err error, versions autocode.Versions) {
-	err = global.GVA_DB.Where("id = ?", id).First(&versions).Error
+func (frontendsService *VersionsService)GetVersions(id uint) (err error, frontends autocode.Versions) {
+	err = global.GVA_DB.Where("id = ?", id).First(&frontends).Error
 	return
 }
 
-// GetVersionsInfoList Paging acquisitionVersionsRecord
+// GetVersionsInfoList 分页获取Versions记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (versionsService *VersionsService)GetVersionsInfoList(info autoCodeReq.VersionsSearch) (err error, list interface{}, total int64) {
+func (frontendsService *VersionsService)GetVersionsInfoList(info autoCodeReq.VersionsSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // create db
+    // 创建db
 	db := global.GVA_DB.Model(&autocode.Versions{})
-    var versionss []autocode.Versions
-    // If there is a conditional search, the search statement will be automatically created below
+    var frontendss []autocode.Versions
+    // 如果有条件搜索 下方会自动创建搜索语句
 	err = db.Count(&total).Error
 	if err!=nil {
     	return
     }
-	err = db.Limit(limit).Offset(offset).Find(&versionss).Error
-	return err, versionss, total
+	err = db.Limit(limit).Offset(offset).Find(&frontendss).Error
+	return err, frontendss, total
 }

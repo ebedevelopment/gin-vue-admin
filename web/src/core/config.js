@@ -3,7 +3,7 @@
  */
 
 const config = {
-  appName: 'Wakty',
+  appName: 'Gin-Vue-Admin',
   appLogo: 'https://www.gin-vue-admin.com/img/logo.png',
   showViteLogo: true
 }

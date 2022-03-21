@@ -10,56 +10,50 @@ import (
 type CategoriesService struct {
 }
 
-// CreateCategories createCategoriesRecord
+// CreateCategories 创建Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService) CreateCategories(categories autocode.Categories) (err error) {
 	err = global.GVA_DB.Create(&categories).Error
 	return err
 }
 
-// DeleteCategories DeleteCategoriesRecord
+// DeleteCategories 删除Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService)DeleteCategories(categories autocode.Categories) (err error) {
 	err = global.GVA_DB.Delete(&categories).Error
 	return err
 }
 
-// DeleteCategoriesByIds batch deletionCategoriesRecord
+// DeleteCategoriesByIds 批量删除Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService)DeleteCategoriesByIds(ids request.IdsReq) (err error) {
 	err = global.GVA_DB.Delete(&[]autocode.Categories{},"id in ?",ids.Ids).Error
 	return err
 }
 
-// UpdateCategories updateCategoriesRecord
+// UpdateCategories 更新Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService)UpdateCategories(categories autocode.Categories) (err error) {
 	err = global.GVA_DB.Save(&categories).Error
 	return err
 }
 
-// GetCategories Get by idCategoriesRecord
+// GetCategories 根据id获取Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService)GetCategories(id uint) (err error, categories autocode.Categories) {
 	err = global.GVA_DB.Where("id = ?", id).First(&categories).Error
 	return
 }
 
-// GetCategoriesInfoList Paging acquisitionCategoriesRecord
+// GetCategoriesInfoList 分页获取Categories记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (categoriesService *CategoriesService)GetCategoriesInfoList(info autoCodeReq.CategoriesSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // create db
+    // 创建db
 	db := global.GVA_DB.Model(&autocode.Categories{})
     var categoriess []autocode.Categories
-    // If there is a conditional search, the search statement will be automatically created below
-    if info.NameAr != "" {
-        db = db.Where("name_ar LIKE ?","%"+ info.NameAr+"%")
-    }
-    if info.NameEn != "" {
-        db = db.Where("name_en LIKE ?","%"+ info.NameEn+"%")
-    }
+    // 如果有条件搜索 下方会自动创建搜索语句
 	err = db.Count(&total).Error
 	if err!=nil {
     	return

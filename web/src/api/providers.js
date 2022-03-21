@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
 // @Tags Providers
-// @Summary createProviders
+// @Summary 创建Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Providers true "createProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data body model.Providers true "创建Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /providers/createProviders [post]
 export const createProviders = (data) => {
   return service({
@@ -17,12 +17,12 @@ export const createProviders = (data) => {
 }
 
 // @Tags Providers
-// @Summary deleteProviders
+// @Summary 删除Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Providers true "deleteProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body model.Providers true "删除Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /providers/deleteProviders [delete]
 export const deleteProviders = (data) => {
   return service({
@@ -33,12 +33,12 @@ export const deleteProviders = (data) => {
 }
 
 // @Tags Providers
-// @Summary deleteProviders
+// @Summary 删除Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body request.IdsReq true "批量删除Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /providers/deleteProviders [delete]
 export const deleteProvidersByIds = (data) => {
   return service({
@@ -49,12 +49,12 @@ export const deleteProvidersByIds = (data) => {
 }
 
 // @Tags Providers
-// @Summary updateProviders
+// @Summary 更新Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Providers true "updateProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body model.Providers true "更新Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /providers/updateProviders [put]
 export const updateProviders = (data) => {
   return service({
@@ -65,12 +65,12 @@ export const updateProviders = (data) => {
 }
 
 // @Tags Providers
-// @Summary query by idProviders
+// @Summary 用id查询Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.Providers true "query by idProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query model.Providers true "用id查询Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /providers/findProviders [get]
 export const findProviders = (params) => {
   return service({
@@ -81,12 +81,12 @@ export const findProviders = (params) => {
 }
 
 // @Tags Providers
-// @Summary Paging acquisitionProviderslist
+// @Summary 分页获取Providers列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "Paging acquisitionProviderslist"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data query request.PageInfo true "分页获取Providers列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /providers/getProvidersList [get]
 export const getProvidersList = (params) => {
   return service({

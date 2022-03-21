@@ -10,59 +10,50 @@ import (
 type GatewaysService struct {
 }
 
-// CreateGateways createGatewaysRecord
+// CreateGateways 创建Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService) CreateGateways(gateways autocode.Gateways) (err error) {
 	err = global.GVA_DB.Create(&gateways).Error
 	return err
 }
 
-// DeleteGateways DeleteGatewaysRecord
+// DeleteGateways 删除Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService)DeleteGateways(gateways autocode.Gateways) (err error) {
 	err = global.GVA_DB.Delete(&gateways).Error
 	return err
 }
 
-// DeleteGatewaysByIds batch deletionGatewaysRecord
+// DeleteGatewaysByIds 批量删除Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService)DeleteGatewaysByIds(ids request.IdsReq) (err error) {
 	err = global.GVA_DB.Delete(&[]autocode.Gateways{},"id in ?",ids.Ids).Error
 	return err
 }
 
-// UpdateGateways updateGatewaysRecord
+// UpdateGateways 更新Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService)UpdateGateways(gateways autocode.Gateways) (err error) {
 	err = global.GVA_DB.Save(&gateways).Error
 	return err
 }
 
-// GetGateways Get by idGatewaysRecord
+// GetGateways 根据id获取Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService)GetGateways(id uint) (err error, gateways autocode.Gateways) {
 	err = global.GVA_DB.Where("id = ?", id).First(&gateways).Error
 	return
 }
 
-// GetGatewaysInfoList Paging acquisitionGatewaysRecord
+// GetGatewaysInfoList 分页获取Gateways记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (gatewaysService *GatewaysService)GetGatewaysInfoList(info autoCodeReq.GatewaysSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // create db
+    // 创建db
 	db := global.GVA_DB.Model(&autocode.Gateways{})
     var gatewayss []autocode.Gateways
-    // If there is a conditional search, the search statement will be automatically created below
-    if info.DomainNameService != "" {
-        db = db.Where("domain_name_service LIKE ?","%"+ info.DomainNameService+"%")
-    }
-    if info.NameAr != "" {
-        db = db.Where("name_ar LIKE ?","%"+ info.NameAr+"%")
-    }
-    if info.NameEn != "" {
-        db = db.Where("name_en LIKE ?","%"+ info.NameEn+"%")
-    }
+    // 如果有条件搜索 下方会自动创建搜索语句
 	err = db.Count(&total).Error
 	if err!=nil {
     	return

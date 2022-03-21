@@ -1,16 +1,14 @@
 package autocode
 
 import (
-	
-
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
-	autocodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/service"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
+    "github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
+    "github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+    autocodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
+    "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
+    "github.com/flipped-aurora/gin-vue-admin/server/service"
+    "github.com/gin-gonic/gin"
+    "go.uber.org/zap"
 )
 
 type ProvidersApi struct {
@@ -19,13 +17,13 @@ type ProvidersApi struct {
 var providersService = service.ServiceGroupApp.AutoCodeServiceGroup.ProvidersService
 
 
-// CreateProviders CreateProviders
+// CreateProviders 创建Providers
 // @Tags Providers
-// @Summary CreateProviders
+// @Summary 创建Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Providers true "CreateProviders"
+// @Param data body autocode.Providers true "创建Providers"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /providers/createProviders [post]
 func (providersApi *ProvidersApi) CreateProviders(c *gin.Context) {
@@ -39,14 +37,14 @@ func (providersApi *ProvidersApi) CreateProviders(c *gin.Context) {
 	}
 }
 
-// DeleteProviders DeleteProviders
+// DeleteProviders 删除Providers
 // @Tags Providers
-// @Summary DeleteProviders
+// @Summary 删除Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Providers true "DeleteProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Providers true "删除Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /providers/deleteProviders [delete]
 func (providersApi *ProvidersApi) DeleteProviders(c *gin.Context) {
 	var providers autocode.Providers
@@ -59,14 +57,14 @@ func (providersApi *ProvidersApi) DeleteProviders(c *gin.Context) {
 	}
 }
 
-// DeleteProvidersByIds batch deletionProviders
+// DeleteProvidersByIds 批量删除Providers
 // @Tags Providers
-// @Summary batch deletionProviders
+// @Summary 批量删除Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /providers/deleteProvidersByIds [delete]
 func (providersApi *ProvidersApi) DeleteProvidersByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -79,14 +77,14 @@ func (providersApi *ProvidersApi) DeleteProvidersByIds(c *gin.Context) {
 	}
 }
 
-// UpdateProviders UpdateProviders
+// UpdateProviders 更新Providers
 // @Tags Providers
-// @Summary UpdateProviders
+// @Summary 更新Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Providers true "UpdateProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Providers true "更新Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /providers/updateProviders [put]
 func (providersApi *ProvidersApi) UpdateProviders(c *gin.Context) {
 	var providers autocode.Providers
@@ -99,14 +97,14 @@ func (providersApi *ProvidersApi) UpdateProviders(c *gin.Context) {
 	}
 }
 
-// FindProviders query by idProviders
+// FindProviders 用id查询Providers
 // @Tags Providers
-// @Summary query by idProviders
+// @Summary 用id查询Providers
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Providers true "query by idProviders"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Providers true "用id查询Providers"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /providers/findProviders [get]
 func (providersApi *ProvidersApi) FindProviders(c *gin.Context) {
 	var providers autocode.Providers
@@ -119,13 +117,13 @@ func (providersApi *ProvidersApi) FindProviders(c *gin.Context) {
 	}
 }
 
-// GetProvidersList Paging acquisitionProvidersList
+// GetProvidersList 分页获取Providers列表
 // @Tags Providers
-// @Summary Paging acquisitionProviders List
+// @Summary 分页获取Providers列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.ProvidersSearch true "PagingProviderslist"
+// @Param data query autocodeReq.ProvidersSearch true "分页获取Providers列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /providers/getProvidersList [get]
 func (providersApi *ProvidersApi) GetProvidersList(c *gin.Context) {
@@ -142,5 +140,4 @@ func (providersApi *ProvidersApi) GetProvidersList(c *gin.Context) {
             PageSize: pageInfo.PageSize,
         }, global.Translate("general.getDataSuccess"), c)
     }
-
 }

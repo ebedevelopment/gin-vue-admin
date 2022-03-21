@@ -11,25 +11,25 @@ import (
     "go.uber.org/zap"
 )
 
-type TerminalApi struct {
+type TerminalsApi struct {
 }
 
-var terminalService = service.ServiceGroupApp.AutoCodeServiceGroup.TerminalService
+var terminalsService = service.ServiceGroupApp.AutoCodeServiceGroup.TerminalsService
 
 
-// CreateTerminal CreateTerminal
-// @Tags Terminal
-// @Summary CreateTerminal
+// CreateTerminals 创建Terminals
+// @Tags Terminals
+// @Summary 创建Terminals
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Terminal true "CreateTerminal"
+// @Param data body autocode.Terminals true "创建Terminals"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
-// @Router /terminal/createTerminal [post]
-func (terminalApi *TerminalApi) CreateTerminal(c *gin.Context) {
-	var terminal autocode.Terminal
-	_ = c.ShouldBindJSON(&terminal)
-	if err := terminalService.CreateTerminal(terminal); err != nil {
+// @Router /terminals/createTerminals [post]
+func (terminalsApi *TerminalsApi) CreateTerminals(c *gin.Context) {
+	var terminals autocode.Terminals
+	_ = c.ShouldBindJSON(&terminals)
+	if err := terminalsService.CreateTerminals(terminals); err != nil {
         global.GVA_LOG.Error(global.Translate("general.creationFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
@@ -37,19 +37,19 @@ func (terminalApi *TerminalApi) CreateTerminal(c *gin.Context) {
 	}
 }
 
-// DeleteTerminal DeleteTerminal
-// @Tags Terminal
-// @Summary DeleteTerminal
+// DeleteTerminals 删除Terminals
+// @Tags Terminals
+// @Summary 删除Terminals
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Terminal true "DeleteTerminal"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
-// @Router /terminal/deleteTerminal [delete]
-func (terminalApi *TerminalApi) DeleteTerminal(c *gin.Context) {
-	var terminal autocode.Terminal
-	_ = c.ShouldBindJSON(&terminal)
-	if err := terminalService.DeleteTerminal(terminal); err != nil {
+// @Param data body autocode.Terminals true "删除Terminals"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
+// @Router /terminals/deleteTerminals [delete]
+func (terminalsApi *TerminalsApi) DeleteTerminals(c *gin.Context) {
+	var terminals autocode.Terminals
+	_ = c.ShouldBindJSON(&terminals)
+	if err := terminalsService.DeleteTerminals(terminals); err != nil {
         global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.deletFailErr"), c)
 	} else {
@@ -57,19 +57,19 @@ func (terminalApi *TerminalApi) DeleteTerminal(c *gin.Context) {
 	}
 }
 
-// DeleteTerminalByIds batch deletionTerminal
-// @Tags Terminal
-// @Summary batch deletionTerminal
+// DeleteTerminalsByIds 批量删除Terminals
+// @Tags Terminals
+// @Summary 批量删除Terminals
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionTerminal"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
-// @Router /terminal/deleteTerminalByIds [delete]
-func (terminalApi *TerminalApi) DeleteTerminalByIds(c *gin.Context) {
+// @Param data body request.IdsReq true "批量删除Terminals"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
+// @Router /terminals/deleteTerminalsByIds [delete]
+func (terminalsApi *TerminalsApi) DeleteTerminalsByIds(c *gin.Context) {
 	var IDS request.IdsReq
     _ = c.ShouldBindJSON(&IDS)
-	if err := terminalService.DeleteTerminalByIds(IDS); err != nil {
+	if err := terminalsService.DeleteTerminalsByIds(IDS); err != nil {
         global.GVA_LOG.Error(global.Translate("sys_operation_record.batchDeleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("sys_operation_record.batchDeleteFailErr"), c)
 	} else {
@@ -77,19 +77,19 @@ func (terminalApi *TerminalApi) DeleteTerminalByIds(c *gin.Context) {
 	}
 }
 
-// UpdateTerminal UpdateTerminal
-// @Tags Terminal
-// @Summary UpdateTerminal
+// UpdateTerminals 更新Terminals
+// @Tags Terminals
+// @Summary 更新Terminals
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Terminal true "UpdateTerminal"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
-// @Router /terminal/updateTerminal [put]
-func (terminalApi *TerminalApi) UpdateTerminal(c *gin.Context) {
-	var terminal autocode.Terminal
-	_ = c.ShouldBindJSON(&terminal)
-	if err := terminalService.UpdateTerminal(terminal); err != nil {
+// @Param data body autocode.Terminals true "更新Terminals"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
+// @Router /terminals/updateTerminals [put]
+func (terminalsApi *TerminalsApi) UpdateTerminals(c *gin.Context) {
+	var terminals autocode.Terminals
+	_ = c.ShouldBindJSON(&terminals)
+	if err := terminalsService.UpdateTerminals(terminals); err != nil {
         global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.updateFailErr"), c)
 	} else {
@@ -97,39 +97,39 @@ func (terminalApi *TerminalApi) UpdateTerminal(c *gin.Context) {
 	}
 }
 
-// FindTerminal query by idTerminal
-// @Tags Terminal
-// @Summary query by idTerminal
+// FindTerminals 用id查询Terminals
+// @Tags Terminals
+// @Summary 用id查询Terminals
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Terminal true "query by idTerminal"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
-// @Router /terminal/findTerminal [get]
-func (terminalApi *TerminalApi) FindTerminal(c *gin.Context) {
-	var terminal autocode.Terminal
-	_ = c.ShouldBindQuery(&terminal)
-	if err, reterminal := terminalService.GetTerminal(terminal.ID); err != nil {
+// @Param data query autocode.Terminals true "用id查询Terminals"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
+// @Router /terminals/findTerminals [get]
+func (terminalsApi *TerminalsApi) FindTerminals(c *gin.Context) {
+	var terminals autocode.Terminals
+	_ = c.ShouldBindQuery(&terminals)
+	if err, reterminals := terminalsService.GetTerminals(terminals.ID); err != nil {
         global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.queryFailErr"), c)
 	} else {
-		response.OkWithData(gin.H{"reterminal": reterminal}, c)
+		response.OkWithData(gin.H{"reterminals": reterminals}, c)
 	}
 }
 
-// GetTerminalList Paging acquisitionTerminalList
-// @Tags Terminal
-// @Summary Paging acquisitionTerminal List
+// GetTerminalsList 分页获取Terminals列表
+// @Tags Terminals
+// @Summary 分页获取Terminals列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.TerminalSearch true "PagingTerminallist"
+// @Param data query autocodeReq.TerminalsSearch true "分页获取Terminals列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
-// @Router /terminal/getTerminalList [get]
-func (terminalApi *TerminalApi) GetTerminalList(c *gin.Context) {
-	var pageInfo autocodeReq.TerminalSearch
+// @Router /terminals/getTerminalsList [get]
+func (terminalsApi *TerminalsApi) GetTerminalsList(c *gin.Context) {
+	var pageInfo autocodeReq.TerminalsSearch
 	_ = c.ShouldBindQuery(&pageInfo)
-	if err, list, total := terminalService.GetTerminalInfoList(pageInfo); err != nil {
+	if err, list, total := terminalsService.GetTerminalsInfoList(pageInfo); err != nil {
 	    global.GVA_LOG.Error(global.Translate("general.getDataFail"), zap.Error(err))
         response.FailWithMessage(global.Translate("general.getDataFailErr"), c)
     } else {

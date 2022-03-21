@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
 // @Tags Gateways
-// @Summary createGateways
+// @Summary 创建Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Gateways true "createGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data body model.Gateways true "创建Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /gateways/createGateways [post]
 export const createGateways = (data) => {
   return service({
@@ -17,12 +17,12 @@ export const createGateways = (data) => {
 }
 
 // @Tags Gateways
-// @Summary deleteGateways
+// @Summary 删除Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Gateways true "deleteGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body model.Gateways true "删除Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /gateways/deleteGateways [delete]
 export const deleteGateways = (data) => {
   return service({
@@ -33,12 +33,12 @@ export const deleteGateways = (data) => {
 }
 
 // @Tags Gateways
-// @Summary deleteGateways
+// @Summary 删除Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body request.IdsReq true "批量删除Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /gateways/deleteGateways [delete]
 export const deleteGatewaysByIds = (data) => {
   return service({
@@ -49,12 +49,12 @@ export const deleteGatewaysByIds = (data) => {
 }
 
 // @Tags Gateways
-// @Summary updateGateways
+// @Summary 更新Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Gateways true "updateGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body model.Gateways true "更新Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /gateways/updateGateways [put]
 export const updateGateways = (data) => {
   return service({
@@ -65,12 +65,12 @@ export const updateGateways = (data) => {
 }
 
 // @Tags Gateways
-// @Summary query by idGateways
+// @Summary 用id查询Gateways
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.Gateways true "query by idGateways"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query model.Gateways true "用id查询Gateways"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /gateways/findGateways [get]
 export const findGateways = (params) => {
   return service({
@@ -81,12 +81,12 @@ export const findGateways = (params) => {
 }
 
 // @Tags Gateways
-// @Summary Paging acquisitionGatewayslist
+// @Summary 分页获取Gateways列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "Paging acquisitionGatewayslist"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data query request.PageInfo true "分页获取Gateways列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /gateways/getGatewaysList [get]
 export const getGatewaysList = (params) => {
   return service({

@@ -1,12 +1,12 @@
-// Automatically generate templatesProviders
+// 自动生成模板Providers
 package autocode
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 )
 
-// Providers structure
-//If it contains time.Time, please import the time package by yourself
+// Providers 结构体
+// 如果含有time.Time 请自行import time包
 type Providers struct {
       global.GVA_MODEL
       NameAr  string `json:"nameAr" form:"nameAr" gorm:"column:name_ar;comment:;size:255;"`
@@ -14,7 +14,7 @@ type Providers struct {
 }
 
 
-// TableName Providers Table Name
+// TableName Providers 表名
 func (Providers) TableName() string {
   return "providers"
 }

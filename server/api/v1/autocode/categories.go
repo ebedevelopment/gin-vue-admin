@@ -17,13 +17,13 @@ type CategoriesApi struct {
 var categoriesService = service.ServiceGroupApp.AutoCodeServiceGroup.CategoriesService
 
 
-// CreateCategories CreateCategories
+// CreateCategories 创建Categories
 // @Tags Categories
-// @Summary CreateCategories
+// @Summary 创建Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Categories true "CreateCategories"
+// @Param data body autocode.Categories true "创建Categories"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /categories/createCategories [post]
 func (categoriesApi *CategoriesApi) CreateCategories(c *gin.Context) {
@@ -37,14 +37,14 @@ func (categoriesApi *CategoriesApi) CreateCategories(c *gin.Context) {
 	}
 }
 
-// DeleteCategories DeleteCategories
+// DeleteCategories 删除Categories
 // @Tags Categories
-// @Summary DeleteCategories
+// @Summary 删除Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Categories true "DeleteCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Categories true "删除Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /categories/deleteCategories [delete]
 func (categoriesApi *CategoriesApi) DeleteCategories(c *gin.Context) {
 	var categories autocode.Categories
@@ -57,14 +57,14 @@ func (categoriesApi *CategoriesApi) DeleteCategories(c *gin.Context) {
 	}
 }
 
-// DeleteCategoriesByIds batch deletionCategories
+// DeleteCategoriesByIds 批量删除Categories
 // @Tags Categories
-// @Summary batch deletionCategories
+// @Summary 批量删除Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /categories/deleteCategoriesByIds [delete]
 func (categoriesApi *CategoriesApi) DeleteCategoriesByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -77,14 +77,14 @@ func (categoriesApi *CategoriesApi) DeleteCategoriesByIds(c *gin.Context) {
 	}
 }
 
-// UpdateCategories UpdateCategories
+// UpdateCategories 更新Categories
 // @Tags Categories
-// @Summary UpdateCategories
+// @Summary 更新Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Categories true "UpdateCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Categories true "更新Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /categories/updateCategories [put]
 func (categoriesApi *CategoriesApi) UpdateCategories(c *gin.Context) {
 	var categories autocode.Categories
@@ -97,14 +97,14 @@ func (categoriesApi *CategoriesApi) UpdateCategories(c *gin.Context) {
 	}
 }
 
-// FindCategories query by idCategories
+// FindCategories 用id查询Categories
 // @Tags Categories
-// @Summary query by idCategories
+// @Summary 用id查询Categories
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Categories true "query by idCategories"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Categories true "用id查询Categories"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /categories/findCategories [get]
 func (categoriesApi *CategoriesApi) FindCategories(c *gin.Context) {
 	var categories autocode.Categories
@@ -117,13 +117,13 @@ func (categoriesApi *CategoriesApi) FindCategories(c *gin.Context) {
 	}
 }
 
-// GetCategoriesList Paging acquisitionCategoriesList
+// GetCategoriesList 分页获取Categories列表
 // @Tags Categories
-// @Summary Paging acquisitionCategories List
+// @Summary 分页获取Categories列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.CategoriesSearch true "PagingCategorieslist"
+// @Param data query autocodeReq.CategoriesSearch true "分页获取Categories列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /categories/getCategoriesList [get]
 func (categoriesApi *CategoriesApi) GetCategoriesList(c *gin.Context) {

@@ -17,13 +17,13 @@ type FieldsApi struct {
 var fieldsService = service.ServiceGroupApp.AutoCodeServiceGroup.FieldsService
 
 
-// CreateFields CreateFields
+// CreateFields 创建Fields
 // @Tags Fields
-// @Summary CreateFields
+// @Summary 创建Fields
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Fields true "CreateFields"
+// @Param data body autocode.Fields true "创建Fields"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /fields/createFields [post]
 func (fieldsApi *FieldsApi) CreateFields(c *gin.Context) {
@@ -37,14 +37,14 @@ func (fieldsApi *FieldsApi) CreateFields(c *gin.Context) {
 	}
 }
 
-// DeleteFields DeleteFields
+// DeleteFields 删除Fields
 // @Tags Fields
-// @Summary DeleteFields
+// @Summary 删除Fields
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Fields true "DeleteFields"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Fields true "删除Fields"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /fields/deleteFields [delete]
 func (fieldsApi *FieldsApi) DeleteFields(c *gin.Context) {
 	var fields autocode.Fields
@@ -57,14 +57,14 @@ func (fieldsApi *FieldsApi) DeleteFields(c *gin.Context) {
 	}
 }
 
-// DeleteFieldsByIds batch deletionFields
+// DeleteFieldsByIds 批量删除Fields
 // @Tags Fields
-// @Summary batch deletionFields
+// @Summary 批量删除Fields
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionFields"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Fields"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /fields/deleteFieldsByIds [delete]
 func (fieldsApi *FieldsApi) DeleteFieldsByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -77,14 +77,14 @@ func (fieldsApi *FieldsApi) DeleteFieldsByIds(c *gin.Context) {
 	}
 }
 
-// UpdateFields UpdateFields
+// UpdateFields 更新Fields
 // @Tags Fields
-// @Summary UpdateFields
+// @Summary 更新Fields
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Fields true "UpdateFields"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Fields true "更新Fields"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /fields/updateFields [put]
 func (fieldsApi *FieldsApi) UpdateFields(c *gin.Context) {
 	var fields autocode.Fields
@@ -97,14 +97,14 @@ func (fieldsApi *FieldsApi) UpdateFields(c *gin.Context) {
 	}
 }
 
-// FindFields query by idFields
+// FindFields 用id查询Fields
 // @Tags Fields
-// @Summary query by idFields
+// @Summary 用id查询Fields
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Fields true "query by idFields"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Fields true "用id查询Fields"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /fields/findFields [get]
 func (fieldsApi *FieldsApi) FindFields(c *gin.Context) {
 	var fields autocode.Fields
@@ -117,13 +117,13 @@ func (fieldsApi *FieldsApi) FindFields(c *gin.Context) {
 	}
 }
 
-// GetFieldsList Paging acquisitionFieldsList
+// GetFieldsList 分页获取Fields列表
 // @Tags Fields
-// @Summary Paging acquisitionFields List
+// @Summary 分页获取Fields列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.FieldsSearch true "PagingFieldslist"
+// @Param data query autocodeReq.FieldsSearch true "分页获取Fields列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /fields/getFieldsList [get]
 func (fieldsApi *FieldsApi) GetFieldsList(c *gin.Context) {

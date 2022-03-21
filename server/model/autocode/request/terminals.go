@@ -5,7 +5,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 )
 
-type TerminalSearch struct{
-    autocode.Terminal
+type TerminalsSearch struct{
+    autocode.Terminals
     request.PageInfo
 }

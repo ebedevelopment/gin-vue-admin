@@ -3,8 +3,8 @@
     <div class="gva-search-box">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item>
-          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ t('search') }}</el-button>
-          <el-button size="small" icon="refresh" @click="onReset">{{ t('reset') }}</el-button>
+          <el-button size="small" type="primary" icon="search" @click="onSubmit">{{ t('general.search') }}</el-button>
+          <el-button size="small" icon="refresh" @click="onReset">{{ t('general.reset') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -18,7 +18,7 @@
                 <el-button size="small" type="primary" @click="onDelete">{{ t('general.confirm') }}</el-button>
             </div>
             <template #reference>
-                <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length">{{ t('general.delete') }}</el-button>
+                <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="deleteVisible = true">{{ t('general.delete') }}</el-button>
             </template>
             </el-popover>
         </div>
@@ -36,9 +36,9 @@
         </el-table-column>
         <el-table-column align="left" label="serviceListVersion field" prop="serviceListVersion" width="120" />
         <el-table-column align="left" label="softwareVersion field" prop="softwareVersion" width="120" />
-        <el-table-column align="left" :label="t('')">
+        <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
-            <el-button type="text" icon="edit" size="small" class="table-button" @click="updateVersionsFunc(scope.row)">{{ t('edit') }}</el-button>
+            <el-button type="text" icon="edit" size="small" class="table-button" @click="updateVersionsFunc(scope.row)">{{ t('general.change') }}</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">{{ t('general.delete') }}</el-button>
             </template>
         </el-table-column>
@@ -55,19 +55,19 @@
             />
         </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('Create')">
-      <el-form :model="formData" label-position="right" label-width="20%">
+    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
+      <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="serviceListVersion field:">
-          <el-input v-model="formData.serviceListVersion" clearable placeholder="please enter" />
+          <el-input v-model="formData.serviceListVersion" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item label="softwareVersion field:">
-          <el-input v-model="formData.softwareVersion" clearable placeholder="please enter" />
+          <el-input v-model="formData.softwareVersion" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">Cancel</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">Save</el-button>
+          <el-button size="small" @click="closeDialog">{{ t('general.close') }}</el-button>
+          <el-button size="small" type="primary" @click="enterDialog">{{ t('general.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -90,7 +90,7 @@ import {
   getVersionsList
 } from '@/api/versions'
 
-// Full introduction of formatting tools, please keep as needed
+// 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
@@ -98,44 +98,44 @@ import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multila
 
 const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
-// Auto-generated dictionaries (may be empty) and fields
+// 自动化生成的字典（可能为空）以及字段
 const formData = ref({
         serviceListVersion: '',
         softwareVersion: '',
         })
 
-// =========== form control section ===========
+// =========== 表格控制部分 ===========
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
 const tableData = ref([])
 const searchInfo = ref({})
 
-// reset
+// 重置
 const onReset = () => {
   searchInfo.value = {}
 }
 
-//search
+// 搜索
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
   getTableData()
 }
 
-// pagination
+// 分页
 const handleSizeChange = (val) => {
   pageSize.value = val
   getTableData()
 }
 
-//Modify page size
+// 修改页面容量
 const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
 }
 
-//Inquire
+// 查询
 const getTableData = async() => {
   const table = await getVersionsList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
@@ -148,28 +148,28 @@ const getTableData = async() => {
 
 getTableData()
 
-// ==============end of form control section===============
+// ============== 表格控制部分结束 ===============
 
-// Get the required dictionary, may be empty, keep as needed
+// 获取需要的字典 可能为空 按需保留
 const setOptions = async () =>{
 }
 
-// Get the required dictionary, may be empty, keep as needed
+// 获取需要的字典 可能为空 按需保留
 setOptions()
 
 
-// Multiple choice data
+// 多选数据
 const multipleSelection = ref([])
-// Multiple choice
+// 多选
 const handleSelectionChange = (val) => {
     multipleSelection.value = val
 }
 
-// delete row
+// 删除行
 const deleteRow = (row) => {
-    ElMessageBox.confirm('You sure you want to delete it?', 'hint', {
-        confirmButtonText: 'Save',
-        cancelButtonText: 'Cancel',
+    ElMessageBox.confirm(t('general.deleteConfirm'), t('general.hint'), {
+        confirmButtonText: t('general.confirm'),
+        cancelButtonText: t('general.cancel'),
         type: 'warning'
     }).then(() => {
             deleteVersionsFunc(row)
@@ -177,16 +177,16 @@ const deleteRow = (row) => {
     }
 
 
-// delete control tags
+// 批量删除控制标记
 const deleteVisible = ref(false)
 
-//Multiple selection delete
+// 多选删除
 const onDelete = async() => {
       const ids = []
       if (multipleSelection.value.length === 0) {
         ElMessage({
           type: 'warning',
-          message: 'Please select the data to delete'
+          message: t('general.selectDataToDelete')
         })
         return
       }
@@ -198,7 +198,7 @@ const onDelete = async() => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: 'successfully deleted'
+          message: t('general.deleteSuccess')
         })
         if (tableData.value.length === ids.length && page.value > 1) {
           page.value--
@@ -208,27 +208,27 @@ const onDelete = async() => {
       }
     }
 
-// Behavior control mark (need to be added or changed inside the pop-up window)
+// 行为控制标记（弹窗内部需要增还是改）
 const type = ref('')
 
-// update row
+// 更新行
 const updateVersionsFunc = async(row) => {
     const res = await findVersions({ ID: row.ID })
     type.value = 'update'
     if (res.code === 0) {
-        formData.value = res.data.reversions
+        formData.value = res.data.refrontends
         dialogFormVisible.value = true
     }
 }
 
 
-// delete row
+// 删除行
 const deleteVersionsFunc = async (row) => {
     const res = await deleteVersions({ ID: row.ID })
     if (res.code === 0) {
         ElMessage({
                 type: 'success',
-                message: 'successfully deleted'
+                message: t('general.deleteSuccess')
             })
             if (tableData.value.length === 1 && page.value > 1) {
             page.value--
@@ -237,16 +237,16 @@ const deleteVersionsFunc = async (row) => {
     }
 }
 
-// popup control marker
+// 弹窗控制标记
 const dialogFormVisible = ref(false)
 
-//Open popup
+// 打开弹窗
 const openDialog = () => {
     type.value = 'create'
     dialogFormVisible.value = true
 }
 
-// close popup
+// 关闭弹窗
 const closeDialog = () => {
     dialogFormVisible.value = false
     formData.value = {
@@ -254,7 +254,7 @@ const closeDialog = () => {
         softwareVersion: '',
         }
 }
-// Popup OK
+// 弹窗确定
 const enterDialog = async () => {
       let res
       switch (type.value) {
@@ -271,7 +271,7 @@ const enterDialog = async () => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: 'Create/change successful'
+          message: t('general.createUpdateSuccess')
         })
         closeDialog()
         getTableData()

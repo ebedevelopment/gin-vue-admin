@@ -17,13 +17,13 @@ type MerchantApi struct {
 var merchantService = service.ServiceGroupApp.AutoCodeServiceGroup.MerchantService
 
 
-// CreateMerchant CreateMerchant
+// CreateMerchant 创建Merchant
 // @Tags Merchant
-// @Summary CreateMerchant
+// @Summary 创建Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Merchant true "CreateMerchant"
+// @Param data body autocode.Merchant true "创建Merchant"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /merchant/createMerchant [post]
 func (merchantApi *MerchantApi) CreateMerchant(c *gin.Context) {
@@ -37,14 +37,14 @@ func (merchantApi *MerchantApi) CreateMerchant(c *gin.Context) {
 	}
 }
 
-// DeleteMerchant DeleteMerchant
+// DeleteMerchant 删除Merchant
 // @Tags Merchant
-// @Summary DeleteMerchant
+// @Summary 删除Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Merchant true "DeleteMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body autocode.Merchant true "删除Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /merchant/deleteMerchant [delete]
 func (merchantApi *MerchantApi) DeleteMerchant(c *gin.Context) {
 	var merchant autocode.Merchant
@@ -57,14 +57,14 @@ func (merchantApi *MerchantApi) DeleteMerchant(c *gin.Context) {
 	}
 }
 
-// DeleteMerchantByIds batch deletionMerchant
+// DeleteMerchantByIds 批量删除Merchant
 // @Tags Merchant
-// @Summary batch deletionMerchant
+// @Summary 批量删除Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"Batch delete successfully"}"
+// @Param data body request.IdsReq true "批量删除Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"批量删除成功"}"
 // @Router /merchant/deleteMerchantByIds [delete]
 func (merchantApi *MerchantApi) DeleteMerchantByIds(c *gin.Context) {
 	var IDS request.IdsReq
@@ -77,14 +77,14 @@ func (merchantApi *MerchantApi) DeleteMerchantByIds(c *gin.Context) {
 	}
 }
 
-// UpdateMerchant UpdateMerchant
+// UpdateMerchant 更新Merchant
 // @Tags Merchant
-// @Summary UpdateMerchant
+// @Summary 更新Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body autocode.Merchant true "UpdateMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body autocode.Merchant true "更新Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /merchant/updateMerchant [put]
 func (merchantApi *MerchantApi) UpdateMerchant(c *gin.Context) {
 	var merchant autocode.Merchant
@@ -97,14 +97,14 @@ func (merchantApi *MerchantApi) UpdateMerchant(c *gin.Context) {
 	}
 }
 
-// FindMerchant query by idMerchant
+// FindMerchant 用id查询Merchant
 // @Tags Merchant
-// @Summary query by idMerchant
+// @Summary 用id查询Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocode.Merchant true "query by idMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query autocode.Merchant true "用id查询Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /merchant/findMerchant [get]
 func (merchantApi *MerchantApi) FindMerchant(c *gin.Context) {
 	var merchant autocode.Merchant
@@ -117,13 +117,13 @@ func (merchantApi *MerchantApi) FindMerchant(c *gin.Context) {
 	}
 }
 
-// GetMerchantList Paging acquisitionMerchantList
+// GetMerchantList 分页获取Merchant列表
 // @Tags Merchant
-// @Summary Paging acquisitionMerchant List
+// @Summary 分页获取Merchant列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query autocodeReq.MerchantSearch true "PagingMerchantlist"
+// @Param data query autocodeReq.MerchantSearch true "分页获取Merchant列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
 // @Router /merchant/getMerchantList [get]
 func (merchantApi *MerchantApi) GetMerchantList(c *gin.Context) {

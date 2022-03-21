@@ -1,28 +1,22 @@
 <template>
   <div>
     <div class="gva-form-box">
-      <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="createBy field:">
-          <el-input v-model.number="formData.createBy" clearable placeholder="please enter" />
-        </el-form-item>
-        <el-form-item label="lastLogin field:">
-          <el-date-picker v-model="formData.lastLogin" type="date" placeholder="select date" clearable></el-date-picker>
+      <el-form :model="formData" label-position="right" label-width="20%">
+        <el-form-item label="userId field:">
+          <el-input v-model="formData.userId" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item label="password field:">
-          <el-input v-model="formData.password" clearable placeholder="please enter" />
+          <el-input v-model="formData.password" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item label="status field:">
-          <el-input v-model.number="formData.status" clearable placeholder="please enter" />
+          <el-input v-model.number="formData.status" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="updateBy field:">
-          <el-input v-model.number="formData.updateBy" clearable placeholder="please enter" />
-        </el-form-item>
-        <el-form-item label="userName field:">
-          <el-input v-model="formData.userName" clearable placeholder="please enter" />
+        <el-form-item label="lastLogin field:">
+          <el-date-picker v-model="formData.lastLogin" type="date" :placeholder="t('general.selectDate')" clearable></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" type="primary" @click="save">Save</el-button>
-          <el-button size="mini" type="primary" @click="back">Cancel</el-button>
+          <el-button size="mini" type="primary" @click="save">{{ t('general.save') }}</el-button>
+          <el-button size="mini" type="primary" @click="back">{{ t('general.back') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -42,7 +36,7 @@ import {
   findMerchant
 } from '@/api/merchant'
 
-//get dictionary automatically
+// 自动获取字典
 import { getDictFunc } from '@/utils/format'
 import { useRoute, useRouter } from "vue-router"
 import { ElMessage } from 'element-plus'
@@ -55,17 +49,15 @@ const route = useRoute()
 const router = useRouter()
 const type = ref('')
 const formData = ref({
-        createBy: 0,
-        lastLogin: new Date(),
+        userId: '',
         password: '',
         status: 0,
-        updateBy: 0,
-        userName: '',
+        lastLogin: new Date(),
         })
 
-//initialization method
+// 初始化方法
 const init = async () => {
- // It is recommended to pass the url parameter to obtain the target data ID and call the find method to query the data operation to determine whether the page is create or update The following is an example of id as the url parameter
+ // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
     if (route.query.id) {
       const res = await findMerchant({ ID: route.query.id })
       if (res.code === 0) {
@@ -78,7 +70,7 @@ const init = async () => {
 }
 
 init()
-//save button
+// 保存按钮
 const save = async() => {
       let res
       switch (type.value) {
@@ -95,12 +87,12 @@ const save = async() => {
       if (res.code === 0) {
         ElMessage({
           type: 'success',
-          message: 'Create/Update successful'
+          message: t('general.createUpdateSuccess')
         })
       }
 }
 
-// Back Button
+// 返回按钮
 const back = () => {
     router.go(-1)
 }

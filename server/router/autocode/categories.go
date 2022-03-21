@@ -9,19 +9,19 @@ import (
 type CategoriesRouter struct {
 }
 
-// InitCategoriesRouter initialization Categories routing information
+// InitCategoriesRouter 初始化 Categories 路由信息
 func (s *CategoriesRouter) InitCategoriesRouter(Router *gin.RouterGroup) {
 	categoriesRouter := Router.Group("categories").Use(middleware.OperationRecord())
 	categoriesRouterWithoutRecord := Router.Group("categories")
 	var categoriesApi = v1.ApiGroupApp.AutoCodeApiGroup.CategoriesApi
 	{
-		categoriesRouter.POST("createCategories", categoriesApi.CreateCategories)   // CreateCategories
-		categoriesRouter.DELETE("deleteCategories", categoriesApi.DeleteCategories) // DeleteCategories
-		categoriesRouter.DELETE("deleteCategoriesByIds", categoriesApi.DeleteCategoriesByIds) // batch deletionCategories
-		categoriesRouter.PUT("updateCategories", categoriesApi.UpdateCategories)    // renewCategories
+		categoriesRouter.POST("createCategories", categoriesApi.CreateCategories)   // 新建Categories
+		categoriesRouter.DELETE("deleteCategories", categoriesApi.DeleteCategories) // 删除Categories
+		categoriesRouter.DELETE("deleteCategoriesByIds", categoriesApi.DeleteCategoriesByIds) // 批量删除Categories
+		categoriesRouter.PUT("updateCategories", categoriesApi.UpdateCategories)    // 更新Categories
 	}
 	{
-		categoriesRouterWithoutRecord.GET("findCategories", categoriesApi.FindCategories)        // Get by IDCategories
-		categoriesRouterWithoutRecord.GET("getCategoriesList", categoriesApi.GetCategoriesList)  // ObtainCategorieslist
+		categoriesRouterWithoutRecord.GET("findCategories", categoriesApi.FindCategories)        // 根据ID获取Categories
+		categoriesRouterWithoutRecord.GET("getCategoriesList", categoriesApi.GetCategoriesList)  // 获取Categories列表
 	}
 }

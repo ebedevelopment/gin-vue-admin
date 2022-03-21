@@ -9,19 +9,19 @@ import (
 type ServicesRouter struct {
 }
 
-// InitServicesRouter initialization Services routing information
+// InitServicesRouter 初始化 Services 路由信息
 func (s *ServicesRouter) InitServicesRouter(Router *gin.RouterGroup) {
 	servicesRouter := Router.Group("services").Use(middleware.OperationRecord())
 	servicesRouterWithoutRecord := Router.Group("services")
 	var servicesApi = v1.ApiGroupApp.AutoCodeApiGroup.ServicesApi
 	{
-		servicesRouter.POST("createServices", servicesApi.CreateServices)   // CreateServices
-		servicesRouter.DELETE("deleteServices", servicesApi.DeleteServices) // DeleteServices
-		servicesRouter.DELETE("deleteServicesByIds", servicesApi.DeleteServicesByIds) // batch deletionServices
-		servicesRouter.PUT("updateServices", servicesApi.UpdateServices)    // renewServices
+		servicesRouter.POST("createServices", servicesApi.CreateServices)   // 新建Services
+		servicesRouter.DELETE("deleteServices", servicesApi.DeleteServices) // 删除Services
+		servicesRouter.DELETE("deleteServicesByIds", servicesApi.DeleteServicesByIds) // 批量删除Services
+		servicesRouter.PUT("updateServices", servicesApi.UpdateServices)    // 更新Services
 	}
 	{
-		servicesRouterWithoutRecord.GET("findServices", servicesApi.FindServices)        // Get by IDServices
-		servicesRouterWithoutRecord.GET("getServicesList", servicesApi.GetServicesList)  // ObtainServiceslist
+		servicesRouterWithoutRecord.GET("findServices", servicesApi.FindServices)        // 根据ID获取Services
+		servicesRouterWithoutRecord.GET("getServicesList", servicesApi.GetServicesList)  // 获取Services列表
 	}
 }

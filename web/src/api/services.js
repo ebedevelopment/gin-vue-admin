@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
 // @Tags Services
-// @Summary createServices
+// @Summary 创建Services
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Services true "createServices"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data body model.Services true "创建Services"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /services/createServices [post]
 export const createServices = (data) => {
 
@@ -18,12 +18,12 @@ export const createServices = (data) => {
 }
 
 // @Tags Services
-// @Summary deleteServices
+// @Summary 删除Services
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Services true "deleteServices"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body model.Services true "删除Services"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /services/deleteServices [delete]
 export const deleteServices = (data) => {
     return service({
@@ -34,12 +34,12 @@ export const deleteServices = (data) => {
 }
 
 // @Tags Services
-// @Summary deleteServices
+// @Summary 删除Services
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionServices"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body request.IdsReq true "批量删除Services"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /services/deleteServices [delete]
 export const deleteServicesByIds = (data) => {
     return service({
@@ -50,12 +50,12 @@ export const deleteServicesByIds = (data) => {
 }
 
 // @Tags Services
-// @Summary updateServices
+// @Summary 更新Services
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Services true "updateServices"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body model.Services true "更新Services"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /services/updateServices [put]
 export const updateServices = (data) => {
     return service({
@@ -66,12 +66,12 @@ export const updateServices = (data) => {
 }
 
 // @Tags Services
-// @Summary query by idServices
+// @Summary 用id查询Services
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.Services true "query by idServices"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query model.Services true "用id查询Services"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /services/findServices [get]
 export const findServices = (params) => {
     return service({
@@ -82,24 +82,17 @@ export const findServices = (params) => {
 }
 
 // @Tags Services
-// @Summary Paging acquisitionServiceslist
+// @Summary 分页获取Services列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "Paging acquisitionServiceslist"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data query request.PageInfo true "分页获取Services列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /services/getServicesList [get]
 export const getServicesList = (params) => {
     return service({
         url: '/services/getServicesList',
         method: 'get',
         params
-    })
-}
-export const uploadservicefile = (data) => {
-    return service({
-        url: '/services/upload',
-        method: 'post',
-        data
     })
 }

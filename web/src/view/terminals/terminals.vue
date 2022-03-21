@@ -34,11 +34,14 @@
         <el-table-column align="left" :label="t('general.createdAt')" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="nameAr field" prop="nameAr" width="120" />
-        <el-table-column align="left" label="nameEn field" prop="nameEn" width="120" />
+        <el-table-column align="left" label="sn field" prop="sn" width="120" />
+        <el-table-column align="left" label="imei field" prop="imei" width="120" />
+        <el-table-column align="left" label="versionId field" prop="versionId" width="120" />
+        <el-table-column align="left" label="merchantId field" prop="merchantId" width="120" />
+        <el-table-column align="left" label="model" prop="model" width="120" />
         <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
-            <el-button type="text" icon="edit" size="small" class="table-button" @click="updateProvidersFunc(scope.row)">{{ t('general.change') }}</el-button>
+            <el-button type="text" icon="edit" size="small" class="table-button" @click="updateTerminalsFunc(scope.row)">{{ t('general.change') }}</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">{{ t('general.delete') }}</el-button>
             </template>
         </el-table-column>
@@ -57,11 +60,38 @@
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="nameAr field:">
-          <el-input v-model="formData.nameAr" clearable :placeholder="t('general.pleaseEnter')" />
+        <el-form-item label="sn field:">
+          <el-input v-model="formData.sn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="nameEn field:">
-          <el-input v-model="formData.nameEn" clearable :placeholder="t('general.pleaseEnter')" />
+        <el-form-item label="imei field:">
+          <el-input v-model="formData.imei" clearable :placeholder="t('general.pleaseEnter')" />
+        </el-form-item>
+        <el-form-item label="versionId :">
+
+          <el-select v-model="formData.versionId" clearable placeholder="please enter" style="width:100%">
+           <el-option 
+               v-for="item in versions" 
+              :key= "item.ID"
+              :label="`${item.softwareVersion}`"
+              :value= "item.ID"
+            />
+             </el-select>
+             
+        </el-form-item>
+              
+
+        <el-form-item label="merchantId :">
+         <el-select v-model="formData.merchantId" clearable placeholder="please enter" style="width:100%">
+           <el-option 
+               v-for="item in merchants" 
+              :key= "item.ID"
+              :label="`${item.userId}`"
+              :value= "item.ID"
+            />
+             </el-select>
+        </el-form-item>
+        <el-form-item label="model:">
+          <el-input v-model="formData.model" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,20 +106,25 @@
 
 <script>
 export default {
-  name: 'Providers'
+  name: 'Terminals'
 }
 </script>
 
 <script setup>
 import {
-  createProviders,
-  deleteProviders,
-  deleteProvidersByIds,
-  updateProviders,
-  findProviders,
-  getProvidersList
-} from '@/api/providers'
-
+  createTerminals,
+  deleteTerminals,
+  deleteTerminalsByIds,
+  updateTerminals,
+  findTerminals,
+  getTerminalsList
+} from '@/api/terminals'
+import{
+getMerchantList
+}from '@/api/merchant'
+import{
+  getVersionsList
+} from '@/api/versions'
 // 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -100,8 +135,11 @@ const { t } = useI18n() // added by mohamed hassan to support multilanguage
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-        nameAr: '',
-        nameEn: '',
+        sn: '',
+        imei: '',
+        versionId: 0,
+        merchantId: 0,
+        model: '',
         })
 
 // =========== 表格控制部分 ===========
@@ -110,7 +148,8 @@ const total = ref(0)
 const pageSize = ref(10)
 const tableData = ref([])
 const searchInfo = ref({})
-
+const merchants = ref({})
+const versions=ref({})
 // 重置
 const onReset = () => {
   searchInfo.value = {}
@@ -137,7 +176,7 @@ const handleCurrentChange = (val) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await getProvidersList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const table = await getTerminalsList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -148,6 +187,30 @@ const getTableData = async() => {
 
 getTableData()
 
+
+
+const getMerchantData = async() => {
+  const table = await getMerchantList()
+  if (table.code === 0) {
+    merchants.value= table.data.list
+    
+   
+  }
+
+}
+
+getMerchantData()
+
+const getVersionData = async() => {
+  const table = await getVersionsList()
+  if (table.code === 0) {
+    versions.value= table.data.list
+   
+  }
+
+}
+
+getVersionData()
 // ============== 表格控制部分结束 ===============
 
 // 获取需要的字典 可能为空 按需保留
@@ -172,7 +235,7 @@ const deleteRow = (row) => {
         cancelButtonText: t('general.cancel'),
         type: 'warning'
     }).then(() => {
-            deleteProvidersFunc(row)
+            deleteTerminalsFunc(row)
         })
     }
 
@@ -194,7 +257,7 @@ const onDelete = async() => {
         multipleSelection.value.map(item => {
           ids.push(item.ID)
         })
-      const res = await deleteProvidersByIds({ ids })
+      const res = await deleteTerminalsByIds({ ids })
       if (res.code === 0) {
         ElMessage({
           type: 'success',
@@ -212,19 +275,19 @@ const onDelete = async() => {
 const type = ref('')
 
 // 更新行
-const updateProvidersFunc = async(row) => {
-    const res = await findProviders({ ID: row.ID })
+const updateTerminalsFunc = async(row) => {
+    const res = await findTerminals({ ID: row.ID })
     type.value = 'update'
     if (res.code === 0) {
-        formData.value = res.data.reproviders
+        formData.value = res.data.reterminals
         dialogFormVisible.value = true
     }
 }
 
 
 // 删除行
-const deleteProvidersFunc = async (row) => {
-    const res = await deleteProviders({ ID: row.ID })
+const deleteTerminalsFunc = async (row) => {
+    const res = await deleteTerminals({ ID: row.ID })
     if (res.code === 0) {
         ElMessage({
                 type: 'success',
@@ -250,8 +313,11 @@ const openDialog = () => {
 const closeDialog = () => {
     dialogFormVisible.value = false
     formData.value = {
-        nameAr: '',
-        nameEn: '',
+        sn: '',
+        imei: '',
+        versionId: 0,
+        merchantId: 0,
+        model: '',
         }
 }
 // 弹窗确定
@@ -259,13 +325,13 @@ const enterDialog = async () => {
       let res
       switch (type.value) {
         case 'create':
-          res = await createProviders(formData.value)
+          res = await createTerminals(formData.value)
           break
         case 'update':
-          res = await updateProviders(formData.value)
+          res = await updateTerminals(formData.value)
           break
         default:
-          res = await createProviders(formData.value)
+          res = await createTerminals(formData.value)
           break
       }
       if (res.code === 0) {

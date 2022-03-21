@@ -1,4 +1,4 @@
-// Automatically generate templatesMerchant
+// 自动生成模板Merchant
 package autocode
 
 import (
@@ -7,21 +7,19 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 )
 
-// Merchant structure
-//If it contains time.Time, please import the time package by yourself
+// Merchant 结构体
+// 如果含有time.Time 请自行import time包
 type Merchant struct {
       global.GVA_MODEL
-      CreateBy  *int `json:"createBy" form:"createBy" gorm:"column:create_by;comment:;size:10;"`
-      LastLogin  *time.Time `json:"lastLogin" form:"lastLogin" gorm:"column:last_login;comment:;"`
+      UserId  string `json:"userId" form:"userId" gorm:"column:user_id;comment:;size:45;"`
       Password  string `json:"password" form:"password" gorm:"column:password;comment:;size:255;"`
       Status  *int `json:"status" form:"status" gorm:"column:status;comment:;size:10;"`
-      UpdateBy  *int `json:"updateBy" form:"updateBy" gorm:"column:update_by;comment:;size:10;"`
-      UserName  string `json:"userName" form:"userName" gorm:"column:user_name;comment:;size:255;"`
+      LastLogin  *time.Time `json:"lastLogin" form:"lastLogin" gorm:"column:last_login;comment:;"`
 }
 
 
-// TableName Merchant Table Name
+// TableName Merchant 表名
 func (Merchant) TableName() string {
-  return "merchant"
+  return "merchants"
 }
 

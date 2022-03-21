@@ -9,19 +9,19 @@ import (
 type VersionsRouter struct {
 }
 
-// InitVersionsRouter initialization Versions routing information
+// InitVersionsRouter 初始化 Versions 路由信息
 func (s *VersionsRouter) InitVersionsRouter(Router *gin.RouterGroup) {
-	versionsRouter := Router.Group("versions").Use(middleware.OperationRecord())
-	versionsRouterWithoutRecord := Router.Group("versions")
-	var versionsApi = v1.ApiGroupApp.AutoCodeApiGroup.VersionsApi
+	frontendsRouter := Router.Group("frontends").Use(middleware.OperationRecord())
+	frontendsRouterWithoutRecord := Router.Group("frontends")
+	var frontendsApi = v1.ApiGroupApp.AutoCodeApiGroup.VersionsApi
 	{
-		versionsRouter.POST("createVersions", versionsApi.CreateVersions)   // CreateVersions
-		versionsRouter.DELETE("deleteVersions", versionsApi.DeleteVersions) // DeleteVersions
-		versionsRouter.DELETE("deleteVersionsByIds", versionsApi.DeleteVersionsByIds) // batch deletionVersions
-		versionsRouter.PUT("updateVersions", versionsApi.UpdateVersions)    // renewVersions
+		frontendsRouter.POST("createVersions", frontendsApi.CreateVersions)   // 新建Versions
+		frontendsRouter.DELETE("deleteVersions", frontendsApi.DeleteVersions) // 删除Versions
+		frontendsRouter.DELETE("deleteVersionsByIds", frontendsApi.DeleteVersionsByIds) // 批量删除Versions
+		frontendsRouter.PUT("updateVersions", frontendsApi.UpdateVersions)    // 更新Versions
 	}
 	{
-		versionsRouterWithoutRecord.GET("findVersions", versionsApi.FindVersions)        // Get by IDVersions
-		versionsRouterWithoutRecord.GET("getVersionsList", versionsApi.GetVersionsList)  // ObtainVersionslist
+		frontendsRouterWithoutRecord.GET("findVersions", frontendsApi.FindVersions)        // 根据ID获取Versions
+		frontendsRouterWithoutRecord.GET("getVersionsList", frontendsApi.GetVersionsList)  // 获取Versions列表
 	}
 }

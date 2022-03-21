@@ -2,14 +2,20 @@
   <div>
     <div class="gva-form-box">
       <el-form :model="formData" label-position="right" label-width="20%">
-        <el-form-item label="domainNameService field:">
-          <el-input v-model="formData.domainNameService" clearable :placeholder="t('general.pleaseEnter')" />
+        <el-form-item label="sn field:">
+          <el-input v-model="formData.sn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="nameAr field:">
-          <el-input v-model="formData.nameAr" clearable :placeholder="t('general.pleaseEnter')" />
+        <el-form-item label="imei field:">
+          <el-input v-model="formData.imei" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="nameEn field:">
-          <el-input v-model="formData.nameEn" clearable :placeholder="t('general.pleaseEnter')" />
+        <el-form-item label="versionId field:">
+          <el-input v-model.number="formData.versionId" clearable :placeholder="t('general.pleaseEnter')" />
+        </el-form-item>
+        <el-form-item label="merchantId field:">
+          <el-input v-model.number="formData.merchantId" clearable :placeholder="t('general.pleaseEnter')" />
+        </el-form-item>
+        <el-form-item label="model:">
+          <el-input v-model="formData.model" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item>
           <el-button size="mini" type="primary" @click="save">{{ t('general.save') }}</el-button>
@@ -22,16 +28,16 @@
 
 <script>
 export default {
-  name: 'Gateways'
+  name: 'Terminals'
 }
 </script>
 
 <script setup>
 import {
-  createGateways,
-  updateGateways,
-  findGateways
-} from '@/api/gateways'
+  createTerminals,
+  updateTerminals,
+  findTerminals
+} from '@/api/terminals'
 
 // 自动获取字典
 import { getDictFunc } from '@/utils/format'
@@ -46,18 +52,20 @@ const route = useRoute()
 const router = useRouter()
 const type = ref('')
 const formData = ref({
-        domainNameService: '',
-        nameAr: '',
-        nameEn: '',
+        sn: '',
+        imei: '',
+        versionId: 0,
+        merchantId: 0,
+        model: '',
         })
 
 // 初始化方法
 const init = async () => {
  // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
     if (route.query.id) {
-      const res = await findGateways({ ID: route.query.id })
+      const res = await findTerminals({ ID: route.query.id })
       if (res.code === 0) {
-        formData.value = res.data.regateways
+        formData.value = res.data.reterminals
         type.value = 'update'
       }
     } else {
@@ -71,13 +79,13 @@ const save = async() => {
       let res
       switch (type.value) {
         case 'create':
-          res = await createGateways(formData.value)
+          res = await createTerminals(formData.value)
           break
         case 'update':
-          res = await updateGateways(formData.value)
+          res = await updateTerminals(formData.value)
           break
         default:
-          res = await createGateways(formData.value)
+          res = await createTerminals(formData.value)
           break
       }
       if (res.code === 0) {

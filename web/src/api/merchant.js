@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
 // @Tags Merchant
-// @Summary createMerchant
+// @Summary 创建Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Merchant true "createMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data body model.Merchant true "创建Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /merchant/createMerchant [post]
 export const createMerchant = (data) => {
   return service({
@@ -17,12 +17,12 @@ export const createMerchant = (data) => {
 }
 
 // @Tags Merchant
-// @Summary deleteMerchant
+// @Summary 删除Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Merchant true "deleteMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body model.Merchant true "删除Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /merchant/deleteMerchant [delete]
 export const deleteMerchant = (data) => {
   return service({
@@ -33,12 +33,12 @@ export const deleteMerchant = (data) => {
 }
 
 // @Tags Merchant
-// @Summary deleteMerchant
+// @Summary 删除Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "batch deletionMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"successfully deleted"}"
+// @Param data body request.IdsReq true "批量删除Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /merchant/deleteMerchant [delete]
 export const deleteMerchantByIds = (data) => {
   return service({
@@ -49,12 +49,12 @@ export const deleteMerchantByIds = (data) => {
 }
 
 // @Tags Merchant
-// @Summary updateMerchant
+// @Summary 更新Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.Merchant true "updateMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"update completed"}"
+// @Param data body model.Merchant true "更新Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /merchant/updateMerchant [put]
 export const updateMerchant = (data) => {
   return service({
@@ -65,12 +65,12 @@ export const updateMerchant = (data) => {
 }
 
 // @Tags Merchant
-// @Summary query by idMerchant
+// @Summary 用id查询Merchant
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.Merchant true "query by idMerchant"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"search successful"}"
+// @Param data query model.Merchant true "用id查询Merchant"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /merchant/findMerchant [get]
 export const findMerchant = (params) => {
   return service({
@@ -81,12 +81,12 @@ export const findMerchant = (params) => {
 }
 
 // @Tags Merchant
-// @Summary Paging acquisitionMerchantlist
+// @Summary 分页获取Merchant列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "Paging acquisitionMerchantlist"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Param data query request.PageInfo true "分页获取Merchant列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /merchant/getMerchantList [get]
 export const getMerchantList = (params) => {
   return service({

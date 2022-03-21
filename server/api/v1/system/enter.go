@@ -8,7 +8,7 @@ type ApiGroup struct {
 	BaseApi
 	SystemApi
 	CasbinApi
-	AutoCodeApi
+
 	SystemApiApi
 	AuthorityApi
 	DictionaryApi
