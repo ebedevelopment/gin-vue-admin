@@ -34,8 +34,8 @@
         <el-table-column align="left" :label="t('general.createdAt')" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="nameAr field" prop="nameAr" width="120" />
-        <el-table-column align="left" label="nameEn field" prop="nameEn" width="120" />
+        <el-table-column align="left" label="nameAr " prop="nameAr" width="120" />
+        <el-table-column align="left" label="nameEn " prop="nameEn" width="120" />
         <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateCategoriesFunc(scope.row)">{{ t('general.change') }}</el-button>
@@ -57,10 +57,10 @@
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="nameAr field:">
+        <el-form-item label="nameAr :">
           <el-input v-model="formData.nameAr" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="nameEn field:">
+        <el-form-item label="nameEn :">
           <el-input v-model="formData.nameEn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
       </el-form>

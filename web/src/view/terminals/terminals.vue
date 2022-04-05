@@ -34,10 +34,10 @@
         <el-table-column align="left" :label="t('general.createdAt')" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="sn field" prop="sn" width="120" />
-        <el-table-column align="left" label="imei field" prop="imei" width="120" />
-        <el-table-column align="left" label="versionId field" prop="versionId" width="120" />
-        <el-table-column align="left" label="merchantId field" prop="merchantId" width="120" />
+        <el-table-column align="left" label="sn " prop="sn" width="120" />
+        <el-table-column align="left" label="imei " prop="imei" width="120" />
+        <el-table-column align="left" label="versionId " prop="versionId" width="120" />
+        <el-table-column align="left" label="merchantId" prop="merchantId" width="140" />
         <el-table-column align="left" label="model" prop="model" width="120" />
         <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
@@ -60,10 +60,10 @@
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="sn field:">
+        <el-form-item label="sn :">
           <el-input v-model="formData.sn" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="imei field:">
+        <el-form-item label="imei :">
           <el-input v-model="formData.imei" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item label="versionId :">
@@ -80,7 +80,7 @@
         </el-form-item>
               
 
-        <el-form-item label="merchantId :">
+        <el-form-item label="merchantId:">
          <el-select v-model="formData.merchantId" clearable placeholder="please enter" style="width:100%">
            <el-option 
                v-for="item in merchants" 

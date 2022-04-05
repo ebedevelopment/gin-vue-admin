@@ -43,7 +43,7 @@
         <el-table-column align="left" label="inq " prop="inq" width="120" />
         <el-table-column align="left" label="count " prop="count" width="120" />
         <el-table-column align="left" label="isPar " prop="isPar" width="120" />
-        <el-table-column align="left" label="defaultGatewayDn " prop="defaultGatewayDn" width="120" />
+        <el-table-column align="left" label="defaultGatewayDn " prop="defaultGatewayDn" width="160" />
         <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateServicesFunc(scope.row)">{{ t('general.change') }}</el-button>
@@ -64,8 +64,8 @@
         </div>
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
-      <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="catId field:">
+      <el-form :model="formData" label-position="right" label-width="160px">
+        <el-form-item label="catId :">
        
            <el-select
             v-model="formData.catId"
@@ -82,7 +82,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="provId field:">
+        <el-form-item label="provId :">
           
           <el-select
             v-model="formData.provId"

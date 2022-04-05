@@ -64,8 +64,8 @@
         </div>
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
-      <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="doubleCheck :">
+      <el-form :model="formData" label-position="right" label-width="120px">
+        <el-form-item label="doubleCheck:">
           <el-input v-model="formData.doubleCheck" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
         <el-form-item label="max :">

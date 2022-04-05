@@ -34,8 +34,8 @@
         <el-table-column align="left" :label="t('general.createdAt')" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="serviceListVersion field" prop="serviceListVersion" width="120" />
-        <el-table-column align="left" label="softwareVersion field" prop="softwareVersion" width="120" />
+        <el-table-column align="left" label="serviceListVersion " prop="serviceListVersion" width="160" />
+        <el-table-column align="left" label="softwareVersion " prop="softwareVersion" width="160" />
         <el-table-column align="left" :label="t('general.operations')">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateVersionsFunc(scope.row)">{{ t('general.change') }}</el-button>
@@ -56,11 +56,11 @@
         </div>
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="t('general.popUpOperation')">
-      <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="serviceListVersion field:">
+      <el-form :model="formData" label-position="right" label-width="160px">
+        <el-form-item label="serviceListVersion:">
           <el-input v-model="formData.serviceListVersion" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
-        <el-form-item label="softwareVersion field:">
+        <el-form-item label="softwareVersion:">
           <el-input v-model="formData.softwareVersion" clearable :placeholder="t('general.pleaseEnter')" />
         </el-form-item>
       </el-form>

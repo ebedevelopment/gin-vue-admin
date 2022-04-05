@@ -34,7 +34,7 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	var services autocode.Services
 	var ServiceRequestobj autocode.ServiceRequest
 	_ = c.ShouldBindJSON(&services)
-	fmt.Println("sevice Api: ", services.CatId)
+
 	for _, id := range services.GatewayValues {
 		_, regateways := gatewaysService.GetGateways(uint(id))
 		services.Gateways = append(services.Gateways, regateways)
