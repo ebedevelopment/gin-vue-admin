@@ -1,0 +1,36 @@
+{
+    "gateways": [
+        {
+            "dns": "com.wakty.efinance",
+            "cols": {
+                "biller_id": 55551,
+                "billing_account_id": 0,
+                "type": "POST_PAID",
+                "code": "ZKHA",
+                "card_data_id": 0,
+                "e_pay_bill_rec_id": 0,
+                "sequence_id": 0,
+                "amount_id": 0,
+                "fees_amt_id": 0,
+                "cur_code_id": 0,
+                "bill_num_id": 0,
+                "pmt_ref_info_id": 0
+            }
+        },
+        {
+            "dns": "com.wakty.sadad",
+            "cols": {
+                "account_ref_id": 0,
+                "amount_id": 0,
+                "fees_amt_id": 0
+            }
+        },
+        {
+            "dns": "com.wakty.orange",
+            "cols": {
+                "msisdn_id": 0,
+                "amount_id": 0
+            }
+        }
+    ]
+}
