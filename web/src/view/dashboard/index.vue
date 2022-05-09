@@ -3,16 +3,21 @@
     <div class="gva-card-box">
       <div class="gva-card gva-top-card">
         <div class="gva-top-card-left">
-          <div class="gva-top-card-left-title">{{ t('view.dashboard.title') }}</div>
-          <div class="gva-top-card-left-dot">{{ t('view.dashboard.note') }}</div>
+          <div class="gva-top-card-left-title">
+            {{ t("view.dashboard.title") }}
+          </div>
+          <div class="gva-top-card-left-dot">
+            {{ t("view.dashboard.note") }}
+          </div>
           <div class="gva-top-card-left-rows">
-            <el-row v-auth="888">
+            <!-- <el-row v-auth="888">
               <el-col :span="8" :xs="24" :sm="8">
                 <div class="flex-center">
                   <el-icon class="dasboard-icon">
                     <sort />
                   </el-icon>
-                  {{ t('view.dashboard.todaysTraffic') }} (1231231)
+
+                  {{ t("view.dashboard.todaysTraffic") }} (1231231)
                 </div>
               </el-col>
               <el-col :span="8" :xs="24" :sm="8">
@@ -20,7 +25,7 @@
                   <el-icon class="dasboard-icon">
                     <avatar />
                   </el-icon>
-                  {{ t('view.dashboard.totalNumberOfUsers') }} (24001)
+                  {{ t("view.dashboard.totalNumberOfUsers") }} (24001)
                 </div>
               </el-col>
               <el-col :span="8" :xs="24" :sm="8">
@@ -28,38 +33,40 @@
                   <el-icon class="dasboard-icon">
                     <comment />
                   </el-icon>
-                  {{ t('view.dashboard.positiveRatings') }} (99%)
+                  {{ t("view.dashboard.positiveRatings") }} (99%)
                 </div>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
           <div>
-            <div class="gva-top-card-left-item">
-              {{ t('view.dashboard.instructionalUse') }}
+            <!-- <div class="gva-top-card-left-item">
+              {{ t("view.dashboard.instructionalUse") }}
               <a
-                style="color:#409EFF"
+                style="color: #409eff"
                 target="view_window"
                 href="https://www.bilibili.com/video/BV1Rg411u7xH/"
-              >https://www.bilibili.com/video/BV1Rg411u7xH</a>
-            </div>
-            <div class="gva-top-card-left-item">
-              {{ t('view.dashboard.pluginRepo') }}
+                >https://www.bilibili.com/video/BV1Rg411u7xH</a
+              >
+            </div> -->
+            <!-- <div class="gva-top-card-left-item">
+              {{ t("view.dashboard.pluginRepo") }}
               <a
-                style="color:#409EFF"
+                style="color: #409eff"
                 target="view_window"
                 href="https://github.com/flipped-aurora/gva-plugins"
-              >https://github.com/flipped-aurora/gva-plugins</a>
-            </div>
+                >https://github.com/flipped-aurora/gva-plugins</a
+              >
+            </div> -->
           </div>
         </div>
-        <img src="@/assets/dashboard.png" class="gva-top-card-right" alt>
+        <img src="@/assets/dashboard.png" class="gva-top-card-right" alt />
       </div>
     </div>
     <div class="gva-card-box">
       <el-card class="gva-card quick-entrance">
         <template #header>
           <div class="card-header">
-            <span>{{ t('view.dashboard.quickEntry') }}</span>
+            <span>{{ t("view.dashboard.quickEntry") }}</span>
           </div>
         </template>
         <el-row :gutter="20">
@@ -72,7 +79,10 @@
             @click="toTarget(card.name)"
           >
             <div class="quick-entrance-item">
-              <div class="quick-entrance-item-icon" :style="{ backgroundColor: card.bg }">
+              <div
+                class="quick-entrance-item-icon"
+                :style="{ backgroundColor: card.bg }"
+              >
                 <el-icon>
                   <component :is="card.icon" :style="{ color: card.color }" />
                 </el-icon>
@@ -82,12 +92,12 @@
           </el-col>
         </el-row>
       </el-card>
-    <!-- <div class="quick-entrance-title"></div> -->
+      <!-- <div class="quick-entrance-title"></div> -->
     </div>
     <div class="gva-card-box">
-      <div class="gva-card">
+      <!-- <div class="gva-card">
         <div class="card-header">
-          <span>{{ t('view.dashboard.statistics') }}</span>
+          <span>{{ t("view.dashboard.statistics") }}</span>
         </div>
         <div class="echart-box">
           <el-row :gutter="20">
@@ -99,231 +109,230 @@
             </el-col>
           </el-row>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import echartsLine from '@/view/dashboard/dashboardCharts/echartsLine.vue'
-import dashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+import echartsLine from "@/view/dashboard/dashboardCharts/echartsLine.vue";
+import dashboardTable from "@/view/dashboard/dashboardTable/dashboardTable.vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
 
-const { t } = useI18n() // added by mohamed hassan to support multilanguage
+const { t } = useI18n(); // added by mohamed hassan to support multilanguage
 
 const toolCards = ref([
   {
-    label: t('view.dashboard.userManage'),
-    icon: 'monitor',
-    name: 'user',
-    color: '#ff9c6e',
-    bg: 'rgba(255, 156, 110,.3)'
+    label: t("view.dashboard.userManage"),
+    icon: "monitor",
+    name: "user",
+    color: "#ff9c6e",
+    bg: "rgba(255, 156, 110,.3)",
   },
   {
-    label: t('view.dashboard.roleManage'),
-    icon: 'setting',
-    name: 'authority',
-    color: '#69c0ff',
-    bg: 'rgba(105, 192, 255,.3)'
+    label: t("view.dashboard.roleManage"),
+    icon: "setting",
+    name: "authority",
+    color: "#69c0ff",
+    bg: "rgba(105, 192, 255,.3)",
   },
   {
-    label: t('view.dashboard.menuManage'),
-    icon: 'menu',
-    name: 'menu',
-    color: '#b37feb',
-    bg: 'rgba(179, 127, 235,.3)'
+    label: t("view.dashboard.menuManage"),
+    icon: "menu",
+    name: "menu",
+    color: "#b37feb",
+    bg: "rgba(179, 127, 235,.3)",
   },
+  // {
+  //   label: t("view.dashboard.codeGen"),
+  //   icon: "cpu",
+  //   name: "autoCode",
+  //   color: "#ffd666",
+  //   bg: "rgba(255, 214, 102,.3)",
+  // },
+  // {
+  //   label: t("view.dashboard.formCreator"),
+  //   icon: "document-checked",
+  //   name: "formCreate",
+  //   color: "#ff85c0",
+  //   bg: "rgba(255, 133, 192,.3)",
+  // },
   {
-    label: t('view.dashboard.codeGen'),
-    icon: 'cpu',
-    name: 'autoCode',
-    color: '#ffd666',
-    bg: 'rgba(255, 214, 102,.3)'
+    label: t("view.dashboard.about"),
+    icon: "user",
+    name: "about",
+    color: "#5cdbd3",
+    bg: "rgba(92, 219, 211,.3)",
   },
-  {
-    label: t('view.dashboard.formCreator'),
-    icon: 'document-checked',
-    name: 'formCreate',
-    color: '#ff85c0',
-    bg: 'rgba(255, 133, 192,.3)'
-  },
-  {
-    label: t('view.dashboard.about'),
-    icon: 'user',
-    name: 'about',
-    color: '#5cdbd3',
-    bg: 'rgba(92, 219, 211,.3)'
-  }
-])
+]);
 
-const router = useRouter()
+const router = useRouter();
 
 const toTarget = (name) => {
-  router.push({ name })
-}
-
+  router.push({ name });
+};
 </script>
 <script>
 export default {
-  name: 'Dashboard'
-}
+  name: "Dashboard",
+};
 </script>
 
 <style lang="scss" scoped>
 @mixin flex-center {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .page {
-    background: #f0f2f5;
-    padding: 0;
-    .gva-card-box{
-      padding: 12px 16px;
-      &+.gva-card-box{
-        padding-top: 0px;
+  background: #f0f2f5;
+  padding: 0;
+  .gva-card-box {
+    padding: 12px 16px;
+    & + .gva-card-box {
+      padding-top: 0px;
+    }
+  }
+  .gva-card {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 2px;
+    height: auto;
+    padding: 26px 30px;
+    overflow: hidden;
+    box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.03);
+  }
+  .gva-top-card {
+    height: 260px;
+    @include flex-center;
+    justify-content: space-between;
+    color: #777;
+    &-left {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      &-title {
+        font-size: 22px;
+        color: #343844;
+      }
+      &-dot {
+        font-size: 14px;
+        color: #6b7687;
+        margin-top: 24px;
+      }
+      &-rows {
+        // margin-top: 15px;
+        margin-top: 18px;
+        color: #6b7687;
+        width: 600px;
+        align-items: center;
+      }
+      &-item {
+        + .gva-top-card-left-item {
+          margin-top: 24px;
+        }
+        margin-top: 14px;
       }
     }
-    .gva-card {
-      box-sizing: border-box;
-        background-color: #fff;
-        border-radius: 2px;
-        height: auto;
-        padding: 26px 30px;
-        overflow: hidden;
-        box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.03);
+    &-right {
+      height: 600px;
+      width: 600px;
+      margin-top: 28px;
     }
-    .gva-top-card {
-        height: 260px;
-        @include flex-center;
-        justify-content: space-between;
-        color: #777;
-        &-left {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-            &-title {
-                font-size: 22px;
-                color: #343844;
-            }
-            &-dot {
-                font-size: 14px;
-                color: #6B7687;
-                margin-top: 24px;
-            }
-            &-rows {
-                // margin-top: 15px;
-                margin-top: 18px;
-                color: #6B7687;
-                width: 600px;
-                align-items: center;
-            }
-            &-item{
-              +.gva-top-card-left-item{
-                margin-top: 24px;
-              }
-              margin-top: 14px;
-            }
-        }
-        &-right {
-            height: 600px;
-            width: 600px;
-            margin-top: 28px;
-        }
-    }
-     ::v-deep(.el-card__header){
-          padding:0;
-          border-bottom: none;
-        }
-        .card-header{
-          padding-bottom: 20px;
-          border-bottom: 1px solid #e8e8e8;
-        }
-    .quick-entrance-title {
-        height: 30px;
-        font-size: 22px;
-        color: #333;
-        width: 100%;
-        border-bottom: 1px solid #eee;
-    }
-    .quick-entrance-items {
+  }
+  ::v-deep(.el-card__header) {
+    padding: 0;
+    border-bottom: none;
+  }
+  .card-header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .quick-entrance-title {
+    height: 30px;
+    font-size: 22px;
+    color: #333;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+  }
+  .quick-entrance-items {
+    @include flex-center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    .quick-entrance-item {
+      padding: 16px 28px;
+      margin-top: -16px;
+      margin-bottom: -16px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      &:hover {
+        box-shadow: 0px 0px 7px 0px rgba(217, 217, 217, 0.55);
+      }
+      cursor: pointer;
+      height: auto;
+      text-align: center;
+      // align-items: center;
+      &-icon {
+        width: 50px;
+        height: 50px !important;
+        border-radius: 8px;
         @include flex-center;
         justify-content: center;
-        text-align: center;
-        color: #333;
-        .quick-entrance-item {
-          padding: 16px 28px;
-          margin-top: -16px;
-          margin-bottom: -16px;
-          border-radius: 4px;
-          transition: all 0.2s;
-          &:hover{
-            box-shadow: 0px 0px 7px 0px rgba(217, 217, 217, 0.55);
-          }
-            cursor: pointer;
-            height: auto;
-            text-align: center;
-            // align-items: center;
-            &-icon {
-                width: 50px;
-                height: 50px !important;
-                border-radius: 8px;
-                @include flex-center;
-                justify-content: center;
-                margin: 0 auto;
-                i {
-                    font-size: 24px;
-                }
-            }
-            p {
-                margin-top: 10px;
-            }
+        margin: 0 auto;
+        i {
+          font-size: 24px;
         }
+      }
+      p {
+        margin-top: 10px;
+      }
     }
-    .echart-box{
-      padding: 14px;
-    }
+  }
+  .echart-box {
+    padding: 14px;
+  }
 }
 .dasboard-icon {
-    font-size: 20px;
-    color: rgb(85, 160, 248);
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    @include flex-center;
+  font-size: 20px;
+  color: rgb(85, 160, 248);
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  @include flex-center;
 }
 .flex-center {
-    @include flex-center;
+  @include flex-center;
 }
 
 //小屏幕不显示右侧，将登陆框居中
 @media (max-width: 750px) {
-    .gva-card {
-        padding: 20px 10px !important;
-        .gva-top-card {
-            height: auto;
-            &-left {
-                &-title {
-                    font-size: 20px !important;
-                }
-                &-rows {
-                    margin-top: 15px;
-                    align-items: center;
-                }
-            }
-            &-right {
-                display: none;
-            }
+  .gva-card {
+    padding: 20px 10px !important;
+    .gva-top-card {
+      height: auto;
+      &-left {
+        &-title {
+          font-size: 20px !important;
         }
-        .gva-middle-card {
-            &-item {
-                line-height: 20px;
-            }
+        &-rows {
+          margin-top: 15px;
+          align-items: center;
         }
-        .dasboard-icon {
-            font-size: 18px;
-        }
+      }
+      &-right {
+        display: none;
+      }
     }
+    .gva-middle-card {
+      &-item {
+        line-height: 20px;
+      }
+    }
+    .dasboard-icon {
+      font-size: 18px;
+    }
+  }
 }
 </style>

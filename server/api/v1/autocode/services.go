@@ -74,7 +74,7 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 		if err != nil {
 			fmt.Println("error:", err)
 		}
-		url := "https://127.0.0.1:8087/api/v1/service/add"
+		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
 
 		body := global.SendPostReq("POST", byteValueReq, url)
 		fmt.Println(string(body))
@@ -102,7 +102,7 @@ func (servicesApi *ServicesApi) DeleteServices(c *gin.Context) {
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	url := "https://127.0.0.1:8087/api/v1/service/delete"
+	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/delete"
 
 	global.SendPostReq("DELETE", byteValueReq, url)
 	if err := servicesService.DeleteServices(services); err != nil {
@@ -168,7 +168,7 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 		if err != nil {
 			fmt.Println("error:", err)
 		}
-		url := "https://127.0.0.1:8087/api/v1/service/update"
+		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
 
 		global.SendPostReq("PUT", byteValueReq, url)
 	}

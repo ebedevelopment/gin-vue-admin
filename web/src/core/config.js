@@ -1,10 +1,10 @@
 /**
- * 网站配置文件
+ * Site configuration file
  */
 
 const config = {
-  appName: 'Gin-Vue-Admin',
-  appLogo: 'https://www.gin-vue-admin.com/img/logo.png',
+  appName: 'Wakty-Admin',
+  appLogo: 'https://scontent.fcai19-4.fna.fbcdn.net/v/t1.6435-9/67583495_2489771101258266_6444045364709294080_n.jpg?_nc_cat=111&ccb=1-6&_nc_sid=09cbfe&_nc_ohc=zcZhJGI2MY0AX8NIoG8&_nc_ht=scontent.fcai19-4.fna&oh=00_AT9I8JMlyUkOuGlJSMjZ2nInraxdVrHzy1VHGCfFiG5Z5A&oe=629DFE78',
   showViteLogo: true
 }
 
@@ -13,42 +13,42 @@ export const viteLogo = (env) => {
     const chalk = require('chalk')
     console.log(
       chalk.green(
-        `> 欢迎使用Gin-Vue-Admin，开源地址：https://github.com/flipped-aurora/gin-vue-admin`
+        `> Welcome to use Gin - Vue - Admin, open source address：https://github.com/flipped-aurora/gin-vue-admin`
       )
     )
     console.log(
       chalk.green(
-        `> 当前版本:V2.5.0`
+        `> The current version:V2.5.0`
       )
     )
     console.log(
       chalk.green(
-        `> 加群方式:微信：shouzi_1994 QQ群：622360840`
+        `> Add group way: WeChat：shouzi_1994 QQ Group of：622360840`
       )
     )
     console.log(
       chalk.green(
-        `> GVA讨论社区：https://support.qq.com/products/371961`
+        `> GVA discuss community：https://support.qq.com/products/371961`
       )
     )
     console.log(
       chalk.green(
-        `> 默认自动化文档地址:http://127.0.0.1:${env.VITE_SERVER_PORT}/swagger/index.html`
+        `> Automated document address by default:http://127.0.0.1:${env.VITE_SERVER_PORT}/swagger/index.html`
       )
     )
     console.log(
       chalk.green(
-        `> 默认自动化文档地址:http://127.0.0.1:${env.VITE_SERVER_PORT}/swagger/index.html`
+        `> Automated document address by default:http://127.0.0.1:${env.VITE_SERVER_PORT}/swagger/index.html`
       )
     )
     console.log(
       chalk.green(
-        `> 默认前端文件运行地址:http://127.0.0.1:${env.VITE_CLI_PORT}`
+        `> Front end file operation address by default:http://127.0.0.1:${env.VITE_CLI_PORT}`
       )
     )
     console.log(
       chalk.green(
-        `> 如果项目让您获得了收益，希望您能请团队喝杯可乐:https://www.github.com/flipped-aurora/gin-vue-admin/server.com/docs/coffee`
+        `> If the project is to let you get the profits, hope you can team for a cup of coke, please:https://www.github.com/flipped-aurora/gin-vue-admin/server.com/docs/coffee`
       )
     )
     console.log('\n')

@@ -132,7 +132,7 @@ Timer:
       # tableName: 需要清理的表名
       # compareField: 需要比较时间的字段
       # interval: 时间间隔, 具体配置详看 time.ParseDuration() 中字符串表示 且不能为负数
-      # 2160h = 24 * 30 * 3 -> 三个月
+      # 2160h = 24 * 30 * 3 -> Three months
       {
         tableName: "sys_operation_records",
         compareField: "created_at",
@@ -144,7 +144,7 @@ Timer:
 # Cross-domain configuration
 # 需要配合 server/initialize/router.go#L32 使用
 cors:
-  mode: whitelist # 放行模式: allow-all, 放行全部; whitelist, 白名单模式, 来自白名单内域名的请求添加 cors 头; strict-whitelist 严格白名单模式, 白名单外的请求一律拒绝
+  mode: whitelist # Release patterns: allow - all, release all;Whitelist, white list mode, from white list within the domain name request add cors head;Strict - whitelist strictly white list mode, outside the white list of request shall be rejected
   whitelist:
     - allow-origin: example1.com
       allow-headers: content-type
