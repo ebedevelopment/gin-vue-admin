@@ -93,7 +93,7 @@ language:
 local:
   path: uploads/file
 mysql:
-  path: 127.0.0.1
+  path: 10.16.33.21
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
   db-name: wakty_admin
