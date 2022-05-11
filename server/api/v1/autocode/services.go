@@ -32,7 +32,7 @@ var servicesService = service.ServiceGroupApp.AutoCodeServiceGroup.ServicesServi
 // @Router /services/createServices [post]
 func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	var services autocode.Services
-	var ServiceRequestobj autocode.ServiceRequest
+	// var ServiceRequestobj autocode.ServiceRequest
 	_ = c.ShouldBindJSON(&services)
 
 	for _, id := range services.GatewayValues {
@@ -54,31 +54,31 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
 
-		_, id := servicesService.GetlastServices()
-		ServiceRequestobj.ServiceId = id
+		// _, id := servicesService.GetlastServices()
+		// ServiceRequestobj.ServiceId = id
 
 		response.OkWithMessage(global.Translate("general.createSuccss"), c)
 	}
-	if services.FileUrl != "" {
+	// if services.FileUrl != "" {
 
-		jsonFile, err := os.Open(services.FileUrl)
-		byteValue, _ := ioutil.ReadAll(jsonFile)
+	// 	jsonFile, err := os.Open(services.FileUrl)
+	// 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-		err = json.Unmarshal(byteValue, &ServiceRequestobj)
-		if err != nil {
-			fmt.Println("error in marchal", err)
-		}
-		byteValueReq, err := json.Marshal(ServiceRequestobj)
-		fmt.Println(ServiceRequestobj)
+	// 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
+	// 	if err != nil {
+	// 		fmt.Println("error in marchal", err)
+	// 	}
+	// 	byteValueReq, err := json.Marshal(ServiceRequestobj)
+	// 	fmt.Println(ServiceRequestobj)
 
-		if err != nil {
-			fmt.Println("error:", err)
-		}
-		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
+	// 	if err != nil {
+	// 		fmt.Println("error:", err)
+	// 	}
+	// 	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
 
-		body := global.SendPostReq("POST", byteValueReq, url)
-		fmt.Println(string(body))
-	}
+	// 	body := global.SendPostReq("POST", byteValueReq, url)
+	// 	fmt.Println(string(body))
+	// }
 }
 
 // DeleteServices 删除Services
@@ -93,18 +93,7 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 func (servicesApi *ServicesApi) DeleteServices(c *gin.Context) {
 	var services autocode.Services
 	_ = c.ShouldBindJSON(&services)
-	//Delete service from gateways
-	var IDS request.IdsReq
 
-	IDS.Ids = append(IDS.Ids, int(services.ID))
-	byteValueReq, err := json.Marshal(IDS)
-
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/delete"
-
-	global.SendPostReq("DELETE", byteValueReq, url)
 	if err := servicesService.DeleteServices(services); err != nil {
 		global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.deletFailErr"), c)

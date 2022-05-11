@@ -1,12 +1,16 @@
 package autocode
 
 import (
-	
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
 	autoCodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"gorm.io/gorm"
 )
 
 type ServicesService struct {
@@ -14,16 +18,76 @@ type ServicesService struct {
 
 // CreateServices 创建Services记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (servicesService *ServicesService) CreateServices(services autocode.Services) (err error) {
+func (servicesService *ServicesService) CreateServices(services autocode.Services) error {
 
-	err = global.GVA_DB.Create(&services).Error
+	// err = global.GVA_DB.Create(&services).Error
+	err := global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+		err := global.GVA_DB.Create(&services).Error
+		if err != nil {
+			return err
+		}
+		err, lastId := servicesService.GetlastServices()
+		if err != nil {
+			return err
+		}
+		var ServiceRequestobj autocode.ServiceRequest
+		ServiceRequestobj.ServiceId = lastId
+		if services.FileUrl != "" {
+			jsonFile, err := os.Open(services.FileUrl)
+			if err != nil {
+				return err
+			}
+			byteValue, _ := ioutil.ReadAll(jsonFile)
+
+			err = json.Unmarshal(byteValue, &ServiceRequestobj)
+
+			if err != nil {
+				fmt.Println("error in marchal", err)
+				return err
+			}
+			byteValueReq, err := json.Marshal(ServiceRequestobj)
+			fmt.Println(ServiceRequestobj)
+
+			if err != nil {
+				fmt.Println("error:", err)
+				return err
+			}
+			url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
+
+			body, err := global.SendPostReq("POST", byteValueReq, url)
+			if err != nil {
+				return err
+			}
+			fmt.Println(string(body))
+		}
+		return nil
+	})
 	return err
 }
 
 // DeleteServices 删除Services记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (servicesService *ServicesService) DeleteServices(services autocode.Services) (err error) {
-	err = global.GVA_DB.Delete(&services).Error
+func (servicesService *ServicesService) DeleteServices(services autocode.Services) error {
+	err := global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+		err := global.GVA_DB.Delete(&services).Error
+		if err != nil {
+			return err
+		}
+		//Delete service from gateways
+		var IDS request.IdsReq
+
+		IDS.Ids = append(IDS.Ids, int(services.ID))
+		byteValueReq, err := json.Marshal(IDS)
+
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/delete"
+
+		_, err = global.SendPostReq("DELETE", byteValueReq, url)
+		return err
+	})
+
 	return err
 }
 

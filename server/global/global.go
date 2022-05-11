@@ -66,7 +66,7 @@ func Translate(msg string) string {
 
 	return msg
 }
-func SendPostReq(Method string, Bytereq []byte, url string) []byte {
+func SendPostReq(Method string, Bytereq []byte, url string) ([]byte, error) {
 	req, err := http.NewRequest(Method, url, bytes.NewBuffer(Bytereq))
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
@@ -76,11 +76,11 @@ func SendPostReq(Method string, Bytereq []byte, url string) []byte {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer resp.Body.Close()
-    body, _ := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 
-	return body
+	return body, err
 
 }

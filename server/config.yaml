@@ -96,7 +96,7 @@ mysql:
   path: 10.16.33.21
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: wakty_admin
+  db-name: local_admin
   username: wakty
   password: P@$$w0rD
   max-idle-conns: 10
@@ -162,4 +162,4 @@ zap:
   stacktrace-key: stacktrace
   log-in-console: true
 gateway-controller:
-  url: https://127.0.0.1:8087/api/v1
+  url: https://177.7.0.15:8087/api/v1
