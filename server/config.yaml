@@ -162,4 +162,5 @@ zap:
   stacktrace-key: stacktrace
   log-in-console: true
 gateway-controller:
-  url: https://177.7.0.15:8087/api/v1
+  # url: https://177.7.0.15:8087/api/v1
+  url: https://127.0.0.1:8087/api/v1
