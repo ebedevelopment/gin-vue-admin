@@ -57,54 +57,85 @@
         :data="tableData"
         row-key="ID"
         @selection-change="handleSelectionChange"
+        :table-layout="tableLayout"
       >
-        <el-table-column type="selection" width="55" />
-        <el-table-column
-          align="left"
-          :label="t('general.createdAt')"
-          width="180"
-        >
+        <el-table-column type="selection" width="auto" />
+        <el-table-column align="left" :label="t('general.createdAt')">
           <template #default="scope">{{
             formatDate(scope.row.CreatedAt)
           }}</template>
         </el-table-column>
-        <el-table-column align="left" label="catId " prop="catId" width="120" />
+        <el-table-column
+          align="left"
+          label="catId "
+          prop="catId"
+          width="auto"
+        />
         <el-table-column
           align="left"
           label="provId "
           prop="provId"
-          width="120"
+          width="auto"
         />
         <el-table-column
           align="left"
           label="nameAr "
           prop="nameAr"
-          width="120"
+          width="auto"
         />
         <el-table-column
           align="left"
           label="nameEn "
           prop="nameEn"
-          width="120"
+          width="auto"
         />
         <el-table-column
           align="left"
           label="isPrice "
           prop="isPrice"
-          width="120"
+          width="auto"
         />
-        <el-table-column align="left" label="price " prop="price" width="120" />
-        <el-table-column align="left" label="inq " prop="inq" width="120" />
-        <el-table-column align="left" label="count " prop="count" width="120" />
-        <el-table-column align="left" label="isPar " prop="isPar" width="120" />
         <el-table-column
           align="left"
-          label="defaultGatewayDn "
+          label="price "
+          prop="price"
+          width="auto"
+        />
+        <el-table-column align="left" label="inq " prop="inq" width="auto" />
+        <el-table-column
+          align="left"
+          label="count "
+          prop="count"
+          width="auto"
+        />
+        <el-table-column
+          align="left"
+          label="isPar "
+          prop="isPar"
+          width="auto"
+        />
+        <el-table-column
+          align="left"
+          label="default dns "
           prop="defaultGatewayDn"
-          width="160"
+          width="auto"
+        />
+        <el-table-column
+          align="left"
+          label="status"
+          prop="status"
+          width="auto"
         />
         <el-table-column align="left" :label="t('general.operations')">
           <template #default="scope">
+            <!-- <el-button
+              type="text"
+              icon="add"
+              size="small"
+              class="table-button"
+              @click="addGateway(scope.row)"
+              >{{ t("general.addGateways") }}</el-button
+            > -->
             <el-button
               type="text"
               icon="edit"
@@ -282,11 +313,21 @@
               v-for="item in gatewaysData"
               :key="item.ID"
               :label="`${item.nameEn}`"
-              :value="item.ID"
+              :value="item.domainNameService"
             />
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="Status">
+          <el-switch
+            v-model="formData.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            :active-text="t('general.yes')"
+            :inactive-text="t('general.no')"
+            clearable
+          ></el-switch>
+        </el-form-item>
+        <!-- <el-form-item>
           <el-upload
             :action="`${path}/fileUploadAndDownload/upload`"
             :before-upload="checkFile"
@@ -298,7 +339,7 @@
           >
             <el-button size="small" type="primary">upload</el-button>
           </el-upload>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -315,29 +356,31 @@
 </template>
 
 <script>
-import { getFileList, deleteFile } from "@/api/fileUploadAndDownload";
+import { getFileList } from "@/api/fileUploadAndDownload";
 import { downloadImage } from "@/utils/downloadImg";
 import { useUserStore } from "@/pinia/modules/user";
-import CustomPic from "@/components/customPic/index.vue";
-import UploadImage from "@/components/upload/image.vue";
-import { formatDate } from "@/utils/format";
 
 import { ref } from "vue";
-import * as fs from "fs";
 
 import { ElMessage, ElMessageBox } from "element-plus";
-
+// import JsonSchema from "@roma219/vue-jsonschema-form";
 const path = ref(import.meta.env.VITE_BASE_API);
 const userStore = useUserStore();
 
 const imageUrl = ref("");
-
+// const testJson = ref({
+//   type: "object",
+//   properties: {
+//     a: { type: "string" },
+//     b: { type: "number" },
+//   },
+// });
 const page = ref(1);
 const total = ref(0);
 const pageSize = ref(10);
 const tableData = ref([]);
 let filePath = "";
-// 分页
+// paging
 const handleSizeChange = (val) => {
   pageSize.value = val;
   getTableData();
@@ -359,27 +402,28 @@ const getTableData = async () => {
     total.value = table.data.total;
     page.value = table.data.page;
     pageSize.value = table.data.pageSize;
+    console.log(tableData.value);
   }
 };
 getTableData();
 
 const fullscreenLoading = ref(false);
-const checkFile = (file) => {
-  fullscreenLoading.value = true;
-  const isJson = file.type === "application/json";
+// const checkFile = (file) => {
+//   fullscreenLoading.value = true;
+//   const isJson = file.type === "application/json";
 
-  const isLt2M = file.size / 1024 / 1024 < 0.5;
-  if (!isJson) {
-    ElMessage.error("only json file");
-    fullscreenLoading.value = false;
-  }
-  if (!isLt2M) {
-    ElMessage.error("未压缩未见上传图片大小不能超过 500KB，请使用压缩上传");
-    fullscreenLoading.value = false;
-  }
-  console.log("check ", file);
-  return isJson && isLt2M;
-};
+//   const isLt2M = file.size / 1024 / 1024 < 0.5;
+//   if (!isJson) {
+//     ElMessage.error("only json file");
+//     fullscreenLoading.value = false;
+//   }
+//   if (!isLt2M) {
+//     ElMessage.error("未压缩未见上传图片大小不能超过 500KB，请使用压缩上传");
+//     fullscreenLoading.value = false;
+//   }
+//   console.log("check ", file);
+//   return isJson && isLt2M;
+// };
 const uploadSuccess = (res) => {
   fullscreenLoading.value = false;
 
@@ -436,12 +480,6 @@ import { getFieldsList } from "@/api/fields";
 import { getVersionsList } from "@/api/versions";
 
 // 全量引入格式化工具 请按需保留
-import {
-  getDictFunc,
-  formatDate,
-  formatBoolean,
-  filterDict,
-} from "@/utils/format";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
@@ -459,7 +497,10 @@ const formData = ref({
   inq: 0,
   count: 0,
   isPar: 0,
+  status: false,
   defaultGatewayDn: "",
+  gateways: [],
+  gatewaysCols: [],
 });
 
 // =========== 表格控制部分 ===========
@@ -473,7 +514,23 @@ const categoriesData = ref([]);
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
 const versions = ref([]);
-
+// ============= ================ ============
+const finalFormData = ref({
+  catId: "",
+  provId: "",
+  nameAr: "",
+  nameEn: "",
+  isPrice: 0,
+  price: 0,
+  inq: 0,
+  count: 0,
+  isPar: 0,
+  status: false,
+  defaultGatewayDn: "",
+  gateways: [],
+  gatewaysCols: [], // all cols for all gateways
+  testObj: {},
+});
 // 重置
 const onReset = () => {
   searchInfo.value = {};
@@ -492,7 +549,7 @@ const handleSizeChange = (val) => {
   getTableData();
 };
 
-// 修改页面容量
+// Modify the page capacity
 const handleCurrentChange = (val) => {
   page.value = val;
   getTableData();
@@ -511,6 +568,7 @@ const getTableData = async () => {
     page.value = table.data.page;
     pageSize.value = table.data.pageSize;
   }
+  console.log(tableData.value);
 };
 
 getTableData();
@@ -575,17 +633,28 @@ const onDelete = async () => {
 // 行为控制标记（弹窗内部需要增还是改）
 const type = ref("");
 
-// 更新行
+const tableLayout = ref("auto");
+// Update the line
 const updateServicesFunc = async (row) => {
   const res = await findServices({ ID: row.ID });
+  console.log(res.data);
   type.value = "update";
   if (res.code === 0) {
     formData.value = res.data.reservices;
     dialogFormVisible.value = true;
   }
 };
-
-// 删除行
+// const addGatewaysFunc = async (row) => {
+//   const res = await findServices({ ID: row.ID });
+//   type.value = "add-gateway";
+//   // check all gateways
+//   if (res.code === 0) {
+//     formData.value = res.data.reservices;
+//     dialogFormVisible.value = true;
+//   }
+// };
+// GatewayDialogFormVisible;
+// Delete rows
 const deleteServicesFunc = async (row) => {
   const res = await deleteServices({ ID: row.ID });
   if (res.code === 0) {
@@ -646,14 +715,19 @@ getVersionData();
 
 // 弹窗控制标记
 const dialogFormVisible = ref(false);
-
+const gatewaysFormVisible = ref(false);
+// const gatewaysAdded = ref(false);
+const gatewaysJson = ref([]);
 // 打开弹窗
 const openDialog = () => {
   type.value = "create";
   dialogFormVisible.value = true;
 };
-
-// 关闭弹窗
+const openGatewayDialog = () => {
+  type.value = "create";
+  gatewaysFormVisible.value = true;
+};
+// Close Windows
 const closeDialog = () => {
   dialogFormVisible.value = false;
   formData.value = {
@@ -669,14 +743,75 @@ const closeDialog = () => {
     defaultGatewayDn: "",
   };
 };
-// 弹窗确定
+const closeGatewaysDialog = () => {
+  gatewaysFormVisible.value = false;
+  finalFormData.value = {
+    catId: "",
+    provId: "",
+    nameAr: "",
+    nameEn: "",
+    isPrice: 0,
+    price: 0,
+    inq: 0,
+    count: 0,
+    isPar: 0,
+    defaultGatewayDn: "",
+    gateways: [],
+    gatewaysCols: [],
+  };
+};
+const schema = {
+  type: "object",
+  properties: {
+    a: {
+      type: "string",
+      title: "code",
+    },
+    b: {
+      type: "string",
+      title: "biller id",
+    },
+  },
+};
+
+// Popup window to determine
 const enterDialog = async () => {
   let res;
   switch (type.value) {
     case "create":
-      formData.value.fileUrl = filePath;
-
+      // if (gatewaysFormVisible.value) {
+      // formData.value.fileUrl = filePath;
+      console.log(formData.value);
       res = await createServices(formData.value);
+      // gatewaysAdded.value = false;
+      // } else {
+      //   // open gateways model
+      //   let selectedGatewaysIds = formData.value.gateways;
+      //   // console.log(gatewaysData.value[0].ID);
+      //   let flag = false;
+      //   // get json for each selected gateway
+      //   for (let index = 0; index < gatewaysData.value.length; index++) {
+      //     const element = gatewaysData.value[index];
+      //     for (let j = 0; j < selectedGatewaysIds.length; j++) {
+      //       const element2 = selectedGatewaysIds[j];
+      //       if (element.ID == element2) {
+      //         gatewaysJson.value.push(JSON.parse(element.cols));
+      //         console.log(JSON.parse(element.cols));
+      //         flag = true;
+      //         break;
+      //       }
+      //     }
+      //   }
+      //   if (flag) {
+      //     // add gateways cols
+      //     closeDialog();
+      //     openGatewayDialog();
+      //     return;
+      //   } else {
+      //     closeGatewaysDialog();
+      //   }
+      // }
+
       break;
     case "update":
       formData.value.fileUrl = filePath;
@@ -684,7 +819,7 @@ const enterDialog = async () => {
       res = await updateServices(formData.value);
       break;
     default:
-      formData.value.fileUrl = filePath;
+      // formData.value.fileUrl = filePath;
       res = await createServices(formData.value);
       break;
   }
@@ -694,6 +829,7 @@ const enterDialog = async () => {
       message: t("general.createUpdateSuccess"),
     });
     closeDialog();
+    closeGatewaysDialog();
     getTableData();
   }
 };

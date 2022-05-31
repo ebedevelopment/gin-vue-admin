@@ -16,6 +16,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang-jwt/jwt/v4 v4.3.0
+	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/gookit/color v1.3.1
 	github.com/huaweicloud/huaweicloud-sdk-go-obs v3.21.8+incompatible
 	github.com/jackc/pgx/v4 v4.15.0 // indirect
@@ -38,12 +39,13 @@ require (
 	github.com/unrolled/secure v1.0.7
 	github.com/xuri/excelize/v2 v2.4.1
 	go.uber.org/zap v1.21.0
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/text v0.3.7
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
-	gorm.io/datatypes v1.0.6
 	gorm.io/driver/mysql v1.3.2
 	gorm.io/driver/postgres v1.3.1
+	gorm.io/driver/sqlserver v1.3.1 // indirect
 	gorm.io/gorm v1.23.2
 	nhooyr.io/websocket v1.8.7
 )

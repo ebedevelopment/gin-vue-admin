@@ -38,34 +38,32 @@ casbin:
 cors:
   mode: whitelist
   whitelist:
-    - allow-origin: example1.com
-      allow-methods: GET, POST
-      allow-headers: content-type
-      expose-headers:
-        Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-        Content-Type
-      allow-credentials: true
-    - allow-origin: example2.com
-      allow-methods: GET, POST
-      allow-headers: content-type
-      expose-headers:
-        Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-        Content-Type
-      allow-credentials: true
+  - allow-origin: example1.com
+    allow-methods: GET, POST
+    allow-headers: content-type
+    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+      Content-Type
+    allow-credentials: true
+  - allow-origin: example2.com
+    allow-methods: GET, POST
+    allow-headers: content-type
+    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+      Content-Type
+    allow-credentials: true
 db-list:
-  - disable: false
-    type: ""
-    alias-name: ""
-    path: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    log-mode: ""
-    log-zap: false
+- disable: false
+  type: ""
+  alias-name: ""
+  path: ""
+  port: ""
+  config: ""
+  db-name: ""
+  username: ""
+  password: ""
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: ""
+  log-zap: false
 email:
   to: xxx@qq.com
   port: 465
@@ -76,6 +74,8 @@ email:
   nickname: test
 excel:
   dir: ./resource/excel/
+gateway-controller:
+  url: https://127.0.0.1:8087/api/v1
 hua-wei-obs:
   path: you-path
   bucket: you-bucket
@@ -86,7 +86,7 @@ jwt:
   buffer-time: 86400
   expires-time: 604800
   issuer: qmPlus
-  signing-key: e2906c78-3cc6-4ed1-9e34-8b199c31b8e8
+  signing-key: 5fde176c-ca69-4e56-bb48-d034549e743b
 language:
   language: en
   dir: ./resource/lang/
@@ -96,7 +96,7 @@ mysql:
   path: 10.16.33.21
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: local_admin
+  db-name: local_admin2
   username: wakty
   password: P@$$w0rD
   max-idle-conns: 10
@@ -144,23 +144,20 @@ tencent-cos:
   path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 timer:
   start: true
-  spec: "@daily"
+  spec: '@daily'
   detail:
-    - tableName: sys_operation_records
-      compareField: created_at
-      interval: 2160h
-    - tableName: jwt_blacklists
-      compareField: created_at
-      interval: 168h
+  - tableName: sys_operation_records
+    compareField: created_at
+    interval: 2160h
+  - tableName: jwt_blacklists
+    compareField: created_at
+    interval: 168h
 zap:
   level: info
   format: console
-  prefix: "[github.com/flipped-aurora/gin-vue-admin/server]"
+  prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
   director: log
   showLine: false
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   log-in-console: true
-gateway-controller:
-  # url: https://177.7.0.15:8087/api/v1
-  url: https://127.0.0.1:8087/api/v1

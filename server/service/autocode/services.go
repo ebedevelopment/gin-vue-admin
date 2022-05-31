@@ -3,8 +3,6 @@ package autocode
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
@@ -26,40 +24,40 @@ func (servicesService *ServicesService) CreateServices(services autocode.Service
 		if err != nil {
 			return err
 		}
-		err, lastId := servicesService.GetlastServices()
-		if err != nil {
-			return err
-		}
-		var ServiceRequestobj autocode.ServiceRequest
-		ServiceRequestobj.ServiceId = lastId
-		if services.FileUrl != "" {
-			jsonFile, err := os.Open(services.FileUrl)
-			if err != nil {
-				return err
-			}
-			byteValue, _ := ioutil.ReadAll(jsonFile)
+		// err, lastId := servicesService.GetlastServices()
+		// if err != nil {
+		// 	return err
+		// }
+		// var ServiceRequestobj autocode.ServiceRequest
+		// ServiceRequestobj.ServiceId = lastId
+		// if services.FileUrl != "" {
+		// 	jsonFile, err := os.Open(services.FileUrl)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-			err = json.Unmarshal(byteValue, &ServiceRequestobj)
+		// 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
 
-			if err != nil {
-				fmt.Println("error in marchal", err)
-				return err
-			}
-			byteValueReq, err := json.Marshal(ServiceRequestobj)
-			fmt.Println(ServiceRequestobj)
+		// 	if err != nil {
+		// 		fmt.Println("error in marchal", err)
+		// 		return err
+		// 	}
+		// 	byteValueReq, err := json.Marshal(ServiceRequestobj)
+		// 	fmt.Println(ServiceRequestobj)
 
-			if err != nil {
-				fmt.Println("error:", err)
-				return err
-			}
-			url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
+		// 	if err != nil {
+		// 		fmt.Println("error:", err)
+		// 		return err
+		// 	}
+		// 	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
 
-			body, err := global.SendPostReq("POST", byteValueReq, url)
-			if err != nil {
-				return err
-			}
-			fmt.Println(string(body))
-		}
+		// 	body, err := global.SendPostReq("POST", byteValueReq, url)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// 	fmt.Println(string(body))
+		// }
 		return nil
 	})
 	return err

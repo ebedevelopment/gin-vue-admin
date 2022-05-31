@@ -18,7 +18,8 @@ type Services struct {
 	Inq              *int       `json:"inq" form:"inq" gorm:"column:inq;comment:;size:10;"`
 	Count            *int       `json:"count" form:"count" gorm:"column:count;comment:;size:19;"`
 	IsPar            *int       `json:"isPar" form:"isPar" gorm:"column:is_par;comment:;size:19;"`
-	DefaultGatewayDn *int       `json:"defaultGatewayDn" form:"defaultGatewayDn" gorm:"column:default_gateway_dn;comment:;size:255;"`
+	DefaultGatewayDn string     `json:"defaultGatewayDn" form:"defaultGatewayDn" gorm:"column:default_gateway_dn;comment:;size:255;"`
+	Status           *bool      `json:"status" form:"status" gorm:"column:status;"`
 	GatewayValues    []int      `json:"gateways" form:"gateways" gorm:"-"`
 	Gateways         []Gateways `gorm:"many2many:service_gateways;ForeignKey:id;References:id"`
 
@@ -71,7 +72,7 @@ type ServiceRequest struct {
 	} `json:"gateways"`
 }
 
-// TableName Services 表名
+// TableName Services The name of the table
 func (Services) TableName() string {
 	return "services"
 }

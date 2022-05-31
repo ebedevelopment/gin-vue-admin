@@ -1,10 +1,7 @@
 package autocode
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
@@ -145,21 +142,21 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	ServiceRequestobj.ServiceId = services.ID
 	if services.FileUrl != "" {
 
-		jsonFile, err := os.Open(services.FileUrl)
-		byteValue, _ := ioutil.ReadAll(jsonFile)
+		// jsonFile, err := os.Open(services.FileUrl)
+		// byteValue, _ := ioutil.ReadAll(jsonFile)
 
-		err = json.Unmarshal(byteValue, &ServiceRequestobj)
-		if err != nil {
-			fmt.Println("error in marchal", err)
-		}
-		byteValueReq, err := json.Marshal(ServiceRequestobj)
+		// err = json.Unmarshal(byteValue, &ServiceRequestobj)
+		// if err != nil {
+		// 	fmt.Println("error in marchal", err)
+		// }
+		// byteValueReq, err := json.Marshal(ServiceRequestobj)
 
-		if err != nil {
-			fmt.Println("error:", err)
-		}
-		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
+		// if err != nil {
+		// 	fmt.Println("error:", err)
+		// }
+		// url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
 
-		global.SendPostReq("PUT", byteValueReq, url)
+		// global.SendPostReq("PUT", byteValueReq, url)
 	}
 }
 
@@ -206,12 +203,12 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 		for _, s := range servicelist {
 
 			_, category := categoriesService.GetCategories(uint(*s.CatId))
-			_, gateway := gatewaysService.GetGateways(uint(*s.DefaultGatewayDn))
+			// _, gateway := gatewaysService.GetGateways(uint(*s.DefaultGatewayDn))
 			service.CategoryId = category.NameEn
 			service.Count = s.Count
 			service.CreatedAt = s.CreatedAt
 
-			service.DefaultGateway = gateway.DomainNameService
+			service.DefaultGateway = s.DefaultGatewayDn
 			service.ID = s.ID
 			service.Inquirable = s.Inq
 
