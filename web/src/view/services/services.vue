@@ -425,7 +425,7 @@
 import { getFileList } from "@/api/fileUploadAndDownload";
 import { downloadImage } from "@/utils/downloadImg";
 import { useUserStore } from "@/pinia/modules/user";
-
+import { formatDate } from '@/utils/format'
 import { ref } from "vue";
 
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -599,6 +599,7 @@ const formData = ref({
   gateways: [],
   gatewaysCols: [],
   param: {
+    
     billercode: "",
     code: "",
     applicants: [
