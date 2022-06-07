@@ -32,6 +32,7 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	// var ServiceRequestobj autocode.ServiceRequest
 	_ = c.ShouldBindJSON(&services)
 
+	fmt.Println("lennnnnnn: ", len(services.GatewayValues))
 	for _, id := range services.GatewayValues {
 		_, regateways := gatewaysService.GetGateways(uint(id))
 		services.Gateways = append(services.Gateways, regateways)
@@ -204,7 +205,7 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 
 			_, category := categoriesService.GetCategories(uint(*s.CatId))
 			// _, gateway := gatewaysService.GetGateways(uint(*s.DefaultGatewayDn))
-			service.CategoryId = category.NameEn
+			service.CategoryId = category.NameAr
 			service.Count = s.Count
 			service.CreatedAt = s.CreatedAt
 
@@ -219,7 +220,7 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 			service.NameEn = s.NameEn
 			service.Price = s.Price
 			_, provider := providersService.GetProviders(uint(*s.ProvId))
-			service.ProviderId = provider.NameEn
+			service.ProviderId = provider.NameAr
 
 			//TODO gateways , fields, frontends specifies with service
 
