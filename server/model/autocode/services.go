@@ -26,9 +26,9 @@ type Services struct {
 	FieldsValues []int    `json:"fields" form:"fields" gorm:"-"`
 	Fields       []Fields `gorm:"many2many:service_fields;ForeignKey:id;References:id"`
 
-	VersionValues []int      `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
-	Versions      []Versions `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
-	FileUrl       string     `json:"fileUrl" gorm:"-"`
+	VersionValues []int            `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
+	Versions      []Versions       `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
+	Services      []ServiceRequest `json:"serv" form:"serv" gorm:"-"`
 }
 type ServiceList struct {
 	global.GVA_MODEL
@@ -51,25 +51,19 @@ type ServiceList struct {
 }
 
 type ServiceRequest struct {
-	ServiceId uint `json:"id"`
+	ID int `json:"id"`
 
-	Gateways []struct {
-		DNS  string `json:"dns"`
-		Cols struct {
-			BillerID         int    `json:"biller_id"`
-			BillingAccountID int    `json:"billing_account_id"`
-			Type             string `json:"type"`
-			Code             string `json:"code"`
-			CardDataID       int    `json:"card_data_id"`
-			EPayBillRecID    int    `json:"e_pay_bill_rec_id"`
-			SequenceID       int    `json:"sequence_id"`
-			AmountID         int    `json:"amount_id"`
-			FeesAmtID        int    `json:"fees_amt_id"`
-			CurCodeID        int    `json:"cur_code_id"`
-			BillNumID        int    `json:"bill_num_id"`
-			PmtRefInfoID     int    `json:"pmt_ref_info_id"`
-		} `json:"cols"`
-	} `json:"gateways"`
+	DNS    string `json:"dns"`
+	Params struct {
+		BillerCode string `json:"billercode"`
+		Code       string `json:"code"`
+
+		Pckg []struct {
+			ID          int    `json:"id"`
+			PckgCode    string `json:"pckg_code"`
+			EvdSelector string `json:"evd_selector"`
+		} `json:"pkgs"`
+	} `json:"params"`
 }
 
 // TableName Services The name of the table

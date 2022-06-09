@@ -20,44 +20,31 @@ func (servicesService *ServicesService) CreateServices(services autocode.Service
 
 	// err = global.GVA_DB.Create(&services).Error
 	err := global.GVA_DB.Transaction(func(tx *gorm.DB) error {
-		err := global.GVA_DB.Create(&services).Error
+		err := tx.Create(&services).Error
 		if err != nil {
 			return err
 		}
+		lastId := services.GVA_MODEL.ID
 		// err, lastId := servicesService.GetlastServices()
-		// if err != nil {
-		// 	return err
-		// }
-		// var ServiceRequestobj autocode.ServiceRequest
-		// ServiceRequestobj.ServiceId = lastId
-		// if services.FileUrl != "" {
-		// 	jsonFile, err := os.Open(services.FileUrl)
-		// 	if err != nil {
-		// 		return err
-		// 	}
-		// 	byteValue, _ := ioutil.ReadAll(jsonFile)
+		for i, _ := range services.Services {
+			services.Services[i].ID = int(lastId)
+		}
 
-		// 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
+		byteValueReq, err := json.Marshal(services.Services)
+		fmt.Println(string(byteValueReq))
 
-		// 	if err != nil {
-		// 		fmt.Println("error in marchal", err)
-		// 		return err
-		// 	}
-		// 	byteValueReq, err := json.Marshal(ServiceRequestobj)
-		// 	fmt.Println(ServiceRequestobj)
+		if err != nil {
+			return err
+		}
 
-		// 	if err != nil {
-		// 		fmt.Println("error:", err)
-		// 		return err
-		// 	}
-		// 	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
+		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
+		fmt.Println(url)
+		body, err := global.SendPostReq("POST", byteValueReq, url)
+		if err != nil {
+			return err
+		}
+		fmt.Println(string(body))
 
-		// 	body, err := global.SendPostReq("POST", byteValueReq, url)
-		// 	if err != nil {
-		// 		return err
-		// 	}
-		// 	fmt.Println(string(body))
-		// }
 		return nil
 	})
 	return err
@@ -101,6 +88,7 @@ func (servicesService *ServicesService) DeleteServicesByIds(ids request.IdsReq) 
 func (servicesService *ServicesService) UpdateServices(services autocode.Services) (err error) {
 	err = global.GVA_DB.Save(&services).Error
 	return err
+
 }
 
 // GetServices 根据id获取Services记录

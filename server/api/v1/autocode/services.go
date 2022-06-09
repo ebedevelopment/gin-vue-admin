@@ -32,7 +32,6 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 	// var ServiceRequestobj autocode.ServiceRequest
 	_ = c.ShouldBindJSON(&services)
 
-	fmt.Println("lennnnnnn: ", len(services.GatewayValues))
 	for _, id := range services.GatewayValues {
 		_, regateways := gatewaysService.GetGateways(uint(id))
 		services.Gateways = append(services.Gateways, regateways)
@@ -52,31 +51,9 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
 
-		// _, id := servicesService.GetlastServices()
-		// ServiceRequestobj.ServiceId = id
-
 		response.OkWithMessage(global.Translate("general.createSuccss"), c)
 	}
-	// if services.FileUrl != "" {
 
-	// 	jsonFile, err := os.Open(services.FileUrl)
-	// 	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	// 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
-	// 	if err != nil {
-	// 		fmt.Println("error in marchal", err)
-	// 	}
-	// 	byteValueReq, err := json.Marshal(ServiceRequestobj)
-	// 	fmt.Println(ServiceRequestobj)
-
-	// 	if err != nil {
-	// 		fmt.Println("error:", err)
-	// 	}
-	// 	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
-
-	// 	body := global.SendPostReq("POST", byteValueReq, url)
-	// 	fmt.Println(string(body))
-	// }
 }
 
 // DeleteServices 删除Services
@@ -139,26 +116,26 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	} else {
 		response.OkWithMessage(global.Translate("general.updateSuccess"), c)
 	}
-	var ServiceRequestobj autocode.ServiceRequest
-	ServiceRequestobj.ServiceId = services.ID
-	if services.FileUrl != "" {
+	// var ServiceRequestobj autocode.ServiceRequest
+	// ServiceRequestobj.ServiceId = services.ID
+	// if services.FileUrl != "" {
 
-		// jsonFile, err := os.Open(services.FileUrl)
-		// byteValue, _ := ioutil.ReadAll(jsonFile)
+	// jsonFile, err := os.Open(services.FileUrl)
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
 
-		// err = json.Unmarshal(byteValue, &ServiceRequestobj)
-		// if err != nil {
-		// 	fmt.Println("error in marchal", err)
-		// }
-		// byteValueReq, err := json.Marshal(ServiceRequestobj)
+	// err = json.Unmarshal(byteValue, &ServiceRequestobj)
+	// if err != nil {
+	// 	fmt.Println("error in marchal", err)
+	// }
+	// byteValueReq, err := json.Marshal(ServiceRequestobj)
 
-		// if err != nil {
-		// 	fmt.Println("error:", err)
-		// }
-		// url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
+	// if err != nil {
+	// 	fmt.Println("error:", err)
+	// }
+	// url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
 
-		// global.SendPostReq("PUT", byteValueReq, url)
-	}
+	// global.SendPostReq("PUT", byteValueReq, url)
+	// }
 }
 
 // FindServices 用id查询Services
