@@ -38,32 +38,34 @@ casbin:
 cors:
   mode: whitelist
   whitelist:
-  - allow-origin: example1.com
-    allow-methods: GET, POST
-    allow-headers: content-type
-    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-      Content-Type
-    allow-credentials: true
-  - allow-origin: example2.com
-    allow-methods: GET, POST
-    allow-headers: content-type
-    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-      Content-Type
-    allow-credentials: true
+    - allow-origin: example1.com
+      allow-methods: GET, POST
+      allow-headers: content-type
+      expose-headers:
+        Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+        Content-Type
+      allow-credentials: true
+    - allow-origin: example2.com
+      allow-methods: GET, POST
+      allow-headers: content-type
+      expose-headers:
+        Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+        Content-Type
+      allow-credentials: true
 db-list:
-- disable: false
-  type: ""
-  alias-name: ""
-  path: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  log-mode: ""
-  log-zap: false
+  - disable: false
+    type: ""
+    alias-name: ""
+    path: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    log-mode: ""
+    log-zap: false
 email:
   to: xxx@qq.com
   port: 465
@@ -93,10 +95,10 @@ language:
 local:
   path: uploads/file
 mysql:
-  path: localhost
+  path: 10.16.33.21
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: admin
+  db-name: local_admin3
   username: wakty
   password: P@$$w0rD
   max-idle-conns: 10
@@ -144,18 +146,18 @@ tencent-cos:
   path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 timer:
   start: true
-  spec: '@daily'
+  spec: "@daily"
   detail:
-  - tableName: sys_operation_records
-    compareField: created_at
-    interval: 2160h
-  - tableName: jwt_blacklists
-    compareField: created_at
-    interval: 168h
+    - tableName: sys_operation_records
+      compareField: created_at
+      interval: 2160h
+    - tableName: jwt_blacklists
+      compareField: created_at
+      interval: 168h
 zap:
   level: info
   format: console
-  prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+  prefix: "[github.com/flipped-aurora/gin-vue-admin/server]"
   director: log
   showLine: false
   encode-level: LowercaseColorLevelEncoder

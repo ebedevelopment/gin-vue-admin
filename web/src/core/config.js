@@ -4,7 +4,7 @@
 
 const config = {
   appName: 'Wakty-Admin',
-  appLogo: 'https://scontent.fcai19-4.fna.fbcdn.net/v/t1.6435-9/67583495_2489771101258266_6444045364709294080_n.jpg?_nc_cat=111&ccb=1-6&_nc_sid=09cbfe&_nc_ohc=zcZhJGI2MY0AX8NIoG8&_nc_ht=scontent.fcai19-4.fna&oh=00_AT9I8JMlyUkOuGlJSMjZ2nInraxdVrHzy1VHGCfFiG5Z5A&oe=629DFE78',
+  appLogo: 'src/assets/log.jpg',
   showViteLogo: true
 }
 
