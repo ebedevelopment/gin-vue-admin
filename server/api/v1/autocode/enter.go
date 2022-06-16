@@ -9,6 +9,7 @@ type ApiGroup struct {
 	VersionsApi
 	TerminalsApi
 	FieldsApi
+	ServiceFieldsApi
 	ServicesApi
 	MerchantApi
 	PackagesApi

@@ -158,11 +158,8 @@
         />
       </div>
     </div>
-    <el-dialog
-      v-model="dialogFormVisible"
-      :before-close="closeDialog"
-      :title="t('general.popUpOperation')"
-    >
+    <!-- :before-close="closeDialog" -->
+    <el-dialog v-model="dialogFormVisible" :title="t('general.popUpOperation')">
       <el-form :model="formData" label-position="right" label-width="160px">
         <el-form-item label="catId :">
           <el-select
@@ -194,8 +191,8 @@
             />
           </el-select>
         </el-form-item>
-       
-        <el-form-item label="Gateways:">
+
+       <el-form-item label="Gateways:">
           <el-select
             multiple
             v-model="formData.gateways"
@@ -310,6 +307,8 @@
               :value="item.domainNameService"
             />
           </el-select>
+          <span>{{ formData }}</span>
+          
         </el-form-item>
         <el-form-item label="Status">
           <el-switch
@@ -322,94 +321,7 @@
           ></el-switch>
         </el-form-item>
       </el-form>
-
-      <div>
-        <el-dialog
-          v-model="dialogpkgVisible"
-          :before-close="closepkgDialog"
-          :title="t('general.popUpOperation')"
-        >
-          <div
-            class="form"
-            v-for="(item, index) in formData.gateways"
-            v-bind:key="index"
-          >
-            <el-form
-              :model="formData"
-              label-position="right"
-              label-width="160px"
-            >
-              <label>{{ formData.serv[index].dns }}</label>
-              <el-form-item label="biller_code :">
-                <el-input
-                  v-model="formData.serv[index].params.billercode"
-                  clearable
-                  :placeholder="t('general.pleaseEnter')"
-                />
-              </el-form-item>
-
-              <el-form-item label="code :">
-                <el-input
-                  v-model="formData.serv[index].params.code"
-                  clearable
-                  :placeholder="t('general.pleaseEnter')"
-                />
-              </el-form-item>
-
-              <div id="visa">
-                <form>
-                  <button @click="addpkgsection(formData, index)">
-                    Add another pkg
-                  </button>
-                  <br />
-                  <div
-                    class="previous"
-                    v-for="(applicant, counter) in formData.serv[index].params
-                      .pkgs"
-                    v-bind:key="counter"
-                  >
-                    <span @click="deletepkgsection(counter)">x</span>
-                    <label for="duration">{{ counter + 1 }}. pkgName:</label>
-
-                    <el-select
-                      v-model="applicant.id"
-                      clearable
-                      placeholder="please enter"
-                    
-                    >
-                      <el-option
-                        v-for="item in pkgs"
-                        :key="item.ID"
-                        :label="`${item.nameAr}`"
-                        :value="item.ID"
-                      />
-                    </el-select>
-                    <label for="duration">:pckg_code</label>
-                    <input type="text" v-model="applicant.pckg_code" required />
-                    <label for="duration">evd_selector:</label>
-                    <input
-                      type="text"
-                      v-model="applicant.evd_selector"
-                      required
-                    />
-                  </div>
-                </form>
-              </div>
-            </el-form>
-          </div>
-          <span> {{ formData }}</span>
-          <template #footer>
-            <div class="dialog-footer">
-              <el-button size="small" @click="closepkgDialog">{{
-                t("general.close")
-              }}</el-button>
-              <el-button size="small" type="primary" @click="enterDialog">{{
-                t("general.confirm")
-              }}</el-button>
-            </div>
-          </template>
-        </el-dialog>
-      </div>
+      
 
       <template #footer>
         <div class="dialog-footer">
@@ -422,6 +334,83 @@
             @click="redirectDialog(formData, gatewaysData)"
             >{{ t("general.confirm") }}</el-button
           >
+        </div>
+      </template>
+    </el-dialog>
+
+    <!--start param model-->
+    <!-- :before-close="closepkgDialog" -->
+    <el-dialog v-model="dialogpkgVisible" :title="t('general.popUpOperation')">
+      <div
+        class="form"
+        v-for="(item, index) in formData.gateways"
+        v-bind:key="index"
+      >
+        
+        <el-form :model="formData.serv" label-position="right" label-width="160px">
+          
+          <label>{{ formData.serv[index].dns }}</label>
+          <el-form-item label="biller_code :">
+            <el-input
+              v-model="formData.serv[index].params.billercode"
+              clearable
+              :placeholder="t('general.pleaseEnter')"
+            />
+          </el-form-item>
+
+          <el-form-item label="code :">
+            <el-input
+              v-model="formData.serv[index].params.code"
+              clearable
+              :placeholder="t('general.pleaseEnter')"
+            />
+          </el-form-item>
+
+          <div id="visa">
+            <form>
+              <button @click="addpkgsection(formData, index)">
+                Add another pkg
+              </button>
+              <br />
+              <div
+                class="previous"
+                v-for="(applicant, counter) in formData.serv[index].params.pkgs"
+                v-bind:key="counter"
+              >
+                <span @click="deletepkgsection(counter)">x</span>
+                <label for="duration">{{ counter + 1 }}. pkgName:</label>
+
+                <el-select
+                  v-model="applicant.id"
+                  clearable
+                  placeholder="please enter"
+                >
+                  <el-option
+                    v-for="item in pkgs"
+                    :key="item.ID"
+                    :label="`${item.nameAr}`"
+                    :value="item.ID"
+                  />
+                </el-select>
+                <label for="duration">:pckg_code</label>
+                <input type="text" v-model="applicant.pckg_code" required />
+                <label for="duration">evd_selector:</label>
+                <input type="text" v-model="applicant.evd_selector" required />
+              </div>
+            </form>
+          </div>
+        </el-form>
+      </div>
+      <span> {{ formData }}</span>
+      
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closepkgDialog">{{
+            t("general.close")
+          }}</el-button>
+          <el-button size="small" type="primary" @click="enterDialog">{{
+            t("general.confirm")
+          }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -441,13 +430,7 @@ const path = ref(import.meta.env.VITE_BASE_API);
 const userStore = useUserStore();
 
 const imageUrl = ref("");
-// const testJson = ref({
-//   type: "object",
-//   properties: {
-//     a: { type: "string" },
-//     b: { type: "number" },
-//   },
-// });
+
 const page = ref(1);
 const total = ref(0);
 const pageSize = ref(10);
@@ -588,30 +571,14 @@ const formData = ref({
   isPar: 0,
   status: false,
   defaultGatewayDn: "",
+  serv: [],
   gateways: [],
-
-  serv: [
-    // {
-    //   dns: 0,
-    //   params: {
-    //     billercode: "",
-    //     code: "",
-    //     pkgs: [
-    //       {
-    //         id: 0,
-    //         pckg_code: "",
-    //         evd_selector: "",
-    //       },
-    //     ],
-    //   },
-    // },
-  ],
 });
 
 const generate_dynamicform = async (formData, gatewaysData) => {
   for (let index = 0; index < formData.gateways.length; index++) {
     let obj = gatewaysData.find((o) => o.ID === formData.gateways[index]);
-
+    console.log("obj---------------------------------------");
     console.log(obj);
 
     let item = {
@@ -630,7 +597,9 @@ const generate_dynamicform = async (formData, gatewaysData) => {
         ],
       },
     };
+    console.log("formData.serv");
 
+    console.log(formData.serv);
     formData.serv.push(item);
   }
 };
@@ -648,23 +617,7 @@ const fieldsData = ref([]);
 const versions = ref([]);
 const pkgs = ref([]);
 // ============= ================ ============
-const finalFormData = ref({
-  catId: "",
-  provId: "",
-  nameAr: "",
-  nameEn: "",
-  isPrice: 0,
-  price: 0,
-  inq: 0,
-  count: 0,
-  isPar: 0,
-  status: false,
-  defaultGatewayDn: "",
-  gateways: [],
-  gatewaysCols: [], // all cols for all gateways
-  testObj: {},
-});
-// 重置
+
 const onReset = () => {
   searchInfo.value = {};
 };
@@ -854,8 +807,10 @@ const openDialog = () => {
   dialogFormVisible.value = true;
 };
 const openpkgDialog = () => {
+  console.log("openpkgDialog");
   type.value = "create";
   dialogpkgVisible.value = true;
+  console.log(dialogpkgVisible.value);
 };
 
 const openGatewayDialog = () => {
@@ -866,64 +821,53 @@ const openGatewayDialog = () => {
 // Close Windows
 const closeDialog = () => {
   dialogFormVisible.value = false;
+  dialogpkgVisible.value = false;
+
   formData.value = {
-    catId: "",
-    provId: "",
-    nameAr: "",
-    nameEn: "",
-    isPrice: 0,
-    price: 0,
-    inq: 0,
-    count: 0,
-    isPar: 0,
-    defaultGatewayDn: "",
+     catId: "",
+  provId: "",
+  nameAr: "",
+  nameEn: "",
+  isPrice: 0,
+  price: 0,
+  inq: 0,
+  count: 0,
+  isPar: 0,
+  status: false,
+  defaultGatewayDn: "",
+  serv: [],
+  gateways: [],
+  fields:[],
+    
+
+  
   };
 };
 
 const closepkgDialog = () => {
   dialogpkgVisible.value = false;
+  dialogFormVisible.value = false;
   formData.value = {
     catId: "",
-    provId: "",
-    nameAr: "",
-    nameEn: "",
-    isPrice: 0,
-    price: 0,
-    inq: 0,
-    count: 0,
-    isPar: 0,
-    defaultGatewayDn: "",
+  provId: "",
+  nameAr: "",
+  nameEn: "",
+  isPrice: 0,
+  price: 0,
+  inq: 0,
+  count: 0,
+  isPar: 0,
+  status: false,
+  defaultGatewayDn: "",
+  serv: [],
+  gateways: [],
+  
 
-    params: {
-      billercode: "",
-      code: "",
-      pkgs: [
-        {
-          id: 0,
-          pckg_code: "",
-          evd_selector: "",
-        },
-      ],
-    },
+  
   };
+  window.location.reload();
 };
-const closeGatewaysDialog = () => {
-  gatewaysFormVisible.value = false;
-  finalFormData.value = {
-    catId: "",
-    provId: "",
-    nameAr: "",
-    nameEn: "",
-    isPrice: 0,
-    price: 0,
-    inq: 0,
-    count: 0,
-    isPar: 0,
-    defaultGatewayDn: "",
-    gateways: [],
-    serv: [],
-  };
-};
+
 const schema = {
   type: "object",
   properties: {
@@ -937,22 +881,24 @@ const schema = {
     },
   },
 };
-const redirectDialog = async (formData, gatewaysData) => {
+const redirectDialog =  (formData, gatewaysData) => {
   console.log("====redirefunc===");
   console.log(formData);
+  dialogFormVisible.value=false
   generate_dynamicform(formData, gatewaysData);
   openpkgDialog();
+  console.log(formData);
 };
 // Popup window to determine
 const enterDialog = async () => {
   let res;
   switch (type.value) {
     case "create":
-      dialogpkgVisible.value = false;
+      
+
       res = await createServices(formData.value);
 
-      closepkgDialog();
-      closeDialog();
+     
 
       break;
     case "update":
@@ -970,9 +916,9 @@ const enterDialog = async () => {
       type: "success",
       message: t("general.createUpdateSuccess"),
     });
-
     closeDialog();
-    //  closeGatewaysDialog();
+    // closepkgDialog();
+
     getTableData();
   }
   console.log(res.code);
@@ -985,16 +931,12 @@ const enterDialog = async () => {
 
 <style>
 .previous {
- 
   border: 1.5px solid;
   padding: 5px;
   margin-bottom: 10px;
   display: inline-block;
 }
 .form {
- 
   border: 1.5px solid;
-  
-
 }
 </style>
