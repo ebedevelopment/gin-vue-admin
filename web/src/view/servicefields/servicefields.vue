@@ -1,14 +1,13 @@
 
 <template>
+  <h1>Set Field Map</h1>
   <div id="serviceField">
-    <h1>Add service field</h1>
-    <form>
-      <label for="gateway">Gateway :</label>
+    <el-form>
+      <el-label for="gateway">Gateway :</el-label>
       <el-select
         v-model="formData.gateway"
         clearable
         placeholder="please enter"
-      
       >
         <el-option
           v-for="item in gatewaysData"
@@ -19,7 +18,6 @@
       </el-select>
       <br />
 
-      <br /><br />
       <button @click="addFields(formData)">Add New field</button>
       <br />
       <div
@@ -27,7 +25,7 @@
         v-for="(applicant, counter) in formData.fields"
         v-bind:key="counter"
       >
-        <span @click="deleteFields(formData,counter)">x</span>
+        <el-span @click="deleteFields(formData, counter)">x</el-span>
         <label for="duration">{{ counter + 1 }}. fieldName:</label>
         <!-- <input type="text" v-model="applicant.fieldName" required> -->
         <el-select
@@ -46,24 +44,21 @@
         <label for="duration">mapping:</label>
         <input type="text" v-model="applicant.matchingName" required />
       </div>
-     
-  
-    </form>
-      <span>{{ formData }}</span>
-            <button class=".el-button " @click="confirm(formData)">confirm</button>
-
+    </el-form>
+    <span>{{ formData }}</span>
+    <button class=".el-button" @click="confirm(formData)">confirm</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { getGatewaysList } from "@/api/gateways";
-import{getFieldsList}from "@/api/fields"
+import { getFieldsList } from "@/api/fields";
 import { createServiceFields } from "@/api/servicefields";
-import { useI18n } from "vue-i18n"; 
+import { useI18n } from "vue-i18n";
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
-const { t } = useI18n(); 
+const { t } = useI18n();
 const getGatewaysData = async () => {
   const table = await getGatewaysList();
   if (table.code === 0) {
@@ -73,31 +68,29 @@ const getGatewaysData = async () => {
 
 getGatewaysData();
 
-
 const confirm = async (formData) => {
   console.log("====redirefunc===");
-    let res;
-   
- res = await createServiceFields(formData);
- console.log(res.code);
- if (res.code === 0) {
+  let res;
+
+  res = await createServiceFields(formData);
+  console.log(res.code);
+  if (res.code === 0) {
     ElMessage({
       type: "success",
       message: t("general.createUpdateSuccess"),
     });
- }
- 
- closeForm();
+  }
 
-   console.log(formData);
+  closeForm();
+
+  console.log(formData);
 };
 
 const closeForm = () => {
-
-  formData.value= {
+  formData.value = {
     gateway: "",
 
-  fields:[],
+    fields: [],
   };
 };
 
@@ -139,7 +132,6 @@ export default {
   },
   methods: {
     addFields(formData) {
-      
       formData.fields.push({
         fid: 0,
         matchingName: "",
@@ -148,7 +140,6 @@ export default {
     deleteFields(formData, counter) {
       formData.fields.splice(counter, 1);
     },
-     
   },
 };
 </script>
@@ -202,7 +193,6 @@ span:hover {
 .previous {
   border: 1.5px solid;
   padding: 5px;
-  margin-bottom: 10px;  
-    
+  margin-bottom: 10px;
 }
 </style>

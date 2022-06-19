@@ -95,10 +95,10 @@ language:
 local:
   path: uploads/file
 mysql:
-  path: 10.16.33.21
+  path: localhost
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: local_admin3
+  db-name: local_admin
   username: wakty
   password: P@$$w0rD
   max-idle-conns: 10
