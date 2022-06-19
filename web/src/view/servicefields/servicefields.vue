@@ -1,6 +1,6 @@
 
 <template>
-  <div id="serviceField">
+  <div id="serviceField" >
     <h1>Add service field</h1>
     <form>
       <label for="gateway">Gateway :</label>
@@ -49,7 +49,7 @@
      
   
     </form>
-      <span>{{ formData }}</span>
+      
             <button class=".el-button " @click="confirm(formData)">confirm</button>
 
   </div>
@@ -60,6 +60,7 @@ import { ref } from "vue";
 import { getGatewaysList } from "@/api/gateways";
 import{getFieldsList}from "@/api/fields"
 import { createServiceFields } from "@/api/servicefields";
+// import { createServiceFields } from "@/api/service";
 import { useI18n } from "vue-i18n"; 
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
