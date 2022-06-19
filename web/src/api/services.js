@@ -17,6 +17,16 @@ export const createServices = (data) => {
     })
 }
 
+export const createServiceFields = (data) => {
+
+    return service({
+        url: '/servicefields/createServiceFields',
+        method: 'post',
+        data
+    })
+
+}
+
 // @Tags Services
 // @Summary 删除Services
 // @Security ApiKeyAuth

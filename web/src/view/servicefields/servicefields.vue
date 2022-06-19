@@ -45,7 +45,7 @@
         <input type="text" v-model="applicant.matchingName" required />
       </div>
     </el-form>
-    <span>{{ formData }}</span>
+
     <button class=".el-button" @click="confirm(formData)">confirm</button>
   </div>
 </template>

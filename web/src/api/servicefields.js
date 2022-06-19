@@ -9,6 +9,7 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /servicefields/createServiceFields [post]
 export const createServiceFields = (data) => {
+
     return service({
         url: '/servicefields/createServiceFields',
         method: 'post',
