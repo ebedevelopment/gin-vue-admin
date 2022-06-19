@@ -1,53 +1,89 @@
 
 <template>
-  <h1>Set Field Map</h1>
-  <div id="serviceField">
-    <el-form>
-      <el-label for="gateway">Gateway :</el-label>
-      <el-select
-        v-model="formData.gateway"
-        clearable
-        placeholder="please enter"
-      >
-        <el-option
-          v-for="item in gatewaysData"
-          :key="item.ID"
-          :label="`${item.nameEn}`"
-          :value="item.domainNameService"
-        />
-      </el-select>
-      <br />
+  <el-row
+    ><el-col :span="8"> </el-col>
+    <el-col :span="8" style="font-size: 1.2em">Set Field Map </el-col
+    ><el-col :span="8"> </el-col>
+  </el-row>
 
-      <button @click="addFields(formData)">Add New field</button>
-      <br />
-      <div
-        class="previous"
-        v-for="(applicant, counter) in formData.fields"
-        v-bind:key="counter"
-      >
-        <el-span @click="deleteFields(formData, counter)">x</el-span>
-        <label for="duration">{{ counter + 1 }}. fieldName:</label>
-        <!-- <input type="text" v-model="applicant.fieldName" required> -->
-        <el-select
-          v-model="applicant.fid"
-          clearable
-          placeholder="please enter"
-          style=""
-        >
-          <el-option
-            v-for="item in fieldsData"
-            :key="item.ID"
-            :label="`${item.nameAr}`"
-            :value="item.ID"
-          />
-        </el-select>
-        <label for="duration">mapping:</label>
-        <input type="text" v-model="applicant.matchingName" required />
-      </div>
-    </el-form>
+  <!-- <div id="serviceField"> -->
+  <el-row>
+    <el-col :span="24">
+      <el-form>
+        <el-row>
+          <el-col :span="12">
+            <el-select
+              v-model="formData.gateway"
+              clearable
+              placeholder="please select gateway"
+            >
+              <el-option
+                v-for="item in gatewaysData"
+                :key="item.ID"
+                :label="`${item.nameEn}`"
+                :value="item.domainNameService"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="12">
+            <button @click="addFields(formData)">Add New field</button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col
+            class="entry-box"
+            :span="10"
+            v-for="(applicant, counter) in formData.fields"
+            v-bind:key="counter"
+          >
+            <el-row>
+              <el-col :span="1"
+                ><el-icon
+                  :size="size"
+                  :color="color"
+                  style="cursor: pointer"
+                  @click="deleteFields(formData, counter)"
+                >
+                  <Close /> </el-icon
+              ></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="10">
+                <el-select
+                  clearable
+                  placeholder="please select service field"
+                  v-model="applicant.fid"
+                >
+                  <el-option
+                    v-for="item in fieldsData"
+                    :key="item.ID"
+                    :label="`${item.nameAr}`"
+                    :value="item.ID"
+                  />
+                </el-select>
+              </el-col>
+              <el-col :span="10">
+                <el-input
+                  type="text"
+                  v-model="applicant.matchingName"
+                  required
+                  placeholder="Mapping Name"
+                ></el-input>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-br />
+            </el-row>
+            <!-- <input type="text" v-model="applicant.fieldName" required> -->
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-span> </el-span>
+    </el-col>
+  </el-row>
 
-    <button class=".el-button" @click="confirm(formData)">confirm</button>
-  </div>
+  <button class=".el-button" @click="confirm(formData)">confirm</button>
+  <!-- </div> -->
 </template>
 
 <script setup>
@@ -190,9 +226,9 @@ span {
 span:hover {
   color: brown;
 }
-.previous {
-  border: 1.5px solid;
-  padding: 5px;
-  margin-bottom: 10px;
+.entry-box {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  margin: 10px;
 }
 </style>
