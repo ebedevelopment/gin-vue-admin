@@ -17,3 +17,23 @@ export const createServiceFields = (data) => {
     })
 
 }
+
+export const updateServiceFields = (data) => {
+
+    return service({
+        url: '/servicefields/updateServiceFields',
+        method: 'put',
+        data
+    })
+
+}
+
+export const deleteServiceFields = (data) => {
+
+    return service({
+        url: '/servicefields/deleteServiceFields',
+        method: 'delete',
+        data
+    })
+
+}

@@ -2,87 +2,208 @@
 <template>
   <el-row
     ><el-col :span="8"> </el-col>
-    <el-col :span="8" style="font-size: 1.2em">Set Field Map </el-col
-    ><el-col :span="8"> </el-col>
-  </el-row>
-
-  <!-- <div id="serviceField"> -->
-  <el-row>
-    <el-col :span="24">
-      <el-form>
-        <el-row>
-          <el-col :span="12">
-            <el-select
-              v-model="formData.gateway"
-              clearable
-              placeholder="please select gateway"
-            >
-              <el-option
-                v-for="item in gatewaysData"
-                :key="item.ID"
-                :label="`${item.nameEn}`"
-                :value="item.domainNameService"
-              />
-            </el-select>
-          </el-col>
-          <el-col :span="12">
-            <button @click="addFields(formData)">Add New field</button>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col
-            class="entry-box"
-            :span="10"
-            v-for="(applicant, counter) in formData.fields"
-            v-bind:key="counter"
-          >
-            <el-row>
-              <el-col :span="1"
-                ><el-icon
-                  :size="size"
-                  :color="color"
-                  style="cursor: pointer"
-                  @click="deleteFields(formData, counter)"
-                >
-                  <Close /> </el-icon
-              ></el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">
-                <el-select
-                  clearable
-                  placeholder="please select service field"
-                  v-model="applicant.fid"
-                >
-                  <el-option
-                    v-for="item in fieldsData"
-                    :key="item.ID"
-                    :label="`${item.nameAr}`"
-                    :value="item.ID"
-                  />
-                </el-select>
-              </el-col>
-              <el-col :span="10">
-                <el-input
-                  type="text"
-                  v-model="applicant.matchingName"
-                  required
-                  placeholder="Mapping Name"
-                ></el-input>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-br />
-            </el-row>
-            <!-- <input type="text" v-model="applicant.fieldName" required> -->
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-span> </el-span>
+    <el-col :span="8" style="font-size: 1.2em"> </el-col
+    ><el-col :span="8">
+      <el-select
+        v-model="formData.gateway"
+        clearable
+        placeholder="please select gateway"
+        v-on:change="onChangeSelectGateway"
+      >
+        <el-option
+          v-for="item in gatewaysData"
+          :key="item.ID"
+          :label="`${item.nameEn}`"
+          :value="item.domainNameService"
+        />
+      </el-select>
     </el-col>
   </el-row>
+  <!-- <el-button v-on:click="addModelBoolean = !addModelBoolean">Add</el-button> -->
+  <div class="gva-table-box">
+    <div class="gva-btn-list">
+      <el-button size="small" type="primary" icon="plus" @click="openDialog">{{
+        t("general.add")
+      }}</el-button>
+      <!-- <el-popover v-model:visible="deleteVisible" placement="top" width="160">
+        <p>{{ t("general.deleteConfirm") }}</p>
+        <div style="text-align: right; margin-top: 8px">
+          <el-button size="small" type="text" @click="deleteVisible = false">{{
+            t("general.cancel")
+          }}</el-button>
+          <el-button size="small" type="primary" @click="onDelete">{{
+            t("general.confirm")
+          }}</el-button>
+        </div>
+        <template #reference>
+          <el-button
+            icon="delete"
+            size="small"
+            style="margin-left: 10px"
+            :disabled="!multipleSelection.length"
+            @click="deleteVisible = true"
+            >{{ t("general.delete") }}</el-button
+          >
+        </template>
+      </el-popover> -->
+    </div>
+    <el-table
+      ref="multipleTable"
+      style="width: 100%"
+      tooltip-effect="dark"
+      :data="tableData"
+      row-key="id"
+      table-layout="auto"
+      @selection-change="handleSelectionChange"
+    >
+      <!-- <el-table-column type="selection" width="55" /> -->
+      <!-- <el-table-column align="left" :label="t('general.createdAt')" width="180">
+        <template #default="scope">{{
+          formatDate(scope.row.CreatedAt)
+        }}</template>
+      </el-table-column> -->
+      <el-table-column align="center" label="Field Name" prop="field_name" />
+      <el-table-column
+        align="center"
+        label="Mapping Name"
+        prop="mapping_name"
+      />
+      <el-table-column align="center" :label="t('general.operations')">
+        <template #default="scope">
+          <el-button
+            type="text"
+            icon="edit"
+            size="small"
+            class="table-button"
+            @click="updateFieldsFunc(scope.row)"
+            >{{ t("general.change") }}</el-button
+          >
+          <el-button
+            type="text"
+            icon="delete"
+            size="small"
+            @click="deleteRow(scope.row)"
+            >{{ t("general.delete") }}</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <!--Add Popup Model-->
+  <el-dialog
+    v-model="addModelBoolean"
+    :title="formData.gateway"
+    :before-close="closeDialog"
+  >
+    <el-row>
+      <el-col :span="24">
+        <el-form>
+          <el-row>
+            <el-col :span="12">
+              <el-button
+                size="small"
+                type="primary"
+                icon="plus"
+                @click="addFields(formData)"
+                >{{ t("general.add") }}</el-button
+              >
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              class="entry-box"
+              :span="10"
+              v-for="(applicant, counter) in formData.fields"
+              v-bind:key="counter"
+            >
+              <el-row>
+                <el-col :span="1"
+                  ><el-icon
+                    :size="size"
+                    :color="color"
+                    style="
+                      cursor: pointer;
+                      border: 1px solid black;
+                      border-radius: 45%;
+                    "
+                    @click="deleteFields(formData, counter)"
+                  >
+                    <Close /> </el-icon
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="10">
+                  <el-select
+                    clearable
+                    placeholder="please select service field"
+                    v-model="applicant.fid"
+                  >
+                    <el-option
+                      v-for="item in fieldsData"
+                      :key="item.ID"
+                      :label="`${item.nameAr}`"
+                      :value="item.ID"
+                    />
+                  </el-select>
+                </el-col>
+                <el-col :span="1"></el-col>
+                <el-col :span="10">
+                  <el-input
+                    type="text"
+                    v-model="applicant.matchingName"
+                    required
+                    placeholder="Mapping Name"
+                  ></el-input>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-br />
+              </el-row>
+              <!-- <input type="text" v-model="applicant.fieldName" required> -->
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-span> </el-span>
+      </el-col>
+    </el-row>
+    <el-button
+      size="small"
+      type="primary"
+      icon="check"
+      @click="confirm(formData)"
+      >{{ t("general.confirm") }}</el-button
+    >
+  </el-dialog>
 
-  <button class=".el-button" @click="confirm(formData)">confirm</button>
+  <!-- Edit Popup Model -->
+  <el-dialog
+    v-model="editModelBoolean"
+    :title="formData.gateway"
+    :before-close="closeDialog"
+  >
+    <el-row>
+      <el-col :span="24">
+        <el-form>
+          <el-row>
+            <el-col :span="10">
+              <el-input v-model="editFormData.field_name" readonly />
+            </el-col>
+            <el-col :span="2"></el-col>
+            <el-col :span="10">
+              <el-input v-model="editFormData.mapping_name" />
+            </el-col>
+          </el-row>
+        </el-form>
+      </el-col>
+    </el-row>
+    <el-button
+      size="small"
+      type="primary"
+      icon="check"
+      @click="confirmEdit(editFormData)"
+      >{{ t("general.confirm") }}</el-button
+    >
+  </el-dialog>
   <!-- </div> -->
 </template>
 
@@ -91,9 +212,15 @@ import { ref } from "vue";
 import { getGatewaysList } from "@/api/gateways";
 import { getFieldsList } from "@/api/fields";
 import { createServiceFields } from "@/api/servicefields";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { useI18n } from "vue-i18n";
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
+let editFormData = ref({
+  id: 0,
+  field_name: "",
+  mapping_name: "",
+});
 const { t } = useI18n();
 const getGatewaysData = async () => {
   const table = await getGatewaysList();
@@ -101,7 +228,69 @@ const getGatewaysData = async () => {
     gatewaysData.value = table.data.list;
   }
 };
-
+const deleteRow = (row) => {
+  ElMessageBox.confirm(t("general.deleteConfirm"), t("general.hint"), {
+    confirmButtonText: t("general.confirm"),
+    cancelButtonText: t("general.cancel"),
+    type: "warning",
+  }).then(() => {
+    deleteFieldFunc(row);
+  });
+};
+const deleteFieldFunc = (row) => {
+  row = {
+    id: row.id,
+    field_name: row.field_name,
+    mapping_name: row.mapping_name,
+  };
+  console.log("row ", row);
+  let tempData = tableData;
+  // const res = await deleteProviders({ ID: row.id });
+  for (let index = 0; index < tempData.length; index++) {
+    console.log(tempData[index]);
+    const d = tempData[index].id;
+    if (d == row.id) {
+      delete tempData[index];
+      ElMessage({
+        type: "success",
+        message: t("general.deleteSuccess"),
+      });
+      tableData = tempData;
+      return;
+    }
+  }
+  // if (res.code === 0) {
+  //   ElMessage({
+  //     type: "success",
+  //     message: t("general.deleteSuccess"),
+  //   });
+  //   if (tableData.value.length === 1 && page.value > 1) {
+  //     page.value--;
+  //   }
+  //   // getTableData();
+  // }
+};
+const onChangeSelectGateway = (val) => {
+  console.log(val);
+  // load data using dns
+};
+const updateFieldsFunc = async (row) => {
+  editModelBoolean.value = true;
+  editFormData.value = row;
+  // const res = await findProviders({ ID: row.ID });
+  // type.value = "update";
+  // if (res.code === 0) {
+  //   formData.value = res.data.reproviders;
+  //   dialogFormVisible.value = true;
+  // }
+};
+const addModelBoolean = ref(false);
+const editModelBoolean = ref(false);
+let tableData = [
+  { id: 1, field_name: "Amount-10", mapping_name: "TRANSACTION_VALUE-10" },
+  { id: 2, field_name: "Amount-20", mapping_name: "TRANSACTION_VALUE-20" },
+  { id: 3, field_name: "Amount-30", mapping_name: "TRANSACTION_VALUE-30" },
+];
 getGatewaysData();
 
 const confirm = async (formData) => {
@@ -121,13 +310,25 @@ const confirm = async (formData) => {
 
   console.log(formData);
 };
-
+const confirmEdit = async (formData) => {
+  console.log(formData);
+  closeForm();
+};
 const closeForm = () => {
-  formData.value = {
-    gateway: "",
-
-    fields: [],
+  closeDialog();
+};
+const closeDialog = () => {
+  addModelBoolean.value = false;
+  editModelBoolean.value = false;
+  formData.value = { gateway: "", fields: [] };
+  editFormData.value = {
+    id: 0,
+    field_name: "",
+    mapping_name: "",
   };
+};
+const openDialog = () => {
+  addModelBoolean.value = true;
 };
 
 const getFieldsData = async () => {
@@ -196,39 +397,10 @@ export default {
 
 
 <style scoped>
-#serviceField {
-  margin: 20px auto;
-  max-width: 700px;
-}
-label {
-  display: block;
-  margin: 20px 0 10px;
-}
-input {
-  font-size: 20px;
-  border: 1px double rgb(102, 97, 96);
-}
-button {
-  font-size: 16px;
-  background: rgb(64, 118, 179);
-  padding: 0.4rem 1.3rem;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  margin: 10px;
-}
-span {
-  width: 30px;
-  float: right;
-  cursor: pointer;
-}
-span:hover {
-  color: brown;
-}
 .entry-box {
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
   transition: 0.3s;
   margin: 10px;
+  padding: 2%;
 }
 </style>
