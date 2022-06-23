@@ -25,7 +25,7 @@ func (servicesService *ServicesService) CreateServices(services autocode.Service
 			return err
 		}
 		lastId := services.GVA_MODEL.ID
-		// err, lastId := servicesService.GetlastServices()
+
 		for i, _ := range services.Services {
 			services.Services[i].ID = int(lastId)
 		}
@@ -86,7 +86,36 @@ func (servicesService *ServicesService) DeleteServicesByIds(ids request.IdsReq) 
 // UpdateServices 更新Services记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (servicesService *ServicesService) UpdateServices(services autocode.Services) (err error) {
-	err = global.GVA_DB.Save(&services).Error
+	//	err = global.GVA_DB.Save(&services).Error
+	// return err
+
+	err = global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+		if err != nil {
+			return err
+		}
+		lastId := services.GVA_MODEL.ID
+		// err, lastId = servicesService.GetlastServices()
+		for i := range services.Services {
+			services.Services[i].ID = int(lastId)
+		}
+
+		byteValueReq, err := json.Marshal(services.Services)
+		fmt.Println(string(byteValueReq))
+
+		if err != nil {
+			return err
+		}
+
+		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
+		fmt.Println(url)
+		body, err := global.SendPostReq("POST", byteValueReq, url)
+		if err != nil {
+			return err
+		}
+		fmt.Println(string(body))
+
+		return nil
+	})
 	return err
 
 }
@@ -94,8 +123,41 @@ func (servicesService *ServicesService) UpdateServices(services autocode.Service
 // GetServices 根据id获取Services记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (servicesService *ServicesService) GetServices(id uint) (err error, services autocode.Services) {
+	// global.GVA_DB.Query()
+	var pkgid []int64
+	// var servicereq services.Service
+	global.GVA_DB.Raw("SELECT gateways_id FROM service_gateways WHERE services_id = ?", id).Scan(&services.GatewayValues)
+	global.GVA_DB.Raw("SELECT fields_id FROM service_fields WHERE services_id = ?", id).Scan(&services.FieldsValues)
+	global.GVA_DB.Raw("SELECT versions_id FROM service_versions WHERE services_id= ?", id).Scan(&services.VersionValues)
+	global.GVA_DB.Raw("SELECT id FROM packages WHERE field_id in ?", services.FieldsValues).Scan(&pkgid)
+	var gatewaysService *GatewaysService
+	for _, gw := range services.GatewayValues {
+
+		var serv autocode.ServiceRequest
+		_, Dns := gatewaysService.GetGateways(uint(gw))
+		serv.ID = int(id)
+		serv.DNS = Dns.DomainNameService
+		serv.Params.PkgIds = pkgid
+		services.Services = append(services.Services, serv)
+
+	}
+	//call wakty for get sevice
+
+	byteValueReq, err := json.Marshal(services.Services)
+
+	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/get"
+	fmt.Println(url)
+	body, err := global.SendPostReq("POST", byteValueReq, url)
+
+	if err != nil {
+		fmt.Print(err)
+	}
+	fmt.Println(string(body))
+	err=json.Unmarshal(body, &services.Services)
+	//global.GVA_DB.Raw("SELECT id FROM admin.packages WHERE field_id =?", id).Scan(&services.VersionValues)
 	err = global.GVA_DB.Where("id = ?", id).First(&services).Error
-	return
+
+	return err, services
 }
 
 // GetServicesInfoList 分页获取Services记录

@@ -347,12 +347,12 @@
         v-bind:key="index"
       >
         
-        <el-form :model="formData.serv" label-position="right" label-width="160px">
+        <el-form :model="formData.services" label-position="right" label-width="160px">
           
-          <label>{{ formData.serv[index].dns }}</label>
+          <label>{{ formData.services[index].dns }}</label>
           <el-form-item label="biller_code :">
             <el-input
-              v-model="formData.serv[index].params.billercode"
+              v-model="formData.services[index].params.billercode"
               clearable
               :placeholder="t('general.pleaseEnter')"
             />
@@ -360,7 +360,7 @@
 
           <el-form-item label="code :">
             <el-input
-              v-model="formData.serv[index].params.code"
+              v-model="formData.services[index].params.code"
               clearable
               :placeholder="t('general.pleaseEnter')"
             />
@@ -374,7 +374,7 @@
               <br />
               <div
                 class="previous"
-                v-for="(applicant, counter) in formData.serv[index].params.pkgs"
+                v-for="(applicant, counter) in formData.services[index].params.pkgs"
                 v-bind:key="counter"
               >
                 <span @click="deletepkgsection(counter)">x</span>
@@ -465,42 +465,9 @@ getTableData();
 
 const fullscreenLoading = ref(false);
 
-const uploadSuccess = (res) => {
-  fullscreenLoading.value = false;
 
-  filePath = res.data.file.url;
 
-  if (res.code === 0) {
-    ElMessage({
-      type: "success",
-      message: "上传成功",
-    });
-    if (res.code === 0) {
-      getTableData();
-    }
-  } else {
-    ElMessage({
-      type: "warning",
-      message: res.msg,
-    });
-  }
-};
 
-const uploadError = () => {
-  console.log("upload error");
-  ElMessage({
-    type: "error",
-    message: "上传失败",
-  });
-  fullscreenLoading.value = false;
-};
-const downloadFile = (row) => {
-  if (row.url.indexOf("http://") > -1 || row.url.indexOf("https://") > -1) {
-    downloadImage(row.url, row.name);
-  } else {
-    downloadImage(path.value + row.url, row.name);
-  }
-};
 
 export default {
   name: "Test",
@@ -520,7 +487,7 @@ export default {
   },
   methods: {
     addpkgsection(formData, index) {
-      formData.serv[index].params.pkgs.push({
+      formData.services[index].params.pkgs.push({
         id: 0,
         pckg_code: "",
         evd_selector: "",
@@ -571,18 +538,18 @@ const formData = ref({
   isPar: 0,
   status: false,
   defaultGatewayDn: "",
-  serv: [],
+  services: [],
   gateways: [],
 });
 
 const generate_dynamicform = async (formData, gatewaysData) => {
-  for (let index = 0; index < formData.gateways.length; index++) {
+ 
+  console.log(formData.gateways.length)
+   
+  for (let index = formData.services.length; index < formData.gateways.length; index++) {
     let obj = gatewaysData.find((o) => o.ID === formData.gateways[index]);
-    console.log("obj---------------------------------------");
-    console.log(obj);
 
     let item = {
-      // dns: formData.gateways[index],
       dns: obj.domainNameService,
 
       params: {
@@ -597,10 +564,12 @@ const generate_dynamicform = async (formData, gatewaysData) => {
         ],
       },
     };
-    console.log("formData.serv");
-
-    console.log(formData.serv);
-    formData.serv.push(item);
+    
+ console.log("formData.serv");
+    console.log(formData.fields);
+    console.log(formData.services);
+    formData.services.push(item);
+   
   }
 };
 
@@ -722,11 +691,17 @@ const type = ref("");
 const tableLayout = ref("auto");
 // Update the line
 const updateServicesFunc = async (row) => {
+  console.log("logggggggggggggggggggggggggggggggggggggggggggggggggggg: ")
+  console.log(row)
   const res = await findServices({ ID: row.ID });
-  console.log(res.data);
+  console.log("res.data");
+  console.log(res.code);
   type.value = "update";
   if (res.code === 0) {
+    console.log("res.data.reservices: ")
+  console.log(res.data.reservices)
     formData.value = res.data.reservices;
+    // formData.serv = []
     dialogFormVisible.value = true;
   }
 };
@@ -804,11 +779,11 @@ const dialogpkgVisible = ref(false);
 const gatewaysJson = ref([]);
 // 打开弹窗
 const openDialog = () => {
+  type.value = "create";
+
   dialogFormVisible.value = true;
 };
 const openpkgDialog = () => {
-  console.log("openpkgDialog");
-  type.value = "create";
   dialogpkgVisible.value = true;
   console.log(dialogpkgVisible.value);
 };
@@ -835,7 +810,7 @@ const closeDialog = () => {
   isPar: 0,
   status: false,
   defaultGatewayDn: "",
-  serv: [],
+  services: [],
   gateways: [],
   fields:[],
     
@@ -859,7 +834,7 @@ const closepkgDialog = () => {
   isPar: 0,
   status: false,
   defaultGatewayDn: "",
-  serv: [],
+  services: [],
   gateways: [],
   
 
@@ -882,28 +857,24 @@ const schema = {
   },
 };
 const redirectDialog =  (formData, gatewaysData) => {
-  console.log("====redirefunc===");
-  console.log(formData);
+  
   dialogFormVisible.value=false
   generate_dynamicform(formData, gatewaysData);
   openpkgDialog();
-  console.log(formData);
+
 };
 // Popup window to determine
 const enterDialog = async () => {
   let res;
   switch (type.value) {
     case "create":
-      
 
       res = await createServices(formData.value);
 
-     
-
       break;
     case "update":
-      formData.value.fileUrl = filePath;
-
+      //formData.value.fileUrl = filePath;
+        console.log("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
       res = await updateServices(formData.value);
       break;
     default:

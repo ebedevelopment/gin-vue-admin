@@ -154,6 +154,7 @@ func (servicesApi *ServicesApi) FindServices(c *gin.Context) {
 		global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.queryFailErr"), c)
 	} else {
+		//reservices.Services = make([]autocode.ServiceRequest
 		response.OkWithData(gin.H{"reservices": reservices}, c)
 	}
 }

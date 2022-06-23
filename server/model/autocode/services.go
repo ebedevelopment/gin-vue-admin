@@ -28,7 +28,7 @@ type Services struct {
 
 	VersionValues []int            `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
 	Versions      []Versions       `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
-	Services      []ServiceRequest `json:"serv" form:"serv" gorm:"-"`
+	Services      []ServiceRequest `json:"services" form:"services" gorm:"-"`
 }
 type ServiceList struct {
 	global.GVA_MODEL
@@ -55,6 +55,8 @@ type ServiceRequest struct {
 
 	DNS    string `json:"dns"`
 	Params struct {
+		PkgIds []int64 `json:"pkgids"`
+
 		BillerCode string `json:"billercode"`
 		Code       string `json:"code"`
 
