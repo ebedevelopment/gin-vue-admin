@@ -52,3 +52,39 @@ func (fieldsApi *ServiceFieldsApi) CreateServiceFields(c *gin.Context) {
 	}
 
 }
+
+// UpdateServiceFields 创建Fields
+// @Tags ServiceFields
+// @Summary 创建ServiceFields
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Param data body autocode.ServiceFields true "创建Fields"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":global.Translate("general.getDataSuccess")}"
+// @Router /servicefields/UpdateServiceFields [post]
+func (fieldsApi *ServiceFieldsApi) UpdateServiceFields(c *gin.Context) {
+	var fields autocode.ServiceFields
+	_ = c.ShouldBindJSON(&fields)
+
+	byteValueReq, err := json.Marshal(fields)
+	fmt.Println(string(byteValueReq))
+
+	if err != nil {
+		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+
+	}
+
+	url := global.GVA_VP.GetString("gateway-controller.url") + "/fields/edit"
+	fmt.Println(url)
+	body, err := global.SendPostReq("POST", byteValueReq, url)
+	fmt.Println(string(body))
+
+	if err != nil {
+
+		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+	} else {
+
+		response.OkWithMessage(global.Translate("general.success"), c)
+	}
+
+}

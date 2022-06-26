@@ -58,7 +58,7 @@ func Routers() *gin.Engine {
 	}
 	PrivateGroup := Router.Group("")
 	// Use(middleware.CasbinHandler()
-	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PrivateGroup.Use(middleware.JWTAuth()) //.Use(middleware.CasbinHandler())
 	{
 		systemRouter.InitApiRouter(PrivateGroup)                 // 注册功能api路由
 		systemRouter.InitJwtRouter(PrivateGroup)                 // jwt相关路由
