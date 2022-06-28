@@ -1,7 +1,7 @@
 package autocode
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/api/v1"
+	v1 "github.com/flipped-aurora/gin-vue-admin/server/api/v1"
 	"github.com/flipped-aurora/gin-vue-admin/server/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -15,13 +15,15 @@ func (s *GatewaysRouter) InitGatewaysRouter(Router *gin.RouterGroup) {
 	gatewaysRouterWithoutRecord := Router.Group("gateways")
 	var gatewaysApi = v1.ApiGroupApp.AutoCodeApiGroup.GatewaysApi
 	{
-		gatewaysRouter.POST("createGateways", gatewaysApi.CreateGateways)   // 新建Gateways
-		gatewaysRouter.DELETE("deleteGateways", gatewaysApi.DeleteGateways) // 删除Gateways
+		gatewaysRouter.POST("createGateways", gatewaysApi.CreateGateways)             // 新建Gateways
+		gatewaysRouter.DELETE("deleteGateways", gatewaysApi.DeleteGateways)           // 删除Gateways
 		gatewaysRouter.DELETE("deleteGatewaysByIds", gatewaysApi.DeleteGatewaysByIds) // 批量删除Gateways
-		gatewaysRouter.PUT("updateGateways", gatewaysApi.UpdateGateways)    // 更新Gateways
+		gatewaysRouter.PUT("updateGateways", gatewaysApi.UpdateGateways)              // 更新Gateways
 	}
 	{
-		gatewaysRouterWithoutRecord.GET("findGateways", gatewaysApi.FindGateways)        // 根据ID获取Gateways
-		gatewaysRouterWithoutRecord.GET("getGatewaysList", gatewaysApi.GetGatewaysList)  // 获取Gateways列表
+		gatewaysRouterWithoutRecord.GET("findGateways", gatewaysApi.FindGateways)                        // According to the ID To obtain Gateways
+		gatewaysRouterWithoutRecord.GET("getGatewaysList", gatewaysApi.GetGatewaysList)                  // 获取Gateways列表
+		gatewaysRouterWithoutRecord.POST("getGatewayServiceFields", gatewaysApi.GetGatewayServiceFields) // 获取Gateways列表
+
 	}
 }

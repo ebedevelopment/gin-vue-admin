@@ -16,6 +16,7 @@ func (s *ServiceFieldsRouter) InitServiceFieldsRouter(Router *gin.RouterGroup) {
 	var servicefieldsApi = v1.ApiGroupApp.AutoCodeApiGroup.ServiceFieldsApi
 	{
 		fieldsRouter.POST("createServiceFields", servicefieldsApi.CreateServiceFields) // 新建Fields
+		fieldsRouter.PUT("updateServiceFields", servicefieldsApi.UpdateServiceFields)
 
 	}
 

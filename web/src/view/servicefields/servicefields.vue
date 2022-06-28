@@ -51,8 +51,8 @@
       ref="multipleTable"
       style="width: 100%"
       tooltip-effect="dark"
-      :data="tableData"
-      row-key="id"
+      :data="formData.fields"
+      row-key="fid"
       table-layout="auto"
       @selection-change="handleSelectionChange"
     >
@@ -62,11 +62,11 @@
           formatDate(scope.row.CreatedAt)
         }}</template>
       </el-table-column> -->
-      <el-table-column align="center" label="Field Name" prop="field_name" />
+      <el-table-column align="center" label="Field Name" prop="fid" />
       <el-table-column
         align="center"
         label="Mapping Name"
-        prop="mapping_name"
+        prop="matchingName"
       />
       <el-table-column align="center" :label="t('general.operations')">
         <template #default="scope">
@@ -78,13 +78,13 @@
             @click="updateFieldsFunc(scope.row)"
             >{{ t("general.change") }}</el-button
           >
-          <el-button
+          <!-- <el-button
             type="text"
             icon="delete"
             size="small"
             @click="deleteRow(scope.row)"
             >{{ t("general.delete") }}</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>
@@ -209,15 +209,15 @@
 
 <script setup>
 import { ref } from "vue";
-import { getGatewaysList } from "@/api/gateways";
+import { getGatewaysList, getGatewayServiceFields } from "@/api/gateways";
 import { getFieldsList } from "@/api/fields";
-import { createServiceFields } from "@/api/servicefields";
+import { createServiceFields, updateServiceFields } from "@/api/servicefields";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useI18n } from "vue-i18n";
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
 let editFormData = ref({
-  id: 0,
+  // id: 0,
   field_name: "",
   mapping_name: "",
 });
@@ -244,7 +244,7 @@ const deleteFieldFunc = (row) => {
     mapping_name: row.mapping_name,
   };
   console.log("row ", row);
-  let tempData = tableData;
+  let tempData = formData.value.fields;
   // const res = await deleteProviders({ ID: row.id });
   for (let index = 0; index < tempData.length; index++) {
     console.log(tempData[index]);
@@ -255,7 +255,7 @@ const deleteFieldFunc = (row) => {
         type: "success",
         message: t("general.deleteSuccess"),
       });
-      tableData = tempData;
+      formData.value.fields = tempData;
       return;
     }
   }
@@ -270,13 +270,29 @@ const deleteFieldFunc = (row) => {
   //   // getTableData();
   // }
 };
-const onChangeSelectGateway = (val) => {
+const onChangeSelectGateway = async (val) => {
   console.log(val);
   // load data using dns
+  let res = await getGatewayServiceFields({ dns: val });
+  // console.log(res.code);
+  // console.log(res.data);
+  if (res.code === 0) {
+    ElMessage({
+      type: "success",
+      message: "get data successfully",
+    });
+    const data = res.data;
+
+    formData.value.fields = data;
+  }
+
+  // closeForm();
 };
 const updateFieldsFunc = async (row) => {
   editModelBoolean.value = true;
-  editFormData.value = row;
+  // console.log(row);
+  editFormData.value.field_name = row.fid;
+  editFormData.value.mapping_name = row.matchingName;
   // const res = await findProviders({ ID: row.ID });
   // type.value = "update";
   // if (res.code === 0) {
@@ -286,11 +302,7 @@ const updateFieldsFunc = async (row) => {
 };
 const addModelBoolean = ref(false);
 const editModelBoolean = ref(false);
-let tableData = [
-  { id: 1, field_name: "Amount-10", mapping_name: "TRANSACTION_VALUE-10" },
-  { id: 2, field_name: "Amount-20", mapping_name: "TRANSACTION_VALUE-20" },
-  { id: 3, field_name: "Amount-30", mapping_name: "TRANSACTION_VALUE-30" },
-];
+
 getGatewaysData();
 
 const confirm = async (formData) => {
@@ -310,8 +322,34 @@ const confirm = async (formData) => {
 
   console.log(formData);
 };
-const confirmEdit = async (formData) => {
-  console.log(formData);
+const confirmEdit = async () => {
+  console.log("====redirefunc===");
+
+  let tempTableData = formData.value;
+  for (let index = 0; index < tempTableData.fields.length; index++) {
+    let element = tempTableData.fields[index];
+    if (element.fid == editFormData.value.field_name) {
+      tempTableData.fields[index].matchingName =
+        editFormData.value.mapping_name;
+    }
+  }
+
+  console.log(tempTableData);
+  let res = await updateServiceFields(tempTableData);
+  console.log(res);
+  if (res.code === 0) {
+    formData.value = tempTableData;
+    ElMessage({
+      type: "success",
+      message: t("general.createUpdateSuccess"),
+    });
+  } else {
+    ElMessage({
+      type: "fail",
+      message: "fail to update",
+    });
+  }
+
   closeForm();
 };
 const closeForm = () => {
@@ -320,12 +358,12 @@ const closeForm = () => {
 const closeDialog = () => {
   addModelBoolean.value = false;
   editModelBoolean.value = false;
-  formData.value = { gateway: "", fields: [] };
-  editFormData.value = {
-    id: 0,
-    field_name: "",
-    mapping_name: "",
-  };
+  // formData.value = { gateway: formData.value.gateway, fields: [] };
+  // editFormData.value = {
+  //   id: 0,
+  //   field_name: "",
+  //   mapping_name: "",
+  // };
 };
 const openDialog = () => {
   addModelBoolean.value = true;
@@ -340,7 +378,7 @@ const getFieldsData = async () => {
 
 getFieldsData();
 // 自动化生成的字典（可能为空）以及字段
-const formData = ref({
+let formData = ref({
   gateway: "",
 
   fields: [
@@ -351,9 +389,10 @@ const formData = ref({
   ],
 });
 </script>
+
 <script>
 export default {
-  name: "Test",
+  name: "serviceFields",
   props: {
     msg: String,
   },

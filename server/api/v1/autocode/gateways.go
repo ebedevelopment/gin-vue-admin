@@ -1,21 +1,23 @@
 package autocode
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-    autocodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-    "github.com/flipped-aurora/gin-vue-admin/server/service"
-    "github.com/gin-gonic/gin"
-    "go.uber.org/zap"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/autocode"
+	autocodeReq "github.com/flipped-aurora/gin-vue-admin/server/model/autocode/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
+	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type GatewaysApi struct {
 }
 
 var gatewaysService = service.ServiceGroupApp.AutoCodeServiceGroup.GatewaysService
-
 
 // CreateGateways 创建Gateways
 // @Tags Gateways
@@ -30,7 +32,7 @@ func (gatewaysApi *GatewaysApi) CreateGateways(c *gin.Context) {
 	var gateways autocode.Gateways
 	_ = c.ShouldBindJSON(&gateways)
 	if err := gatewaysService.CreateGateways(gateways); err != nil {
-        global.GVA_LOG.Error(global.Translate("general.creationFail"), zap.Error(err))
+		global.GVA_LOG.Error(global.Translate("general.creationFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
 		response.OkWithMessage(global.Translate("general.createSuccss"), c)
@@ -50,7 +52,7 @@ func (gatewaysApi *GatewaysApi) DeleteGateways(c *gin.Context) {
 	var gateways autocode.Gateways
 	_ = c.ShouldBindJSON(&gateways)
 	if err := gatewaysService.DeleteGateways(gateways); err != nil {
-        global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
+		global.GVA_LOG.Error(global.Translate("general.deleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.deletFailErr"), c)
 	} else {
 		response.OkWithMessage(global.Translate("general.deleteSuccess"), c)
@@ -68,9 +70,9 @@ func (gatewaysApi *GatewaysApi) DeleteGateways(c *gin.Context) {
 // @Router /gateways/deleteGatewaysByIds [delete]
 func (gatewaysApi *GatewaysApi) DeleteGatewaysByIds(c *gin.Context) {
 	var IDS request.IdsReq
-    _ = c.ShouldBindJSON(&IDS)
+	_ = c.ShouldBindJSON(&IDS)
 	if err := gatewaysService.DeleteGatewaysByIds(IDS); err != nil {
-        global.GVA_LOG.Error(global.Translate("sys_operation_record.batchDeleteFail"), zap.Error(err))
+		global.GVA_LOG.Error(global.Translate("sys_operation_record.batchDeleteFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("sys_operation_record.batchDeleteFailErr"), c)
 	} else {
 		response.OkWithMessage(global.Translate("sys_operation_record.batchDeleteSuccess"), c)
@@ -90,7 +92,7 @@ func (gatewaysApi *GatewaysApi) UpdateGateways(c *gin.Context) {
 	var gateways autocode.Gateways
 	_ = c.ShouldBindJSON(&gateways)
 	if err := gatewaysService.UpdateGateways(gateways); err != nil {
-        global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
+		global.GVA_LOG.Error(global.Translate("general.updateFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.updateFailErr"), c)
 	} else {
 		response.OkWithMessage(global.Translate("general.updateSuccess"), c)
@@ -110,7 +112,7 @@ func (gatewaysApi *GatewaysApi) FindGateways(c *gin.Context) {
 	var gateways autocode.Gateways
 	_ = c.ShouldBindQuery(&gateways)
 	if err, regateways := gatewaysService.GetGateways(gateways.ID); err != nil {
-        global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
+		global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.queryFailErr"), c)
 	} else {
 		response.OkWithData(gin.H{"regateways": regateways}, c)
@@ -130,14 +132,45 @@ func (gatewaysApi *GatewaysApi) GetGatewaysList(c *gin.Context) {
 	var pageInfo autocodeReq.GatewaysSearch
 	_ = c.ShouldBindQuery(&pageInfo)
 	if err, list, total := gatewaysService.GetGatewaysInfoList(pageInfo); err != nil {
-	    global.GVA_LOG.Error(global.Translate("general.getDataFail"), zap.Error(err))
-        response.FailWithMessage(global.Translate("general.getDataFailErr"), c)
-    } else {
-        response.OkWithDetailed(response.PageResult{
-            List:     list,
-            Total:    total,
-            Page:     pageInfo.Page,
-            PageSize: pageInfo.PageSize,
-        }, global.Translate("general.getDataSuccess"), c)
-    }
+		global.GVA_LOG.Error(global.Translate("general.getDataFail"), zap.Error(err))
+		response.FailWithMessage(global.Translate("general.getDataFailErr"), c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, global.Translate("general.getDataSuccess"), c)
+	}
+}
+
+// get service fields for gateways using dns
+func (gatewaysApi *GatewaysApi) GetGatewayServiceFields(c *gin.Context) {
+	var getFieldsApi autocode.GetFieldsApi
+	var responseBody = make([]autocode.FieldMap, 0)
+	err := c.ShouldBindJSON(&getFieldsApi)
+	fmt.Println(getFieldsApi)
+	fmt.Println(err)
+	byteValueReq, err := json.Marshal(getFieldsApi)
+	fmt.Println(string(byteValueReq))
+
+	if err != nil {
+		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+	}
+
+	// url := global.GVA_VP.GetString("gateway-controller.url") + "/fields/get"
+	// fmt.Println(url)
+	// body, err := global.SendPostReq("POST", byteValueReq, url)
+	// fmt.Println(string(body))
+	//
+
+	// json.Unmarshal(body, &responseBody)
+	// if err != nil {
+
+	// 	response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+	// } else {
+	// responseBody = append(responseBody, autocode.FieldMap{Fid: 1, MatchingName: "TRANSACTION_VALUE"})
+	_ = json.Unmarshal([]byte(`[{ "fid": 102, "matchingName": "ACCOUNT_REFERENCE" }, { "fid": 101, "matchingName": "TRANSACTION_VALUE" }, { "fid": 103, "matchingName": "FEES_VALUE" } ]`), &responseBody)
+	response.OkWithData(responseBody, c)
+	// }
 }

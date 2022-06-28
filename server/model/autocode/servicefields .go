@@ -19,10 +19,17 @@ package autocode
 // func (Fields) TableName() string {
 // 	return "fields"
 // }
+// request of add/edit
 type ServiceFields struct {
-	Gateway string `json:"gateway" form:"gateway"`
-	Fields  []struct {
-		Fid          int    `json:"fid"`
-		MatchingName string `json:"matchingName"`
-	} `json:"fields"`
+	Gateway string     `json:"gateway" form:"gateway"`
+	Fields  []FieldMap `json:"fields"`
+}
+type FieldMap struct {
+	Fid          int    `json:"fid"`
+	MatchingName string `json:"matchingName"`
+}
+
+// request of get fields using dns
+type GetFieldsApi struct {
+	Dns string `json:"dns" form:"dns"`
 }
