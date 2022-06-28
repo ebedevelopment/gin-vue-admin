@@ -352,7 +352,7 @@
           <label>{{ formData.services[index].dns }}</label>
           <el-form-item label="biller_code :">
             <el-input
-              v-model="formData.services[index].params.billercode"
+              v-model="formData.services[index].params.biller_code"
               clearable
               :placeholder="t('general.pleaseEnter')"
             />
@@ -553,7 +553,7 @@ const generate_dynamicform = async (formData, gatewaysData) => {
       dns: obj.domainNameService,
 
       params: {
-        billercode: "",
+        biller_code: "",
         code: "",
         pkgs: [
           {

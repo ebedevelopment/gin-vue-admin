@@ -51,13 +51,13 @@ type ServiceList struct {
 }
 
 type ServiceRequest struct {
-	ID int `json:"id"`
-
 	DNS    string `json:"dns"`
 	Params struct {
-		PkgIds []int64 `json:"pkgids"`
+		//add serviceId and convert params object to arrray of byte
+		ServiceId int     `json:"service_id"`
+		PkgIds    []int64 `json:"pkgids,omitempty"` ///remove pkgids and add it in getservicestruct(new struct)
 
-		BillerCode string `json:"billercode"`
+		BillerCode string `json:"biller_code"`
 		Code       string `json:"code"`
 
 		Pckg []struct {
@@ -66,6 +66,15 @@ type ServiceRequest struct {
 			EvdSelector string `json:"evd_selector"`
 		} `json:"pkgs"`
 	} `json:"params"`
+}
+type GetServiceStruct struct {
+	ServElem []GetServiceElem `json:"serv_Elem"`
+}
+type GetServiceElem struct {
+	DNS string `json:"dns"`
+
+	ServiceId int     `json:"service_id"`
+	PkgIds    []int64 `json:"pkgids,omitempty"`
 }
 
 // TableName Services The name of the table
