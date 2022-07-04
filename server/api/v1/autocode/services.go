@@ -51,31 +51,9 @@ func (servicesApi *ServicesApi) CreateServices(c *gin.Context) {
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	} else {
 
-		// _, id := servicesService.GetlastServices()
-		// ServiceRequestobj.ServiceId = id
-
 		response.OkWithMessage(global.Translate("general.createSuccss"), c)
 	}
-	// if services.FileUrl != "" {
 
-	// 	jsonFile, err := os.Open(services.FileUrl)
-	// 	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	// 	err = json.Unmarshal(byteValue, &ServiceRequestobj)
-	// 	if err != nil {
-	// 		fmt.Println("error in marchal", err)
-	// 	}
-	// 	byteValueReq, err := json.Marshal(ServiceRequestobj)
-	// 	fmt.Println(ServiceRequestobj)
-
-	// 	if err != nil {
-	// 		fmt.Println("error:", err)
-	// 	}
-	// 	url := global.GVA_VP.GetString("gateway-controller.url") + "/service/add"
-
-	// 	body := global.SendPostReq("POST", byteValueReq, url)
-	// 	fmt.Println(string(body))
-	// }
 }
 
 // DeleteServices 删除Services
@@ -138,26 +116,26 @@ func (servicesApi *ServicesApi) UpdateServices(c *gin.Context) {
 	} else {
 		response.OkWithMessage(global.Translate("general.updateSuccess"), c)
 	}
-	var ServiceRequestobj autocode.ServiceRequest
-	ServiceRequestobj.ServiceId = services.ID
-	if services.FileUrl != "" {
+	// var ServiceRequestobj autocode.ServiceRequest
+	// ServiceRequestobj.ServiceId = services.ID
+	// if services.FileUrl != "" {
 
-		// jsonFile, err := os.Open(services.FileUrl)
-		// byteValue, _ := ioutil.ReadAll(jsonFile)
+	// jsonFile, err := os.Open(services.FileUrl)
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
 
-		// err = json.Unmarshal(byteValue, &ServiceRequestobj)
-		// if err != nil {
-		// 	fmt.Println("error in marchal", err)
-		// }
-		// byteValueReq, err := json.Marshal(ServiceRequestobj)
+	// err = json.Unmarshal(byteValue, &ServiceRequestobj)
+	// if err != nil {
+	// 	fmt.Println("error in marchal", err)
+	// }
+	// byteValueReq, err := json.Marshal(ServiceRequestobj)
 
-		// if err != nil {
-		// 	fmt.Println("error:", err)
-		// }
-		// url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
+	// if err != nil {
+	// 	fmt.Println("error:", err)
+	// }
+	// url := global.GVA_VP.GetString("gateway-controller.url") + "/service/update"
 
-		// global.SendPostReq("PUT", byteValueReq, url)
-	}
+	// global.SendPostReq("PUT", byteValueReq, url)
+	// }
 }
 
 // FindServices 用id查询Services
@@ -176,6 +154,7 @@ func (servicesApi *ServicesApi) FindServices(c *gin.Context) {
 		global.GVA_LOG.Error(global.Translate("general.queryFail"), zap.Error(err))
 		response.FailWithMessage(global.Translate("general.queryFailErr"), c)
 	} else {
+
 		response.OkWithData(gin.H{"reservices": reservices}, c)
 	}
 }
@@ -204,7 +183,7 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 
 			_, category := categoriesService.GetCategories(uint(*s.CatId))
 			// _, gateway := gatewaysService.GetGateways(uint(*s.DefaultGatewayDn))
-			service.CategoryId = category.NameEn
+			service.CategoryId = category.NameAr
 			service.Count = s.Count
 			service.CreatedAt = s.CreatedAt
 
@@ -219,7 +198,7 @@ func (servicesApi *ServicesApi) GetServicesList(c *gin.Context) {
 			service.NameEn = s.NameEn
 			service.Price = s.Price
 			_, provider := providersService.GetProviders(uint(*s.ProvId))
-			service.ProviderId = provider.NameEn
+			service.ProviderId = provider.NameAr
 
 			//TODO gateways , fields, frontends specifies with service
 

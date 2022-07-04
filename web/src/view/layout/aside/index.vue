@@ -32,66 +32,69 @@
 
 <script>
 export default {
-  name: 'Aside',
-}
+  name: "Aside",
+};
 </script>
 
 <script setup>
-import AsideComponent from '@/view/layout/aside/asideComponent/index.vue'
-import { emitter } from '@/utils/bus.js'
-import { ref, watch, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/pinia/modules/user'
-import { useRouterStore } from '@/pinia/modules/router'
+import AsideComponent from "@/view/layout/aside/asideComponent/index.vue";
+import { emitter } from "@/utils/bus.js";
+import { ref, watch, onUnmounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "@/pinia/modules/user";
+import { useRouterStore } from "@/pinia/modules/router";
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const userStore = useUserStore()
-const routerStore = useRouterStore()
+const userStore = useUserStore();
+const routerStore = useRouterStore();
 
-const active = ref('')
+const active = ref("");
 watch(route, () => {
-  active.value = route.name
-})
+  active.value = route.name;
+});
 
-const isCollapse = ref(false)
+const isCollapse = ref(false);
 const initPage = () => {
-  active.value = route.name
-  const screenWidth = document.body.clientWidth
+  active.value = route.name;
+  const screenWidth = document.body.clientWidth;
   if (screenWidth < 1000) {
-    isCollapse.value = !isCollapse.value
+    isCollapse.value = !isCollapse.value;
   }
 
-  emitter.on('collapse', (item) => {
-    isCollapse.value = item
-  })
-}
+  emitter.on("collapse", (item) => {
+    isCollapse.value = item;
+  });
+};
 
-initPage()
+initPage();
 
 onUnmounted(() => {
-  emitter.off('collapse')
-})
+  emitter.off("collapse");
+});
 
 const selectMenuItem = (index, _, ele, aaa) => {
-  const query = {}
-  const params = {}
- routerStore.routeMap[index]?.parameters &&
+  const query = {};
+  const params = {};
+  routerStore.routeMap[index]?.parameters &&
     routerStore.routeMap[index]?.parameters.forEach((item) => {
-      if (item.type === 'query') {
-        query[item.key] = item.value
+      console.log(item);
+      if (item.type === "query") {
+        query[item.key] = item.value;
       } else {
-        params[item.key] = item.value
+        params[item.key] = item.value;
       }
-    })
- if (index === route.name) return
- if (index.indexOf('http://') > -1 || index.indexOf('https://') > -1) {
-   window.open(index)
- } else {
-   router.push({ name: index, query, params })
- }
-}
+    });
+
+  if (index === route.name) return;
+  if (index.indexOf("http://") > -1 || index.indexOf("https://") > -1) {
+    window.open(index);
+  } else {
+    console.log(routerStore.routeMap);
+    router.push({ name: index, query, params });
+  }
+};
 </script>
 
 <style lang="scss">

@@ -46,10 +46,10 @@ func (userService *UserService) Login(u *system.SysUser) (err error, userInter *
 	var user system.SysUser
 	u.Password = utils.MD5V([]byte(u.Password))
 	err = global.GVA_DB.Where("username = ? AND password = ?", u.Username, u.Password).Preload("Authorities").Preload("Authority").First(&user).Error
-	if err == nil{
+	if err == nil {
 		var am system.SysMenu
-		ferr := global.GVA_DB.First(&am,"name = ? AND authority_id = ?",user.Authority.DefaultRouter,user.AuthorityId).Error
-		if errors.Is(ferr,gorm.ErrRecordNotFound) {
+		ferr := global.GVA_DB.First(&am, "name = ? AND authority_id = ?", user.Authority.DefaultRouter, user.AuthorityId).Error
+		if errors.Is(ferr, gorm.ErrRecordNotFound) {
 			user.Authority.DefaultRouter = "404"
 		}
 	}
@@ -117,9 +117,7 @@ func (userService *UserService) SetUserAuthorities(id uint, authorityIds []strin
 		}
 		useAuthority := []system.SysUseAuthority{}
 		for _, v := range authorityIds {
-			useAuthority = append(useAuthority, system.SysUseAuthority{
-				id, v,
-			})
+			useAuthority = append(useAuthority, system.SysUseAuthority{SysUserId: id, SysAuthorityAuthorityId: v})
 		}
 		TxErr = tx.Create(&useAuthority).Error
 		if TxErr != nil {
@@ -170,12 +168,12 @@ func (userService *UserService) SetUserInfo(reqUser system.SysUser) (err error, 
 func (userService *UserService) GetUserInfo(uuid uuid.UUID) (err error, user system.SysUser) {
 	var reqUser system.SysUser
 	err = global.GVA_DB.Preload("Authorities").Preload("Authority").First(&reqUser, "uuid = ?", uuid).Error
-	if err!=nil{
+	if err != nil {
 		return err, reqUser
 	}
 	var am system.SysMenu
-	ferr := global.GVA_DB.First(&am,"name = ? AND authority_id = ?",reqUser.Authority.DefaultRouter,reqUser.AuthorityId).Error
-	if errors.Is(ferr,gorm.ErrRecordNotFound) {
+	ferr := global.GVA_DB.First(&am, "name = ? AND authority_id = ?", reqUser.Authority.DefaultRouter, reqUser.AuthorityId).Error
+	if errors.Is(ferr, gorm.ErrRecordNotFound) {
 		reqUser.Authority.DefaultRouter = "404"
 	}
 	return err, reqUser

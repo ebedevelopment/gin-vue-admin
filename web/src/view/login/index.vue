@@ -7,19 +7,37 @@
             class="login_panle_form_title_logo"
             :src="$GIN_VUE_ADMIN.appLogo"
             alt
-          >
+          />
           <p class="login_panle_form_title_p">{{ $GIN_VUE_ADMIN.appName }}</p>
         </div>
-        <div style="padding-left: 92%; padding-bottom: 20px;">
+        <div style="padding-left: 92%; padding-bottom: 20px">
           <el-dropdown trigger="click" @command="handleSetLanguage">
             <span class="el-dropdown-link">
-              <img src="@/assets/language.svg" style="width: 30px; height: 30px;">
+              <img
+                src="@/assets/language.svg"
+                style="width: 30px; height: 30px"
+              />
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item :disabled="$i18n.locale==='en'" command="en"><img src="@/assets/flags/en.svg" class="img">English</el-dropdown-item>
-                <el-dropdown-item :disabled="$i18n.locale==='zh'" command="zh"><img src="@/assets/flags/zh.svg" class="img">中文</el-dropdown-item>
-                <el-dropdown-item :disabled="$i18n.locale==='ar'" command="ar"><img src="@/assets/flags/ar.svg" class="img">العربية</el-dropdown-item>
+                <el-dropdown-item :disabled="$i18n.locale === 'en'" command="en"
+                  ><img
+                    src="@/assets/flags/en.svg"
+                    class="img"
+                  />English</el-dropdown-item
+                >
+                <el-dropdown-item :disabled="$i18n.locale === 'zh'" command="zh"
+                  ><img
+                    src="@/assets/flags/zh.svg"
+                    class="img"
+                  />中文</el-dropdown-item
+                >
+                <el-dropdown-item :disabled="$i18n.locale === 'ar'" command="ar"
+                  ><img
+                    src="@/assets/flags/ar.svg"
+                    class="img"
+                  />العربية</el-dropdown-item
+                >
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -53,10 +71,7 @@
               <template #suffix>
                 <span class="input-icon">
                   <el-icon>
-                    <component
-                      :is="lock"
-                      @click="changeLock"
-                    />
+                    <component :is="lock" @click="changeLock" />
                   </el-icon>
                 </span>
               </template>
@@ -74,20 +89,19 @@
                 :src="picPath"
                 :alt="t('login.entVerificationCode')"
                 @click="loginVerify()"
-              >
+              />
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              style="width: 46%"
-              @click="checkInit"
-            >{{ t('login.init') }}</el-button>
+            <el-button type="primary" style="width: 46%" @click="checkInit">{{
+              t("login.init")
+            }}</el-button>
             <el-button
               type="primary"
               style="width: 46%; margin-left: 8%"
               @click="submitForm"
-            >{{ t('login.login') }}</el-button>
+              >{{ t("login.login") }}</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
@@ -95,19 +109,19 @@
       <div class="login_panle_foot">
         <div class="links">
           <a href="http://doc.henrongyi.top/" target="_blank">
-            <img src="@/assets/docs.png" class="link-icon">
+            <img src="@/assets/docs.png" class="link-icon" />
           </a>
           <a href="https://support.qq.com/product/371961" target="_blank">
-            <img src="@/assets/kefu.png" class="link-icon">
+            <img src="@/assets/kefu.png" class="link-icon" />
           </a>
           <a
             href="https://github.com/flipped-aurora/gin-vue-admin"
             target="_blank"
           >
-            <img src="@/assets/github.png" class="link-icon">
+            <img src="@/assets/github.png" class="link-icon" />
           </a>
           <a href="https://space.bilibili.com/322210472" target="_blank">
-            <img src="@/assets/video.png" class="link-icon">
+            <img src="@/assets/video.png" class="link-icon" />
           </a>
         </div>
         <div class="copyright">
@@ -120,139 +134,143 @@
 
 <script>
 export default {
-  name: 'Login',
-}
+  name: "Login",
+};
 </script>
 
 <script setup>
-import { captcha } from '@/api/user'
-import { checkDB } from '@/api/initdb'
-import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
-import { reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/pinia/modules/user'
-import Cookies from 'js-cookie' // added by mohamed hassan to support multilanguage
-import { useI18n } from 'vue-i18n' // added by mohamed hassan to support multilanguage
+import { captcha } from "@/api/user";
+import { checkDB } from "@/api/initdb";
+import bootomInfo from "@/view/layout/bottomInfo/bottomInfo.vue";
+import { reactive, ref } from "vue";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/pinia/modules/user";
+import Cookies from "js-cookie"; // added by mohamed hassan to support multilanguage
+import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
 
-const i18n = useI18n() // added by mohamed hassan to support multilanguage
-const { t } = useI18n() // added by mohamed hassan to support multilanguage
+const i18n = useI18n(); // added by mohamed hassan to support multilanguage
+const { t } = useI18n(); // added by mohamed hassan to support multilanguage
 
-const router = useRouter()
+const router = useRouter();
 // 验证函数
 const checkUsername = (rule, value, callback) => {
   if (value.length < 5) {
-    return callback(new Error(t('login.errUserName')))
+    return callback(new Error(t("login.errUserName")));
   } else {
-    callback()
+    callback();
   }
-}
+};
 
 const checkPassword = (rule, value, callback) => {
   if (value.length < 6) {
-    return callback(new Error(t('login.errPassword')))
+    return callback(new Error(t("login.errPassword")));
   } else {
-    callback()
+    callback();
   }
-}
+};
 
 // 获取验证码
 const loginVerify = () => {
   captcha({}).then((ele) => {
-    rules.captcha[1].max = ele.data.captchaLength
-    rules.captcha[1].min = ele.data.captchaLength
-    picPath.value = ele.data.picPath
-    loginFormData.captchaId = ele.data.captchaId
-  })
-}
+    rules.captcha[1].max = ele.data.captchaLength;
+    rules.captcha[1].min = ele.data.captchaLength;
+    picPath.value = ele.data.picPath;
+    loginFormData.captchaId = ele.data.captchaId;
+  });
+};
 
 const getLanguage = () => {
-  var lang = Cookies.get('language')
-  return (lang || 'en')
-}
+  var lang = Cookies.get("language");
+  return lang || "en";
+};
 
-getLanguage()
+getLanguage();
 
-loginVerify()
+loginVerify();
 
 // 登录相关操作
-const lock = ref('lock')
+const lock = ref("lock");
 const changeLock = () => {
-  lock.value = lock.value === 'lock' ? 'unlock' : 'lock'
-}
+  lock.value = lock.value === "lock" ? "unlock" : "lock";
+};
 
-const loginForm = ref(null)
-const picPath = ref('')
+const loginForm = ref(null);
+const picPath = ref("");
 
 const loginFormData = reactive({
-  username: 'admin',
-  password: '123456',
-  captcha: '',
-  captchaId: '',
-})
+  username: "admin",
+  password: "123456",
+  captcha: "",
+  captchaId: "",
+});
 
 const rules = reactive({
-  username: [{ validator: checkUsername, trigger: 'blur' }],
-  password: [{ validator: checkPassword, trigger: 'blur' }],
+  username: [{ validator: checkUsername, trigger: "blur" }],
+  password: [{ validator: checkPassword, trigger: "blur" }],
   captcha: [
-    { required: true, message: t('login.entVerificationCode'), trigger: 'blur' },
     {
-      message: t('login.errVerificationCode'),
-      trigger: 'blur',
+      required: true,
+      message: t("login.entVerificationCode"),
+      trigger: "blur",
+    },
+    {
+      message: t("login.errVerificationCode"),
+      trigger: "blur",
     },
   ],
-})
+});
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
-const login = async() => {
-  return await userStore.LoginIn(loginFormData)
-}
+const login = async () => {
+  return await userStore.LoginIn(loginFormData);
+};
 
 const submitForm = () => {
-  loginForm.value.validate(async(v) => {
+  loginForm.value.validate(async (v) => {
     if (v) {
-      const flag = await login()
+      const flag = await login();
       if (!flag) {
-        loginVerify()
+        loginVerify();
       }
     } else {
       ElMessage({
-        type: 'error',
-        message: t('login.errLogin'),
+        type: "error",
+        message: t("login.errLogin"),
         showClose: true,
-      })
-      loginVerify()
-      return false
+      });
+      loginVerify();
+      return false;
     }
-  })
-}
+  });
+};
 
 // 跳转初始化
-const checkInit = async() => {
-  const res = await checkDB()
+const checkInit = async () => {
+  const res = await checkDB();
   if (res.code === 0) {
     if (res.data?.needInit) {
-      userStore.NeedInit()
-      router.push({ name: 'Init' })
+      userStore.NeedInit();
+      router.push({ name: "Init" });
     } else {
       ElMessage({
-        type: 'info',
-        message: t('login.errInit'),
-      })
+        type: "info",
+        message: t("login.errInit"),
+      });
     }
   }
-}
+};
 
 const handleSetLanguage = (lang) => {
   // console.log('handleSetLanguage() called with value: ' + lang)
-  i18n.locale.value = lang
+  i18n.locale.value = lang;
 
-  userStore.setLanguage(lang)
+  userStore.setLanguage(lang);
 
   // console.log('userStore handleSetLanguage() called with value: ' + userStore.getLanguage())
 
-  Cookies.set('language', lang)
+  Cookies.set("language", lang);
 
   // if (lang === 'ar') {
   //   console.log('Arabic language selected changing to RTL')
@@ -275,12 +293,12 @@ const handleSetLanguage = (lang) => {
   // htmlEl.setAttribute('lang', lang)
 
   ElMessage({
-    message: t('general.langSwitch'),
-    type: 'success'
-  })
+    message: t("general.langSwitch"),
+    type: "success",
+  });
 
   // this.$emit('handerevent')
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -301,14 +319,14 @@ prefix {
 .international-icon {
   font-size: 20px;
   cursor: pointer;
-  vertical-align: -5px!important;
+  vertical-align: -5px !important;
 }
 
 html.is-rtl * {
-    direction: rtl;
+  direction: rtl;
 }
 
 html.is-ltr * {
-    direction: ltr;
+  direction: ltr;
 }
 </style>

@@ -16,10 +16,13 @@ func (s *FieldsRouter) InitFieldsRouter(Router *gin.RouterGroup) {
 	var fieldsApi = v1.ApiGroupApp.AutoCodeApiGroup.FieldsApi
 	{
 		fieldsRouter.POST("createFields", fieldsApi.CreateFields)   // 新建Fields
+
 		fieldsRouter.DELETE("deleteFields", fieldsApi.DeleteFields) // 删除Fields
 		fieldsRouter.DELETE("deleteFieldsByIds", fieldsApi.DeleteFieldsByIds) // 批量删除Fields
 		fieldsRouter.PUT("updateFields", fieldsApi.UpdateFields)    // 更新Fields
 	}
+
+	
 	{
 		fieldsRouterWithoutRecord.GET("findFields", fieldsApi.FindFields)        // 根据ID获取Fields
 		fieldsRouterWithoutRecord.GET("getFieldsList", fieldsApi.GetFieldsList)  // 获取Fields列表

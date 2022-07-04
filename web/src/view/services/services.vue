@@ -128,14 +128,6 @@
         />
         <el-table-column align="left" :label="t('general.operations')">
           <template #default="scope">
-            <!-- <el-button
-              type="text"
-              icon="add"
-              size="small"
-              class="table-button"
-              @click="addGateway(scope.row)"
-              >{{ t("general.addGateways") }}</el-button
-            > -->
             <el-button
               type="text"
               icon="edit"
@@ -166,11 +158,8 @@
         />
       </div>
     </div>
-    <el-dialog
-      v-model="dialogFormVisible"
-      :before-close="closeDialog"
-      :title="t('general.popUpOperation')"
-    >
+    <!-- :before-close="closeDialog" -->
+    <el-dialog v-model="dialogFormVisible" :title="t('general.popUpOperation')">
       <el-form :model="formData" label-position="right" label-width="160px">
         <el-form-item label="catId :">
           <el-select
@@ -202,7 +191,8 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Gateways:">
+
+       <el-form-item label="Gateways:">
           <el-select
             multiple
             v-model="formData.gateways"
@@ -211,10 +201,11 @@
             style="width: 100%"
           >
             <el-option
-              v-for="item in gatewaysData"
+              v-for="(item, index) in gatewaysData"
               :key="item.ID"
               :label="`${item.nameEn}`"
               :value="item.ID"
+              :v-bind="index"
             />
           </el-select>
         </el-form-item>
@@ -288,7 +279,7 @@
             :placeholder="t('general.pleaseEnter')"
           />
         </el-form-item>
-        <el-form-item label="count :">
+        <el-form-item labe l="count :">
           <el-input
             v-model.number="formData.count"
             clearable
@@ -316,6 +307,8 @@
               :value="item.domainNameService"
             />
           </el-select>
+          <span>{{ formData }}</span>
+          
         </el-form-item>
         <el-form-item label="Status">
           <el-switch
@@ -327,23 +320,92 @@
             clearable
           ></el-switch>
         </el-form-item>
-        <!-- <el-form-item>
-          <el-upload
-            :action="`${path}/fileUploadAndDownload/upload`"
-            :before-upload="checkFile"
-            :headers="{ 'x-token': userStore.token }"
-            :on-error="uploadError"
-            :on-success="uploadSuccess"
-            :show-file-list="false"
-            class="upload-btn"
-          >
-            <el-button size="small" type="primary">upload</el-button>
-          </el-upload>
-        </el-form-item> -->
       </el-form>
+      
+
       <template #footer>
         <div class="dialog-footer">
           <el-button size="small" @click="closeDialog">{{
+            t("general.close")
+          }}</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="redirectDialog(formData, gatewaysData)"
+            >{{ t("general.confirm") }}</el-button
+          >
+        </div>
+      </template>
+    </el-dialog>
+
+    <!--start param model-->
+    <!-- :before-close="closepkgDialog" -->
+    <el-dialog v-model="dialogpkgVisible" :title="t('general.popUpOperation')">
+      <div
+        class="form"
+        v-for="(item, index) in formData.gateways"
+        v-bind:key="index"
+      >
+        
+        <el-form :model="formData.services" label-position="right" label-width="160px">
+          
+          <label>{{ formData.services[index].dns }}</label>
+          <el-form-item label="biller_code :">
+            <el-input
+              v-model="formData.services[index].params.biller_code"
+              clearable
+              :placeholder="t('general.pleaseEnter')"
+            />
+          </el-form-item>
+
+          <el-form-item label="code :">
+            <el-input
+              v-model="formData.services[index].params.code"
+              clearable
+              :placeholder="t('general.pleaseEnter')"
+            />
+          </el-form-item>
+
+          <div id="visa">
+            <form>
+              <button @click="addpkgsection(formData, index)">
+                Add another pkg
+              </button>
+              <br />
+              <div
+                class="previous"
+                v-for="(applicant, counter) in formData.services[index].params.pkgs"
+                v-bind:key="counter"
+              >
+                <span @click="deletepkgsection(counter)">x</span>
+                <label for="duration">{{ counter + 1 }}. pkgName:</label>
+
+                <el-select
+                  v-model="applicant.id"
+                  clearable
+                  placeholder="please enter"
+                >
+                  <el-option
+                    v-for="item in pkgs"
+                    :key="item.ID"
+                    :label="`${item.nameAr}`"
+                    :value="item.ID"
+                  />
+                </el-select>
+                <label for="duration">:pckg_code</label>
+                <input type="text" v-model="applicant.pckg_code" required />
+                <label for="duration">evd_selector:</label>
+                <input type="text" v-model="applicant.evd_selector" required />
+              </div>
+            </form>
+          </div>
+        </el-form>
+      </div>
+      <span> {{ formData }}</span>
+      
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closepkgDialog">{{
             t("general.close")
           }}</el-button>
           <el-button size="small" type="primary" @click="enterDialog">{{
@@ -359,7 +421,7 @@
 import { getFileList } from "@/api/fileUploadAndDownload";
 import { downloadImage } from "@/utils/downloadImg";
 import { useUserStore } from "@/pinia/modules/user";
-import {  formatDate } from '@/utils/format'
+import { formatDate } from "@/utils/format";
 import { ref } from "vue";
 
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -368,13 +430,7 @@ const path = ref(import.meta.env.VITE_BASE_API);
 const userStore = useUserStore();
 
 const imageUrl = ref("");
-// const testJson = ref({
-//   type: "object",
-//   properties: {
-//     a: { type: "string" },
-//     b: { type: "number" },
-//   },
-// });
+
 const page = ref(1);
 const total = ref(0);
 const pageSize = ref(10);
@@ -408,57 +464,39 @@ const getTableData = async () => {
 getTableData();
 
 const fullscreenLoading = ref(false);
-// const checkFile = (file) => {
-//   fullscreenLoading.value = true;
-//   const isJson = file.type === "application/json";
 
-//   const isLt2M = file.size / 1024 / 1024 < 0.5;
-//   if (!isJson) {
-//     ElMessage.error("only json file");
-//     fullscreenLoading.value = false;
-//   }
-//   if (!isLt2M) {
-//     ElMessage.error("未压缩未见上传图片大小不能超过 500KB，请使用压缩上传");
-//     fullscreenLoading.value = false;
-//   }
-//   console.log("check ", file);
-//   return isJson && isLt2M;
-// };
-const uploadSuccess = (res) => {
-  fullscreenLoading.value = false;
 
-  filePath = res.data.file.url;
 
-  if (res.code === 0) {
-    ElMessage({
-      type: "success",
-      message: "上传成功",
-    });
-    if (res.code === 0) {
-      getTableData();
-    }
-  } else {
-    ElMessage({
-      type: "warning",
-      message: res.msg,
-    });
-  }
-};
 
-const uploadError = () => {
-  console.log("upload error");
-  ElMessage({
-    type: "error",
-    message: "上传失败",
-  });
-  fullscreenLoading.value = false;
-};
-const downloadFile = (row) => {
-  if (row.url.indexOf("http://") > -1 || row.url.indexOf("https://") > -1) {
-    downloadImage(row.url, row.name);
-  } else {
-    downloadImage(path.value + row.url, row.name);
-  }
+
+export default {
+  name: "Test",
+  props: {
+    msg: String,
+  },
+  data() {
+    return {
+      pkgs: [
+        {
+          id: 0,
+          pckg_code: "",
+          evd_selector: "",
+        },
+      ],
+    };
+  },
+  methods: {
+    addpkgsection(formData, index) {
+      formData.services[index].params.pkgs.push({
+        id: 0,
+        pckg_code: "",
+        evd_selector: "",
+      });
+    },
+    deletepkgsection(counter) {
+      this.pkgs.splice(counter, 1);
+    },
+  },
 };
 </script>
 
@@ -478,6 +516,7 @@ import { getGatewaysList } from "@/api/gateways";
 
 import { getFieldsList } from "@/api/fields";
 import { getVersionsList } from "@/api/versions";
+import { getPackagesList } from "@/api/packages";
 
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -499,9 +538,40 @@ const formData = ref({
   isPar: 0,
   status: false,
   defaultGatewayDn: "",
+  services: [],
   gateways: [],
-  gatewaysCols: [],
 });
+
+const generate_dynamicform = async (formData, gatewaysData) => {
+ 
+  console.log(formData.gateways.length)
+   
+  for (let index = formData.services.length; index < formData.gateways.length; index++) {
+    let obj = gatewaysData.find((o) => o.ID === formData.gateways[index]);
+
+    let item = {
+      dns: obj.domainNameService,
+
+      params: {
+        biller_code: "",
+        code: "",
+        pkgs: [
+          {
+            id: 0,
+            pckg_code: "",
+            evd_selector: "",
+          },
+        ],
+      },
+    };
+    
+ console.log("formData.serv");
+    console.log(formData.fields);
+    console.log(formData.services);
+    formData.services.push(item);
+   
+  }
+};
 
 // =========== 表格控制部分 ===========
 const page = ref(1);
@@ -514,24 +584,9 @@ const categoriesData = ref([]);
 const gatewaysData = ref([]);
 const fieldsData = ref([]);
 const versions = ref([]);
+const pkgs = ref([]);
 // ============= ================ ============
-const finalFormData = ref({
-  catId: "",
-  provId: "",
-  nameAr: "",
-  nameEn: "",
-  isPrice: 0,
-  price: 0,
-  inq: 0,
-  count: 0,
-  isPar: 0,
-  status: false,
-  defaultGatewayDn: "",
-  gateways: [],
-  gatewaysCols: [], // all cols for all gateways
-  testObj: {},
-});
-// 重置
+
 const onReset = () => {
   searchInfo.value = {};
 };
@@ -636,25 +691,21 @@ const type = ref("");
 const tableLayout = ref("auto");
 // Update the line
 const updateServicesFunc = async (row) => {
+  console.log("logggggggggggggggggggggggggggggggggggggggggggggggggggg: ")
+  console.log(row)
   const res = await findServices({ ID: row.ID });
-  console.log(res.data);
+  console.log("res.data");
+  console.log(res.code);
   type.value = "update";
   if (res.code === 0) {
+    console.log("res.data.reservices: ")
+  console.log(res.data.reservices)
     formData.value = res.data.reservices;
+    // formData.serv = []
     dialogFormVisible.value = true;
   }
 };
-// const addGatewaysFunc = async (row) => {
-//   const res = await findServices({ ID: row.ID });
-//   type.value = "add-gateway";
-//   // check all gateways
-//   if (res.code === 0) {
-//     formData.value = res.data.reservices;
-//     dialogFormVisible.value = true;
-//   }
-// };
-// GatewayDialogFormVisible;
-// Delete rows
+
 const deleteServicesFunc = async (row) => {
   const res = await deleteServices({ ID: row.ID });
   if (res.code === 0) {
@@ -713,53 +764,85 @@ const getVersionData = async () => {
 
 getVersionData();
 
+const getPkgsData = async () => {
+  const table = await getPackagesList();
+  if (table.code === 0) {
+    pkgs.value = table.data.list;
+  }
+};
+getPkgsData();
+
 // 弹窗控制标记
 const dialogFormVisible = ref(false);
 const gatewaysFormVisible = ref(false);
-// const gatewaysAdded = ref(false);
+const dialogpkgVisible = ref(false);
 const gatewaysJson = ref([]);
 // 打开弹窗
 const openDialog = () => {
   type.value = "create";
+
   dialogFormVisible.value = true;
 };
+const openpkgDialog = () => {
+  dialogpkgVisible.value = true;
+  console.log(dialogpkgVisible.value);
+};
+
 const openGatewayDialog = () => {
   type.value = "create";
   gatewaysFormVisible.value = true;
 };
+
 // Close Windows
 const closeDialog = () => {
   dialogFormVisible.value = false;
+  dialogpkgVisible.value = false;
+
+  formData.value = {
+     catId: "",
+  provId: "",
+  nameAr: "",
+  nameEn: "",
+  isPrice: 0,
+  price: 0,
+  inq: 0,
+  count: 0,
+  isPar: 0,
+  status: false,
+  defaultGatewayDn: "",
+  services: [],
+  gateways: [],
+  fields:[],
+    
+
+  
+  };
+};
+
+const closepkgDialog = () => {
+  dialogpkgVisible.value = false;
+  dialogFormVisible.value = false;
   formData.value = {
     catId: "",
-    provId: "",
-    nameAr: "",
-    nameEn: "",
-    isPrice: 0,
-    price: 0,
-    inq: 0,
-    count: 0,
-    isPar: 0,
-    defaultGatewayDn: "",
+  provId: "",
+  nameAr: "",
+  nameEn: "",
+  isPrice: 0,
+  price: 0,
+  inq: 0,
+  count: 0,
+  isPar: 0,
+  status: false,
+  defaultGatewayDn: "",
+  services: [],
+  gateways: [],
+  
+
+  
   };
+  window.location.reload();
 };
-const closeGatewaysDialog = () => {
-  gatewaysFormVisible.value = false;
-  finalFormData.value = {
-    catId: "",
-    provId: "",
-    nameAr: "",
-    nameEn: "",
-    isPrice: 0,
-    price: 0,
-    inq: 0,
-    count: 0,
-    isPar: 0,
-    defaultGatewayDn: "",
-    gateways: [],
-    gatewaysCols: [],
-  };
-};
+
 const schema = {
   type: "object",
   properties: {
@@ -773,67 +856,58 @@ const schema = {
     },
   },
 };
+const redirectDialog =  (formData, gatewaysData) => {
+  
+  dialogFormVisible.value=false
+  generate_dynamicform(formData, gatewaysData);
+  openpkgDialog();
 
+};
 // Popup window to determine
 const enterDialog = async () => {
   let res;
   switch (type.value) {
     case "create":
-      // if (gatewaysFormVisible.value) {
-      // formData.value.fileUrl = filePath;
-      console.log(formData.value);
+
       res = await createServices(formData.value);
-      // gatewaysAdded.value = false;
-      // } else {
-      //   // open gateways model
-      //   let selectedGatewaysIds = formData.value.gateways;
-      //   // console.log(gatewaysData.value[0].ID);
-      //   let flag = false;
-      //   // get json for each selected gateway
-      //   for (let index = 0; index < gatewaysData.value.length; index++) {
-      //     const element = gatewaysData.value[index];
-      //     for (let j = 0; j < selectedGatewaysIds.length; j++) {
-      //       const element2 = selectedGatewaysIds[j];
-      //       if (element.ID == element2) {
-      //         gatewaysJson.value.push(JSON.parse(element.cols));
-      //         console.log(JSON.parse(element.cols));
-      //         flag = true;
-      //         break;
-      //       }
-      //     }
-      //   }
-      //   if (flag) {
-      //     // add gateways cols
-      //     closeDialog();
-      //     openGatewayDialog();
-      //     return;
-      //   } else {
-      //     closeGatewaysDialog();
-      //   }
-      // }
 
       break;
     case "update":
-      formData.value.fileUrl = filePath;
-
+      //formData.value.fileUrl = filePath;
+        console.log("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
       res = await updateServices(formData.value);
       break;
     default:
-      // formData.value.fileUrl = filePath;
       res = await createServices(formData.value);
       break;
   }
+
   if (res.code === 0) {
     ElMessage({
       type: "success",
       message: t("general.createUpdateSuccess"),
     });
     closeDialog();
-    closeGatewaysDialog();
+    // closepkgDialog();
+
     getTableData();
   }
+  console.log(res.code);
 };
 </script>
 
+
+
+
+
 <style>
+.previous {
+  border: 1.5px solid;
+  padding: 5px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.form {
+  border: 1.5px solid;
+}
 </style>

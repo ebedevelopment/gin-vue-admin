@@ -26,9 +26,9 @@ type Services struct {
 	FieldsValues []int    `json:"fields" form:"fields" gorm:"-"`
 	Fields       []Fields `gorm:"many2many:service_fields;ForeignKey:id;References:id"`
 
-	VersionValues []int      `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
-	Versions      []Versions `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
-	FileUrl       string     `json:"fileUrl" gorm:"-"`
+	VersionValues []int            `json:"softwareVersion" form:"softwareVersion" gorm:"-"`
+	Versions      []Versions       `gorm:"many2many:service_versions;ForeignKey:id;References:id"`
+	Services      []ServiceRequest `json:"services" form:"services" gorm:"-"`
 }
 type ServiceList struct {
 	global.GVA_MODEL
@@ -51,25 +51,30 @@ type ServiceList struct {
 }
 
 type ServiceRequest struct {
-	ServiceId uint `json:"id"`
+	DNS    string `json:"dns"`
+	Params struct {
+		//add serviceId and convert params object to arrray of byte
+		ServiceId int     `json:"service_id"`
+		PkgIds    []int64 `json:"pkgids,omitempty"` ///remove pkgids and add it in getservicestruct(new struct)
 
-	Gateways []struct {
-		DNS  string `json:"dns"`
-		Cols struct {
-			BillerID         int    `json:"biller_id"`
-			BillingAccountID int    `json:"billing_account_id"`
-			Type             string `json:"type"`
-			Code             string `json:"code"`
-			CardDataID       int    `json:"card_data_id"`
-			EPayBillRecID    int    `json:"e_pay_bill_rec_id"`
-			SequenceID       int    `json:"sequence_id"`
-			AmountID         int    `json:"amount_id"`
-			FeesAmtID        int    `json:"fees_amt_id"`
-			CurCodeID        int    `json:"cur_code_id"`
-			BillNumID        int    `json:"bill_num_id"`
-			PmtRefInfoID     int    `json:"pmt_ref_info_id"`
-		} `json:"cols"`
-	} `json:"gateways"`
+		BillerCode string `json:"biller_code"`
+		Code       string `json:"code"`
+
+		Pckg []struct {
+			ID          int    `json:"id"`
+			PckgCode    string `json:"pckg_code"`
+			EvdSelector string `json:"evd_selector"`
+		} `json:"pkgs"`
+	} `json:"params"`
+}
+type GetServiceStruct struct {
+	ServElem []GetServiceElem `json:"serv_Elem"`
+}
+type GetServiceElem struct {
+	DNS string `json:"dns"`
+
+	ServiceId int     `json:"service_id"`
+	PkgIds    []int64 `json:"pkgids,omitempty"`
 }
 
 // TableName Services The name of the table
