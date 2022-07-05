@@ -80,7 +80,7 @@ func (servicesService *ServicesService) DeleteServices(services autocode.Service
 		//call wakty for get sevice
 
 		byteValueReq, err := json.Marshal(ServElemList)
-
+		fmt.Println(string(byteValueReq))
 		url := global.GVA_VP.GetString("gateway-controller.url") + "/service/delete"
 		fmt.Println(url)
 		body, err := global.SendPostReq("DELETE", byteValueReq, url)

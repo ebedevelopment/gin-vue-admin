@@ -59,8 +59,8 @@ type ServiceRequest struct {
 
 		BillerCode string `json:"biller_code"`
 		Code       string `json:"code"`
-
-		Pckg []struct {
+		Type       string `json:"type"`
+		Pckg       []struct {
 			ID          int    `json:"id"`
 			PckgCode    string `json:"pckg_code"`
 			EvdSelector string `json:"evd_selector"`

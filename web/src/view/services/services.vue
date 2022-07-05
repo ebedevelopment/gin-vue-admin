@@ -365,6 +365,12 @@
               :placeholder="t('general.pleaseEnter')"
             />
           </el-form-item>
+            <el-form-item label="type :">
+            <el-select v-model="formData.services[index].params.type" :placeholder="t('general.pleaseSelect')" @change="changeDB">
+              <el-option key="postPaid" label="PostPaid" value="PostPaid" />
+              <el-option key="prePaid" label="PrePaid" value="prepaied" />
+            </el-select>
+          </el-form-item>
 
           <div id="visa">
             <form>
@@ -555,6 +561,7 @@ const generate_dynamicform = async (formData, gatewaysData) => {
       params: {
         biller_code: "",
         code: "",
+        type:"",
         pkgs: [
           {
             id: 0,
