@@ -64,7 +64,7 @@ type ServiceRequest struct {
 			ID          int    `json:"id"`
 			PckgCode    string `json:"pckg_code"`
 			EvdSelector string `json:"evd_selector"`
-		} `json:"pkgs"`
+		} `json:"pkgs,omitempty"`
 	} `json:"params"`
 }
 type GetServiceStruct struct {
