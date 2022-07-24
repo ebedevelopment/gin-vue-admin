@@ -158,19 +158,21 @@ func (gatewaysApi *GatewaysApi) GetGatewayServiceFields(c *gin.Context) {
 		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
 	}
 
-	// url := global.GVA_VP.GetString("gateway-controller.url") + "/fields/get"
-	// fmt.Println(url)
-	// body, err := global.SendPostReq("POST", byteValueReq, url)
+	url := global.GVA_VP.GetString("gateway-controller.url") + "/fields/get"
+	fmt.Println(url)
+	body, err := global.SendPostReq("POST", byteValueReq, url)
 	// fmt.Println(string(body))
-	//
-
-	// json.Unmarshal(body, &responseBody)
-	// if err != nil {
-
-	// 	response.FailWithMessage(global.Translate("general.creationFailErr"), c)
-	// } else {
-	// responseBody = append(responseBody, autocode.FieldMap{Fid: 1, MatchingName: "TRANSACTION_VALUE"})
-	_ = json.Unmarshal([]byte(`[{ "fid": 102, "matchingName": "ACCOUNT_REFERENCE" }, { "fid": 101, "matchingName": "TRANSACTION_VALUE" }, { "fid": 103, "matchingName": "FEES_VALUE" } ]`), &responseBody)
-	response.OkWithData(responseBody, c)
-	// }
+	if err != nil {
+		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+		return
+	}
+	err = json.Unmarshal(body, &responseBody)
+	if err != nil {
+		response.FailWithMessage(global.Translate("general.creationFailErr"), c)
+		return
+	} else {
+		// responseBody = append(responseBody, autocode.FieldMap{Fid: 1, MatchingName: "TRANSACTION_VALUE"})
+		// _ = json.Unmarshal([]byte(`[{ "fid": 102, "matchingName": "ACCOUNT_REFERENCE" }, { "fid": 101, "matchingName": "TRANSACTION_VALUE" }, { "fid": 103, "matchingName": "FEES_VALUE" } ]`), &responseBody)
+		response.OkWithData(responseBody, c)
+	}
 }
