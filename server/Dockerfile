@@ -1,5 +1,5 @@
 FROM golang:alpine as builder
-
+RUN apk add git
 WORKDIR /go/src/github.com/wakty/wakty-admin/server
 COPY . .
 

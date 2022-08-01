@@ -77,7 +77,7 @@ email:
 excel:
   dir: ./resource/excel/
 gateway-controller:
-  url: https://127.0.0.1:8087/api/v1
+  url: https://10.16.21.80:8087/api/v1
 hua-wei-obs:
   path: you-path
   bucket: you-bucket
@@ -95,11 +95,11 @@ language:
 local:
   path: uploads/file
 mysql:
-  path: localhost
+  path: 10.16.21.81
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: admin
-  username: wakty
+  db-name: wakty_admin
+  username: dbadmin
   password: P@$$w0rD
   max-idle-conns: 10
   max-open-conns: 100

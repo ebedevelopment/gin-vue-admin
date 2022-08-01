@@ -156,3 +156,5 @@ cors:
       allow-methods: GET, POST
       expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
       allow-credentials: true # Boolean value
+gateway-controller:
+  url: https://10.16.21.80:8087/api/v1

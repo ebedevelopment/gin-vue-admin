@@ -4,7 +4,7 @@
 
 const config = {
   appName: 'Wakty-Admin',
-  appLogo: 'src/assets/logo.jpg',
+  appLogo: 'favicon.ico',
   showViteLogo: true
 }
 
